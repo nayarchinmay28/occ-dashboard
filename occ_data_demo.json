@@ -1,0 +1,4150 @@
+{
+  "meta": {
+    "source_file": "OCCHUB_Drawio_File_V1.drawio",
+    "generated_at": "2026-06-19T05:29:23.990897+00:00",
+    "leaf_cells_seen": 611,
+    "names_extracted": 477,
+    "totals": {
+      "internal": 337,
+      "external": 11,
+      "jobs": 7,
+      "apps": 22,
+      "uncategorized": 0
+    },
+    "skipped": [
+      {
+        "cell_id": "tBObSOhZ74BR3jbHQjCu-1",
+        "raw": "ooo",
+        "reason": "structural label"
+      },
+      {
+        "cell_id": "_J6kPRY2LQByNWtPyR75-10",
+        "raw": "occhub-mf",
+        "reason": "mainframe box (M1), not MS grid"
+      },
+      {
+        "cell_id": "uiy4wioe-8W6FQFdPiAP-1",
+        "raw": "M1",
+        "reason": "structural label"
+      },
+      {
+        "cell_id": "uiy4wioe-8W6FQFdPiAP-2",
+        "raw": "M2",
+        "reason": "structural label"
+      },
+      {
+        "cell_id": "uiy4wioe-8W6FQFdPiAP-3",
+        "raw": "M3",
+        "reason": "structural label"
+      },
+      {
+        "cell_id": "V0vlkF47L2H2bPEhkkEr-4",
+        "raw": "72",
+        "reason": "structural label"
+      },
+      {
+        "cell_id": "V0vlkF47L2H2bPEhkkEr-1",
+        "raw": "M4",
+        "reason": "structural label"
+      },
+      {
+        "cell_id": "V0vlkF47L2H2bPEhkkEr-2",
+        "raw": "M5",
+        "reason": "structural label"
+      },
+      {
+        "cell_id": "V0vlkF47L2H2bPEhkkEr-3",
+        "raw": "M6",
+        "reason": "structural label"
+      },
+      {
+        "cell_id": "uiy4wioe-8W6FQFdPiAP-6",
+        "raw": "M13",
+        "reason": "structural label"
+      },
+      {
+        "cell_id": "V0vlkF47L2H2bPEhkkEr-5",
+        "raw": "M8",
+        "reason": "structural label"
+      },
+      {
+        "cell_id": "V0vlkF47L2H2bPEhkkEr-6",
+        "raw": "M9",
+        "reason": "structural label"
+      },
+      {
+        "cell_id": "uiy4wioe-8W6FQFdPiAP-7",
+        "raw": "M14",
+        "reason": "structural label"
+      },
+      {
+        "cell_id": "V0vlkF47L2H2bPEhkkEr-7",
+        "raw": "M10",
+        "reason": "structural label"
+      },
+      {
+        "cell_id": "V0vlkF47L2H2bPEhkkEr-8",
+        "raw": "M11",
+        "reason": "structural label"
+      },
+      {
+        "cell_id": "V0vlkF47L2H2bPEhkkEr-9",
+        "raw": "M12",
+        "reason": "structural label"
+      },
+      {
+        "cell_id": "uiy4wioe-8W6FQFdPiAP-11",
+        "raw": "SP",
+        "reason": "structural label"
+      },
+      {
+        "cell_id": "uiy4wioe-8W6FQFdPiAP-12",
+        "raw": "External Services",
+        "reason": "structural label"
+      },
+      {
+        "cell_id": "13qc9IiM3vek_g_TUGTT-1",
+        "raw": "M41",
+        "reason": "structural label"
+      },
+      {
+        "cell_id": "13qc9IiM3vek_g_TUGTT-2",
+        "raw": "M42",
+        "reason": "structural label"
+      },
+      {
+        "cell_id": "13qc9IiM3vek_g_TUGTT-3",
+        "raw": "M43",
+        "reason": "structural label"
+      },
+      {
+        "cell_id": "13qc9IiM3vek_g_TUGTT-4",
+        "raw": "M44",
+        "reason": "structural label"
+      },
+      {
+        "cell_id": "13qc9IiM3vek_g_TUGTT-5",
+        "raw": "M45",
+        "reason": "structural label"
+      },
+      {
+        "cell_id": "13qc9IiM3vek_g_TUGTT-6",
+        "raw": "M46",
+        "reason": "structural label"
+      },
+      {
+        "cell_id": "13qc9IiM3vek_g_TUGTT-7",
+        "raw": "M47",
+        "reason": "structural label"
+      },
+      {
+        "cell_id": "13qc9IiM3vek_g_TUGTT-8",
+        "raw": "M48",
+        "reason": "structural label"
+      },
+      {
+        "cell_id": "13qc9IiM3vek_g_TUGTT-9",
+        "raw": "M49",
+        "reason": "structural label"
+      },
+      {
+        "cell_id": "13qc9IiM3vek_g_TUGTT-10",
+        "raw": "M50",
+        "reason": "structural label"
+      },
+      {
+        "cell_id": "13qc9IiM3vek_g_TUGTT-11",
+        "raw": "M51",
+        "reason": "structural label"
+      },
+      {
+        "cell_id": "VopO9QPev43YDlrnu2AW-18",
+        "raw": "Cron Job",
+        "reason": "structural label"
+      },
+      {
+        "cell_id": "VopO9QPev43YDlrnu2AW-20",
+        "raw": "Shared Path",
+        "reason": "structural label"
+      },
+      {
+        "cell_id": "VopO9QPev43YDlrnu2AW-31",
+        "raw": "Kafka Consumer",
+        "reason": "structural label"
+      },
+      {
+        "cell_id": "VopO9QPev43YDlrnu2AW-32",
+        "raw": "Kafka Producer",
+        "reason": "structural label"
+      },
+      {
+        "cell_id": "VopO9QPev43YDlrnu2AW-33",
+        "raw": "Joc kafka Topic's amq-streams-prod-kafka-bootstrap-amq-streams.apps.ocpappprdclu.goindigo.in:443",
+        "reason": "structural label"
+      },
+      {
+        "cell_id": "VopO9QPev43YDlrnu2AW-35",
+        "raw": "AIMS kafka Topic's amq-streams-prod-kafka-bootstrap-amq-streams.apps.ocpappprdclu2.goindigo.in:443",
+        "reason": "structural label"
+      },
+      {
+        "cell_id": "VopO9QPev43YDlrnu2AW-39",
+        "raw": "occhub-streamorchestrator-ms-release Topic's",
+        "reason": "structural label"
+      },
+      {
+        "cell_id": "i9CUAHzLTRYB6bYYJLQ8-4",
+        "raw": "M52",
+        "reason": "structural label"
+      },
+      {
+        "cell_id": "i9CUAHzLTRYB6bYYJLQ8-5",
+        "raw": "M53",
+        "reason": "structural label"
+      },
+      {
+        "cell_id": "i9CUAHzLTRYB6bYYJLQ8-6",
+        "raw": "M55",
+        "reason": "structural label"
+      },
+      {
+        "cell_id": "i9CUAHzLTRYB6bYYJLQ8-7",
+        "raw": "M56",
+        "reason": "structural label"
+      },
+      {
+        "cell_id": "i9CUAHzLTRYB6bYYJLQ8-8",
+        "raw": "M57",
+        "reason": "structural label"
+      },
+      {
+        "cell_id": "i9CUAHzLTRYB6bYYJLQ8-9",
+        "raw": "M58",
+        "reason": "structural label"
+      },
+      {
+        "cell_id": "i9CUAHzLTRYB6bYYJLQ8-10",
+        "raw": "M59",
+        "reason": "structural label"
+      },
+      {
+        "cell_id": "i9CUAHzLTRYB6bYYJLQ8-11",
+        "raw": "M60",
+        "reason": "structural label"
+      },
+      {
+        "cell_id": "i9CUAHzLTRYB6bYYJLQ8-14",
+        "raw": "M54",
+        "reason": "structural label"
+      },
+      {
+        "cell_id": "i9CUAHzLTRYB6bYYJLQ8-15",
+        "raw": "(M61-M100)",
+        "reason": "structural label"
+      },
+      {
+        "cell_id": "i9CUAHzLTRYB6bYYJLQ8-17",
+        "raw": "(M101-M158)",
+        "reason": "structural label"
+      },
+      {
+        "cell_id": "i9CUAHzLTRYB6bYYJLQ8-18",
+        "raw": "M159",
+        "reason": "structural label"
+      },
+      {
+        "cell_id": "VopO9QPev43YDlrnu2AW-74",
+        "raw": "Internal endpoints",
+        "reason": "structural label"
+      },
+      {
+        "cell_id": "i9CUAHzLTRYB6bYYJLQ8-19",
+        "raw": "(M160-M496)",
+        "reason": "structural label"
+      },
+      {
+        "cell_id": "VopO9QPev43YDlrnu2AW-79",
+        "raw": "(M2)",
+        "reason": "structural label"
+      },
+      {
+        "cell_id": "VopO9QPev43YDlrnu2AW-80",
+        "raw": "(M2,M3,M12,M13,M41,M42,M51,M180,M495,M224 ,M264)",
+        "reason": "structural label"
+      },
+      {
+        "cell_id": "VopO9QPev43YDlrnu2AW-109",
+        "raw": "Micro services",
+        "reason": "structural label"
+      },
+      {
+        "cell_id": "VopO9QPev43YDlrnu2AW-110",
+        "raw": "M497",
+        "reason": "structural label"
+      },
+      {
+        "cell_id": "VopO9QPev43YDlrnu2AW-111",
+        "raw": "M498",
+        "reason": "structural label"
+      },
+      {
+        "cell_id": "VopO9QPev43YDlrnu2AW-112",
+        "raw": "M499",
+        "reason": "structural label"
+      },
+      {
+        "cell_id": "VopO9QPev43YDlrnu2AW-114",
+        "raw": "M500",
+        "reason": "structural label"
+      },
+      {
+        "cell_id": "VopO9QPev43YDlrnu2AW-115",
+        "raw": "M501",
+        "reason": "structural label"
+      },
+      {
+        "cell_id": "VopO9QPev43YDlrnu2AW-116",
+        "raw": "M502",
+        "reason": "structural label"
+      },
+      {
+        "cell_id": "VopO9QPev43YDlrnu2AW-117",
+        "raw": "M503",
+        "reason": "structural label"
+      },
+      {
+        "cell_id": "VopO9QPev43YDlrnu2AW-118",
+        "raw": "M504",
+        "reason": "structural label"
+      },
+      {
+        "cell_id": "VopO9QPev43YDlrnu2AW-119",
+        "raw": "M505",
+        "reason": "structural label"
+      },
+      {
+        "cell_id": "VopO9QPev43YDlrnu2AW-120",
+        "raw": "M506",
+        "reason": "structural label"
+      },
+      {
+        "cell_id": "VopO9QPev43YDlrnu2AW-121",
+        "raw": "M507",
+        "reason": "structural label"
+      },
+      {
+        "cell_id": "VopO9QPev43YDlrnu2AW-122",
+        "raw": "M508",
+        "reason": "structural label"
+      },
+      {
+        "cell_id": "VopO9QPev43YDlrnu2AW-123",
+        "raw": "M509",
+        "reason": "structural label"
+      },
+      {
+        "cell_id": "VopO9QPev43YDlrnu2AW-124",
+        "raw": "M510",
+        "reason": "structural label"
+      },
+      {
+        "cell_id": "VopO9QPev43YDlrnu2AW-125",
+        "raw": "M511",
+        "reason": "structural label"
+      },
+      {
+        "cell_id": "VopO9QPev43YDlrnu2AW-126",
+        "raw": "M512",
+        "reason": "structural label"
+      },
+      {
+        "cell_id": "VopO9QPev43YDlrnu2AW-127",
+        "raw": "M513",
+        "reason": "structural label"
+      },
+      {
+        "cell_id": "VopO9QPev43YDlrnu2AW-128",
+        "raw": "M514",
+        "reason": "structural label"
+      },
+      {
+        "cell_id": "VopO9QPev43YDlrnu2AW-129",
+        "raw": "M515",
+        "reason": "structural label"
+      },
+      {
+        "cell_id": "VopO9QPev43YDlrnu2AW-130",
+        "raw": "M516",
+        "reason": "structural label"
+      },
+      {
+        "cell_id": "VopO9QPev43YDlrnu2AW-131",
+        "raw": "M517",
+        "reason": "structural label"
+      },
+      {
+        "cell_id": "VopO9QPev43YDlrnu2AW-132",
+        "raw": "M518",
+        "reason": "structural label"
+      },
+      {
+        "cell_id": "i9CUAHzLTRYB6bYYJLQ8-20",
+        "raw": "(M2,M3,M6,M301,M302,M264,M41,M44)",
+        "reason": "structural label"
+      },
+      {
+        "cell_id": "UoDONHRNInSWUJS7Sl3r-4",
+        "raw": "End points and monitoring points show separately",
+        "reason": "structural label"
+      },
+      {
+        "cell_id": "3SymjuVsKb4nLbGF4xWj-1",
+        "raw": "(M2,M3,M4,M333,M348,M342,M346,M325,M324,M264, M46,M41,M51,M13)",
+        "reason": "structural label"
+      },
+      {
+        "cell_id": "x2MlHNq3f9yt2mwkOp_u-1",
+        "raw": "(M3,M2,M41,M51,M721,M422,M424,M425,M426,M27, M324,M407,M264,M13)",
+        "reason": "structural label"
+      },
+      {
+        "cell_id": "x2MlHNq3f9yt2mwkOp_u-2",
+        "raw": "(M2,M3,M4,M41,M51,M13,M330,M324,M264,,M75 ,M255,M275)",
+        "reason": "structural label"
+      },
+      {
+        "cell_id": "x2MlHNq3f9yt2mwkOp_u-3",
+        "raw": "(M3,M4,M41,M49,M51,M231,M299,M224)",
+        "reason": "structural label"
+      },
+      {
+        "cell_id": "x2MlHNq3f9yt2mwkOp_u-4",
+        "raw": "(M4,M41,M43,M47,M48,M51) Pending........",
+        "reason": "structural label"
+      },
+      {
+        "cell_id": "x2MlHNq3f9yt2mwkOp_u-5",
+        "raw": "(M2,M3,M13,M41,M194,M386,M387,M324,M351,M191,M222,M223,M224,M200,M201,M221,M187,M183,M184,M190 ,M198,M205,M188,M465,M197,M275,M273,M253,M472)",
+        "reason": "structural label"
+      },
+      {
+        "cell_id": "x2MlHNq3f9yt2mwkOp_u-6",
+        "raw": "(M2,M13,M472,M471,M474,M473,M475)",
+        "reason": "structural label"
+      },
+      {
+        "cell_id": "x2MlHNq3f9yt2mwkOp_u-8",
+        "raw": "(M3,M2,M13,M51,M409,M408,M411 ,M407,M264)",
+        "reason": "structural label"
+      },
+      {
+        "cell_id": "x2MlHNq3f9yt2mwkOp_u-9",
+        "raw": "(M2,M3,M6,M13,M41,M44,M323,M324 ,M327,M228,M275,M253,M273)",
+        "reason": "structural label"
+      },
+      {
+        "cell_id": "x2MlHNq3f9yt2mwkOp_u-10",
+        "raw": "(M2,M3,M13,M41,M49,M51,M413, M414,M412,M401,M415,M403,M404 ,M405,M264)",
+        "reason": "structural label"
+      },
+      {
+        "cell_id": "x2MlHNq3f9yt2mwkOp_u-11",
+        "raw": "(M2,M3,M6,M41,M44,M299,M264)",
+        "reason": "structural label"
+      },
+      {
+        "cell_id": "x2MlHNq3f9yt2mwkOp_u-12",
+        "raw": "(M2,M3,M13,M41,M51,M56,M152,M215,M217,M264)",
+        "reason": "structural label"
+      },
+      {
+        "cell_id": "x2MlHNq3f9yt2mwkOp_u-14",
+        "raw": "(M2,M3,M5)pending......",
+        "reason": "structural label"
+      },
+      {
+        "cell_id": "x2MlHNq3f9yt2mwkOp_u-15",
+        "raw": "(M5,M2,M3,M50,M489,M490,M491,M480,M481,M482,M483, M264)",
+        "reason": "structural label"
+      },
+      {
+        "cell_id": "iXs-Sd5AyQUI5ivTxX7e-1",
+        "raw": "(M2,M3,M6,M13,M41,M44,M477,M478,M264)",
+        "reason": "structural label"
+      },
+      {
+        "cell_id": "iXs-Sd5AyQUI5ivTxX7e-2",
+        "raw": "(M9,M13,M14,M49,M15-40)",
+        "reason": "structural label"
+      },
+      {
+        "cell_id": "iXs-Sd5AyQUI5ivTxX7e-4",
+        "raw": "(M2,M3,M13,M41,M49,M54,M440,M428,M429,M430 ,M431,M432,M433,M434,M438,M439,M264,M101,M112,M113,M114,M115)",
+        "reason": "structural label"
+      },
+      {
+        "cell_id": "iXs-Sd5AyQUI5ivTxX7e-5",
+        "raw": "(M3,M5,M13,M46,M417,M718,M419,M420)",
+        "reason": "structural label"
+      }
+    ],
+    "frame_counts": {
+      "Kafka Consumer": 6,
+      "Micro services": 23,
+      "External Services": 23,
+      "Cron Job": 15,
+      "Shared Path": 5,
+      "Kafka Producer": 2,
+      "Internal endpoints": 3
+    },
+    "demo": true,
+    "demo_note": "Sample health: 4 down internal APIs, 2 warn APIs, 2 down apps; rest ok",
+    "demo_generated_at": "2026-06-19T05:47:07.160091+00:00"
+  },
+  "groups": {
+    "internal": [
+      {
+        "name": "/crew/api/v1/crew-dashboard/open-trips-main",
+        "health": "down",
+        "source": "Internal endpoints / M160 GET",
+        "address": "M160 \u00b7 GET",
+        "method": "GET",
+        "mon": "M160"
+      },
+      {
+        "name": "/crew/api/v1/crew-dashboard/open-trips-position",
+        "health": "ok",
+        "source": "Internal endpoints / M161 GET",
+        "address": "M161 \u00b7 GET",
+        "method": "GET",
+        "mon": "M161"
+      },
+      {
+        "name": "/crew/api/v1/crew-dashboard/sby-main",
+        "health": "ok",
+        "source": "Internal endpoints / M162 GET",
+        "address": "M162 \u00b7 GET",
+        "method": "GET",
+        "mon": "M162"
+      },
+      {
+        "name": "/crew/api/v1/crew-dashboard/sby-position",
+        "health": "ok",
+        "source": "Internal endpoints / M163 GET",
+        "address": "M163 \u00b7 GET",
+        "method": "GET",
+        "mon": "M163"
+      },
+      {
+        "name": "/crew/api/v1/crew-dashboard/unpaired-legs",
+        "health": "ok",
+        "source": "Internal endpoints / M164 GET",
+        "address": "M164 \u00b7 GET",
+        "method": "GET",
+        "mon": "M164"
+      },
+      {
+        "name": "/crew/api/v1/crew-dashboard/unpaired-legs-base",
+        "health": "ok",
+        "source": "Internal endpoints / M165 GET",
+        "address": "M165 \u00b7 GET",
+        "method": "GET",
+        "mon": "M165"
+      },
+      {
+        "name": "/crew/api/v1/crew-dashboard/pending-notifications",
+        "health": "ok",
+        "source": "Internal endpoints / M166 GET",
+        "address": "M166 \u00b7 GET",
+        "method": "GET",
+        "mon": "M166"
+      },
+      {
+        "name": "/crew/api/v1/crew-dashboard/pending-notifications-base",
+        "health": "ok",
+        "source": "Internal endpoints / M167 GET",
+        "address": "M167 \u00b7 GET",
+        "method": "GET",
+        "mon": "M167"
+      },
+      {
+        "name": "/crew/api/v1/crew-dashboard/unfinalized-routes",
+        "health": "ok",
+        "source": "Internal endpoints / M168 GET",
+        "address": "M168 \u00b7 GET",
+        "method": "GET",
+        "mon": "M168"
+      },
+      {
+        "name": "/crew/api/v1/crew-dashboard/unfinalized-routes-base",
+        "health": "ok",
+        "source": "Internal endpoints / M169 GET",
+        "address": "M169 \u00b7 GET",
+        "method": "GET",
+        "mon": "M169"
+      },
+      {
+        "name": "/crew/api/v1/crew-dashboard/na-percentage",
+        "health": "ok",
+        "source": "Internal endpoints / M170 GET",
+        "address": "M170 \u00b7 GET",
+        "method": "GET",
+        "mon": "M170"
+      },
+      {
+        "name": "/crew/api/v1/crew-dashboard/na-percentage-position",
+        "health": "ok",
+        "source": "Internal endpoints / M171 GET",
+        "address": "M171 \u00b7 GET",
+        "method": "GET",
+        "mon": "M171"
+      },
+      {
+        "name": "/crew/api/v1/crew-dashboard/crew-rating",
+        "health": "ok",
+        "source": "Internal endpoints / M172 GET",
+        "address": "M172 \u00b7 GET",
+        "method": "GET",
+        "mon": "M172"
+      },
+      {
+        "name": "/crew/api/v1/crew-dashboard/open-sim",
+        "health": "ok",
+        "source": "Internal endpoints / M173 GET",
+        "address": "M173 \u00b7 GET",
+        "method": "GET",
+        "mon": "M173"
+      },
+      {
+        "name": "/crew/api/v1/token/get-token",
+        "health": "down",
+        "source": "Internal endpoints / M174 POST",
+        "address": "M174 \u00b7 POST",
+        "method": "POST",
+        "mon": "M174"
+      },
+      {
+        "name": "/flight/api/v1/ctot/send-email",
+        "health": "down",
+        "source": "Internal endpoints / M175 POST",
+        "address": "M175 \u00b7 POST",
+        "method": "POST",
+        "mon": "M175"
+      },
+      {
+        "name": "/flight/api/v1/ctot/upload",
+        "health": "down",
+        "source": "Internal endpoints / M176 POST",
+        "address": "M176 \u00b7 POST",
+        "method": "POST",
+        "mon": "M176"
+      },
+      {
+        "name": "/flight/api/v1/ctot/preview/{fileUploadDetailsid}",
+        "health": "ok",
+        "source": "Internal endpoints / M177 GET",
+        "address": "M177 \u00b7 GET",
+        "method": "GET",
+        "mon": "M177"
+      },
+      {
+        "name": "/flight/api/v1/ctot/violation",
+        "health": "ok",
+        "source": "Internal endpoints / M178 POST",
+        "address": "M178 \u00b7 POST",
+        "method": "POST",
+        "mon": "M178"
+      },
+      {
+        "name": "/flight/api/v1/joc-nav-aims-comparison/export",
+        "health": "ok",
+        "source": "Internal endpoints / M179 POST",
+        "address": "M179 \u00b7 POST",
+        "method": "POST",
+        "mon": "M179"
+      },
+      {
+        "name": "/flight/api/v1/joc-nav-aims-comparison/reports",
+        "health": "ok",
+        "source": "Internal endpoints / M180 POST",
+        "address": "M180 \u00b7 POST",
+        "method": "POST",
+        "mon": "M180"
+      },
+      {
+        "name": "/flight/api/v1/nav/trip-details",
+        "health": "ok",
+        "source": "Internal endpoints / M181 POST",
+        "address": "M181 \u00b7 POST",
+        "method": "POST",
+        "mon": "M181"
+      },
+      {
+        "name": "/flight/api/v1/emailconfigs",
+        "health": "ok",
+        "source": "Internal endpoints / M182 POST",
+        "address": "M182 \u00b7 POST",
+        "method": "POST",
+        "mon": "M182"
+      },
+      {
+        "name": "/flight/api/v1/emailconfigs",
+        "health": "ok",
+        "source": "Internal endpoints / M183 GET",
+        "address": "M183 \u00b7 GET",
+        "method": "GET",
+        "mon": "M183"
+      },
+      {
+        "name": "/flight/api/v1/emailconfigs/check-duplicate",
+        "health": "ok",
+        "source": "Internal endpoints / M184 GET",
+        "address": "M184 \u00b7 GET",
+        "method": "GET",
+        "mon": "M184"
+      },
+      {
+        "name": "/flight/api/v1/emailconfigs/{id}",
+        "health": "ok",
+        "source": "Internal endpoints / M185 GET",
+        "address": "M185 \u00b7 GET",
+        "method": "GET",
+        "mon": "M185"
+      },
+      {
+        "name": "/flight/api/v1/emailconfigs/{id}",
+        "health": "ok",
+        "source": "Internal endpoints / M186 PUT",
+        "address": "M186 \u00b7 PUT",
+        "method": "PUT",
+        "mon": "M186"
+      },
+      {
+        "name": "/flight/api/v1/emailconfigs/hubs",
+        "health": "ok",
+        "source": "Internal endpoints / M187 GET",
+        "address": "M187 \u00b7 GET",
+        "method": "GET",
+        "mon": "M187"
+      },
+      {
+        "name": "/flight/api/v1/email/sir",
+        "health": "ok",
+        "source": "Internal endpoints / M188 POST",
+        "address": "M188 \u00b7 POST",
+        "method": "POST",
+        "mon": "M188"
+      },
+      {
+        "name": "/flight/api/v1/email/process-sir-response",
+        "health": "ok",
+        "source": "Internal endpoints / M189 POST",
+        "address": "M189 \u00b7 POST",
+        "method": "POST",
+        "mon": "M189"
+      },
+      {
+        "name": "/flight/api/v1/sir/document/upload",
+        "health": "ok",
+        "source": "Internal endpoints / M190 POST",
+        "address": "M190 \u00b7 POST",
+        "method": "POST",
+        "mon": "M190"
+      },
+      {
+        "name": "/flight/api/v1/sir/document/details",
+        "health": "ok",
+        "source": "Internal endpoints / M191 GET",
+        "address": "M191 \u00b7 GET",
+        "method": "GET",
+        "mon": "M191"
+      },
+      {
+        "name": "/flight/api/v1/aircraft-records",
+        "health": "ok",
+        "source": "Internal endpoints / M192 GET",
+        "address": "M192 \u00b7 GET",
+        "method": "GET",
+        "mon": "M192"
+      },
+      {
+        "name": "/flight/api/v1/aircraft-type",
+        "health": "ok",
+        "source": "Internal endpoints / M193 GET",
+        "address": "M193 \u00b7 GET",
+        "method": "GET",
+        "mon": "M193"
+      },
+      {
+        "name": "/flight/api/v1/flight-numbers",
+        "health": "ok",
+        "source": "Internal endpoints / M194 POST",
+        "address": "M194 \u00b7 POST",
+        "method": "POST",
+        "mon": "M194"
+      },
+      {
+        "name": "/flight/api/v1/station-catalog",
+        "health": "ok",
+        "source": "Internal endpoints / M195 GET",
+        "address": "M195 \u00b7 GET",
+        "method": "GET",
+        "mon": "M195"
+      },
+      {
+        "name": "/flight/api/v1/station-turn-time-catalog",
+        "health": "ok",
+        "source": "Internal endpoints / M196 GET",
+        "address": "M196 \u00b7 GET",
+        "method": "GET",
+        "mon": "M196"
+      },
+      {
+        "name": "/flight/api/v1/scr",
+        "health": "ok",
+        "source": "Internal endpoints / M197 POST",
+        "address": "M197 \u00b7 POST",
+        "method": "POST",
+        "mon": "M197"
+      },
+      {
+        "name": "/flight/api/v1/scr/{id}/emails",
+        "health": "ok",
+        "source": "Internal endpoints / M198 GET",
+        "address": "M198 \u00b7 GET",
+        "method": "GET",
+        "mon": "M198"
+      },
+      {
+        "name": "/flight/api/v1/scr/{id}/remarks",
+        "health": "ok",
+        "source": "Internal endpoints / M199 PATCH",
+        "address": "M199 \u00b7 PATCH",
+        "method": "PATCH",
+        "mon": "M199"
+      },
+      {
+        "name": "/flight/api/v1/scr-flight-ops-preview",
+        "health": "ok",
+        "source": "Internal endpoints / M200 POST",
+        "address": "M200 \u00b7 POST",
+        "method": "POST",
+        "mon": "M200"
+      },
+      {
+        "name": "/flight/api/v1/scr-flight-ops-mail",
+        "health": "ok",
+        "source": "Internal endpoints / M201 POST",
+        "address": "M201 \u00b7 POST",
+        "method": "POST",
+        "mon": "M201"
+      },
+      {
+        "name": "/flight/api/v1/email/subscriptions",
+        "health": "ok",
+        "source": "Internal endpoints / M202 POST",
+        "address": "M202 \u00b7 POST",
+        "method": "POST",
+        "mon": "M202"
+      },
+      {
+        "name": "/flight/api/v1/email/test",
+        "health": "ok",
+        "source": "Internal endpoints / M203 POST",
+        "address": "M203 \u00b7 POST",
+        "method": "POST",
+        "mon": "M203"
+      },
+      {
+        "name": "/flight/api/v1/email/notifications",
+        "health": "ok",
+        "source": "Internal endpoints / M204 POST",
+        "address": "M204 \u00b7 POST",
+        "method": "POST",
+        "mon": "M204"
+      },
+      {
+        "name": "/flight/api/v1/email/refresh-subscriptions",
+        "health": "ok",
+        "source": "Internal endpoints / M205 PATCH",
+        "address": "M205 \u00b7 PATCH",
+        "method": "PATCH",
+        "mon": "M205"
+      },
+      {
+        "name": "/flight/api/v1/qual-training-data",
+        "health": "ok",
+        "source": "Internal endpoints / M206 GET",
+        "address": "M206 \u00b7 GET",
+        "method": "GET",
+        "mon": "M206"
+      },
+      {
+        "name": "/flight/api/v1/send-to-notification-hub",
+        "health": "ok",
+        "source": "Internal endpoints / M207 POST",
+        "address": "M207 \u00b7 POST",
+        "method": "POST",
+        "mon": "M207"
+      },
+      {
+        "name": "/flight/api/v1/nav-pax-count",
+        "health": "ok",
+        "source": "Internal endpoints / M208 POST",
+        "address": "M208 \u00b7 POST",
+        "method": "POST",
+        "mon": "M208"
+      },
+      {
+        "name": "/flight/api/v1/ott-otp/reports/download",
+        "health": "ok",
+        "source": "Internal endpoints / M209 POST",
+        "address": "M209 \u00b7 POST",
+        "method": "POST",
+        "mon": "M209"
+      },
+      {
+        "name": "/flight/api/v1/ott-otp/reports",
+        "health": "ok",
+        "source": "Internal endpoints / M210 POST",
+        "address": "M210 \u00b7 POST",
+        "method": "POST",
+        "mon": "M210"
+      },
+      {
+        "name": "/flight/api/v1/ott-otp-master",
+        "health": "ok",
+        "source": "Internal endpoints / M211 POST",
+        "address": "M211 \u00b7 POST",
+        "method": "POST",
+        "mon": "M211"
+      },
+      {
+        "name": "/flight/api/v1/ott-otp-master",
+        "health": "ok",
+        "source": "Internal endpoints / M212 GET",
+        "address": "M212 \u00b7 GET",
+        "method": "GET",
+        "mon": "M212"
+      },
+      {
+        "name": "/flight/api/v1/ott-otp-master/{id}",
+        "health": "ok",
+        "source": "Internal endpoints / M213 DELETE",
+        "address": "M213 \u00b7 DELETE",
+        "method": "DELETE",
+        "mon": "M213"
+      },
+      {
+        "name": "/flight/api/v1/ott-otp-master/{id}",
+        "health": "ok",
+        "source": "Internal endpoints / M214 PUT",
+        "address": "M214 \u00b7 PUT",
+        "method": "PUT",
+        "mon": "M214"
+      },
+      {
+        "name": "/flight/api/v1/mvt/postponement/upload",
+        "health": "ok",
+        "source": "Internal endpoints / M215 POST",
+        "address": "M215 \u00b7 POST",
+        "method": "POST",
+        "mon": "M215"
+      },
+      {
+        "name": "/flight/api/v1/mvt/postponement/report/download",
+        "health": "ok",
+        "source": "Internal endpoints / M216 POST",
+        "address": "M216 \u00b7 POST",
+        "method": "POST",
+        "mon": "M216"
+      },
+      {
+        "name": "/flight/api/v1/mvt/postponement/report",
+        "health": "ok",
+        "source": "Internal endpoints / M217 POST",
+        "address": "M217 \u00b7 POST",
+        "method": "POST",
+        "mon": "M217"
+      },
+      {
+        "name": "/flight/api/v1/mvt/scheduler/process",
+        "health": "ok",
+        "source": "Internal endpoints / M218 POST",
+        "address": "M218 \u00b7 POST",
+        "method": "POST",
+        "mon": "M218"
+      },
+      {
+        "name": "/flight/api/v1/reports/dashboard/overview",
+        "health": "ok",
+        "source": "Internal endpoints / M219 POST",
+        "address": "M219 \u00b7 POST",
+        "method": "POST",
+        "mon": "M219"
+      },
+      {
+        "name": "/flight/api/v1/reports/{moduleid}/{type}/download",
+        "health": "ok",
+        "source": "Internal endpoints / M220 POST",
+        "address": "M220 \u00b7 POST",
+        "method": "POST",
+        "mon": "M220"
+      },
+      {
+        "name": "/flight/api/v1/reports/scr-flight-ops",
+        "health": "ok",
+        "source": "Internal endpoints / M221 POST",
+        "address": "M221 \u00b7 POST",
+        "method": "POST",
+        "mon": "M221"
+      },
+      {
+        "name": "/flight/api/v1/reports/schedule/date-wise",
+        "health": "ok",
+        "source": "Internal endpoints / M222 POST",
+        "address": "M222 \u00b7 POST",
+        "method": "POST",
+        "mon": "M222"
+      },
+      {
+        "name": "/flight/api/v1/reports/schedule/season-wise",
+        "health": "ok",
+        "source": "Internal endpoints / M223 POST",
+        "address": "M223 \u00b7 POST",
+        "method": "POST",
+        "mon": "M223"
+      },
+      {
+        "name": "/flight/api/v1/reports/trigger",
+        "health": "ok",
+        "source": "Internal endpoints / M224 POST",
+        "address": "M224 \u00b7 POST",
+        "method": "POST",
+        "mon": "M224"
+      },
+      {
+        "name": "/flight/api/v1/station-master/{id}",
+        "health": "ok",
+        "source": "Internal endpoints / M225 GET",
+        "address": "M225 \u00b7 GET",
+        "method": "GET",
+        "mon": "M225"
+      },
+      {
+        "name": "/flight/api/v1/station-master/{id}",
+        "health": "ok",
+        "source": "Internal endpoints / M226 DELETE",
+        "address": "M226 \u00b7 DELETE",
+        "method": "DELETE",
+        "mon": "M226"
+      },
+      {
+        "name": "/flight/api/v1/station-master/{id}",
+        "health": "ok",
+        "source": "Internal endpoints / M227 PUT",
+        "address": "M227 \u00b7 PUT",
+        "method": "PUT",
+        "mon": "M227"
+      },
+      {
+        "name": "/flight/api/v1/station-master",
+        "health": "ok",
+        "source": "Internal endpoints / M228 GET",
+        "address": "M228 \u00b7 GET",
+        "method": "GET",
+        "mon": "M228"
+      },
+      {
+        "name": "/flight/api/v1/station-master",
+        "health": "ok",
+        "source": "Internal endpoints / M229 POST",
+        "address": "M229 \u00b7 POST",
+        "method": "POST",
+        "mon": "M229"
+      },
+      {
+        "name": "/flight/api/v1/template-master",
+        "health": "ok",
+        "source": "Internal endpoints / M230 POST",
+        "address": "M230 \u00b7 POST",
+        "method": "POST",
+        "mon": "M230"
+      },
+      {
+        "name": "/flight/api/v1/template-master",
+        "health": "ok",
+        "source": "Internal endpoints / M231 GET",
+        "address": "M231 \u00b7 GET",
+        "method": "GET",
+        "mon": "M231"
+      },
+      {
+        "name": "/flight/api/v1/terminal-master",
+        "health": "ok",
+        "source": "Internal endpoints / M232 GET",
+        "address": "M232 \u00b7 GET",
+        "method": "GET",
+        "mon": "M232"
+      },
+      {
+        "name": "/flight/api/v1/terminal-master",
+        "health": "ok",
+        "source": "Internal endpoints / M233 POST",
+        "address": "M233 \u00b7 POST",
+        "method": "POST",
+        "mon": "M233"
+      },
+      {
+        "name": "/flight/api/v1/terminal-master/name-list",
+        "health": "ok",
+        "source": "Internal endpoints / M234 GET",
+        "address": "M234 \u00b7 GET",
+        "method": "GET",
+        "mon": "M234"
+      },
+      {
+        "name": "/admin/api/v1/alert-setting",
+        "health": "ok",
+        "source": "Internal endpoints / M235 DELETE",
+        "address": "M235 \u00b7 DELETE",
+        "method": "DELETE",
+        "mon": "M235"
+      },
+      {
+        "name": "/admin/api/v1/alert-setting",
+        "health": "ok",
+        "source": "Internal endpoints / M236 PUT",
+        "address": "M236 \u00b7 PUT",
+        "method": "PUT",
+        "mon": "M236"
+      },
+      {
+        "name": "/admin/api/v1/alert-setting",
+        "health": "ok",
+        "source": "Internal endpoints / M237 POST",
+        "address": "M237 \u00b7 POST",
+        "method": "POST",
+        "mon": "M237"
+      },
+      {
+        "name": "/admin/api/v1/alert-setting",
+        "health": "ok",
+        "source": "Internal endpoints / M238 GET",
+        "address": "M238 \u00b7 GET",
+        "method": "GET",
+        "mon": "M238"
+      },
+      {
+        "name": "/admin/api/v1/alert-type",
+        "health": "ok",
+        "source": "Internal endpoints / M239 DELETE",
+        "address": "M239 \u00b7 DELETE",
+        "method": "DELETE",
+        "mon": "M239"
+      },
+      {
+        "name": "/admin/api/v1/alert-type",
+        "health": "ok",
+        "source": "Internal endpoints / M240 PUT",
+        "address": "M240 \u00b7 PUT",
+        "method": "PUT",
+        "mon": "M240"
+      },
+      {
+        "name": "/admin/api/v1/alert-type",
+        "health": "ok",
+        "source": "Internal endpoints / M241 POST",
+        "address": "M241 \u00b7 POST",
+        "method": "POST",
+        "mon": "M241"
+      },
+      {
+        "name": "/admin/api/v1/alert-type",
+        "health": "ok",
+        "source": "Internal endpoints / M242 GET",
+        "address": "M242 \u00b7 GET",
+        "method": "GET",
+        "mon": "M242"
+      },
+      {
+        "name": "/admin/api/v1/application/name-list",
+        "health": "ok",
+        "source": "Internal endpoints / M243 GET",
+        "address": "M243 \u00b7 GET",
+        "method": "GET",
+        "mon": "M243"
+      },
+      {
+        "name": "/admin/api/v1/applications",
+        "health": "ok",
+        "source": "Internal endpoints / M244 POST",
+        "address": "M244 \u00b7 POST",
+        "method": "POST",
+        "mon": "M244"
+      },
+      {
+        "name": "/admin/api/v1/applications",
+        "health": "ok",
+        "source": "Internal endpoints / M245 GET",
+        "address": "M245 \u00b7 GET",
+        "method": "GET",
+        "mon": "M245"
+      },
+      {
+        "name": "/admin/api/v1/applications",
+        "health": "ok",
+        "source": "Internal endpoints / M246 PUT",
+        "address": "M246 \u00b7 PUT",
+        "method": "PUT",
+        "mon": "M246"
+      },
+      {
+        "name": "/admin/api/v1/applications/{id}",
+        "health": "ok",
+        "source": "Internal endpoints / M247 GET",
+        "address": "M247 \u00b7 GET",
+        "method": "GET",
+        "mon": "M247"
+      },
+      {
+        "name": "/admin/api/v1/actions-type",
+        "health": "ok",
+        "source": "Internal endpoints / M248 POST",
+        "address": "M248 \u00b7 POST",
+        "method": "POST",
+        "mon": "M248"
+      },
+      {
+        "name": "/admin/api/v1/actions-type",
+        "health": "ok",
+        "source": "Internal endpoints / M249 GET",
+        "address": "M249 \u00b7 GET",
+        "method": "GET",
+        "mon": "M249"
+      },
+      {
+        "name": "/admin/api/v1/application-actions",
+        "health": "ok",
+        "source": "Internal endpoints / M250 POST",
+        "address": "M250 \u00b7 POST",
+        "method": "POST",
+        "mon": "M250"
+      },
+      {
+        "name": "/admin/api/v1/application-actions",
+        "health": "ok",
+        "source": "Internal endpoints / M251 GET",
+        "address": "M251 \u00b7 GET",
+        "method": "GET",
+        "mon": "M251"
+      },
+      {
+        "name": "/admin/api/v1/application-actions",
+        "health": "ok",
+        "source": "Internal endpoints / M252 PUT",
+        "address": "M252 \u00b7 PUT",
+        "method": "PUT",
+        "mon": "M252"
+      },
+      {
+        "name": "/admin/api/v1/columns/config",
+        "health": "ok",
+        "source": "Internal endpoints / M253 GET",
+        "address": "M253 \u00b7 GET",
+        "method": "GET",
+        "mon": "M253"
+      },
+      {
+        "name": "/admin/api/v1/columns/config",
+        "health": "ok",
+        "source": "Internal endpoints / M254 POST",
+        "address": "M254 \u00b7 POST",
+        "method": "POST",
+        "mon": "M254"
+      },
+      {
+        "name": "/admin/api/v1/columns/config/{id}",
+        "health": "ok",
+        "source": "Internal endpoints / M255 GET",
+        "address": "M255 \u00b7 GET",
+        "method": "GET",
+        "mon": "M255"
+      },
+      {
+        "name": "/admin/api/v1/columns/config",
+        "health": "ok",
+        "source": "Internal endpoints / M256 PUT",
+        "address": "M256 \u00b7 PUT",
+        "method": "PUT",
+        "mon": "M256"
+      },
+      {
+        "name": "/admin/api/v1/columns/config",
+        "health": "ok",
+        "source": "Internal endpoints / M257 DELETE",
+        "address": "M257 \u00b7 DELETE",
+        "method": "DELETE",
+        "mon": "M257"
+      },
+      {
+        "name": "/admin/api/v1/columns/config/sequence",
+        "health": "ok",
+        "source": "Internal endpoints / M258 PUT",
+        "address": "M258 \u00b7 PUT",
+        "method": "PUT",
+        "mon": "M258"
+      },
+      {
+        "name": "/admin/api/v1/email-configuration",
+        "health": "ok",
+        "source": "Internal endpoints / M259 POST",
+        "address": "M259 \u00b7 POST",
+        "method": "POST",
+        "mon": "M259"
+      },
+      {
+        "name": "/admin/api/v1/email-configuration",
+        "health": "ok",
+        "source": "Internal endpoints / M260 GET",
+        "address": "M260 \u00b7 GET",
+        "method": "GET",
+        "mon": "M260"
+      },
+      {
+        "name": "/admin/api/v1/email-configuration",
+        "health": "ok",
+        "source": "Internal endpoints / M261 DELETE",
+        "address": "M261 \u00b7 DELETE",
+        "method": "DELETE",
+        "mon": "M261"
+      },
+      {
+        "name": "/admin/api/v1/email-configuration",
+        "health": "ok",
+        "source": "Internal endpoints / M262 PUT",
+        "address": "M262 \u00b7 PUT",
+        "method": "PUT",
+        "mon": "M262"
+      },
+      {
+        "name": "/admin/api/v1/email-configuration/applications",
+        "health": "ok",
+        "source": "Internal endpoints / M263 GET",
+        "address": "M263 \u00b7 GET",
+        "method": "GET",
+        "mon": "M263"
+      },
+      {
+        "name": "/admin/api/v1/reports/Export",
+        "health": "ok",
+        "source": "Internal endpoints / M264 POST",
+        "address": "M264 \u00b7 POST",
+        "method": "POST",
+        "mon": "M264"
+      },
+      {
+        "name": "/admin/api/v1/grpc-module-mapping",
+        "health": "ok",
+        "source": "Internal endpoints / M265 POST",
+        "address": "M265 \u00b7 POST",
+        "method": "POST",
+        "mon": "M265"
+      },
+      {
+        "name": "/admin/api/v1/download",
+        "health": "ok",
+        "source": "Internal endpoints / M266 POST",
+        "address": "M266 \u00b7 POST",
+        "method": "POST",
+        "mon": "M266"
+      },
+      {
+        "name": "/admin/api/v1/log-reports",
+        "health": "ok",
+        "source": "Internal endpoints / M267 POST",
+        "address": "M267 \u00b7 POST",
+        "method": "POST",
+        "mon": "M267"
+      },
+      {
+        "name": "/admin/api/v1/log-types",
+        "health": "ok",
+        "source": "Internal endpoints / M268 GET",
+        "address": "M268 \u00b7 GET",
+        "method": "GET",
+        "mon": "M268"
+      },
+      {
+        "name": "/admin/api/v1/modules",
+        "health": "ok",
+        "source": "Internal endpoints / M269 GET",
+        "address": "M269 \u00b7 GET",
+        "method": "GET",
+        "mon": "M269"
+      },
+      {
+        "name": "/admin/api/v1/reports/downloads",
+        "health": "ok",
+        "source": "Internal endpoints / M270 POST",
+        "address": "M270 \u00b7 POST",
+        "method": "POST",
+        "mon": "M270"
+      },
+      {
+        "name": "/admin/api/v1/tables/preferences",
+        "health": "ok",
+        "source": "Internal endpoints / M271 GET",
+        "address": "M271 \u00b7 GET",
+        "method": "GET",
+        "mon": "M271"
+      },
+      {
+        "name": "/admin/api/v1/tables/preferences",
+        "health": "ok",
+        "source": "Internal endpoints / M272 POST",
+        "address": "M272 \u00b7 POST",
+        "method": "POST",
+        "mon": "M272"
+      },
+      {
+        "name": "/admin/api/v1/columns/preferences",
+        "health": "ok",
+        "source": "Internal endpoints / M273 GET",
+        "address": "M273 \u00b7 GET",
+        "method": "GET",
+        "mon": "M273"
+      },
+      {
+        "name": "/admin/api/v1/columns/preferences",
+        "health": "ok",
+        "source": "Internal endpoints / M274 POST",
+        "address": "M274 \u00b7 POST",
+        "method": "POST",
+        "mon": "M274"
+      },
+      {
+        "name": "/admin/api/v1/table-registry/config",
+        "health": "ok",
+        "source": "Internal endpoints / M275 GET",
+        "address": "M275 \u00b7 GET",
+        "method": "GET",
+        "mon": "M275"
+      },
+      {
+        "name": "/admin/api/v1/table-registry/config",
+        "health": "ok",
+        "source": "Internal endpoints / M276 POST",
+        "address": "M276 \u00b7 POST",
+        "method": "POST",
+        "mon": "M276"
+      },
+      {
+        "name": "/admin/api/v1/table-registry/config/{id}",
+        "health": "ok",
+        "source": "Internal endpoints / M277 GET",
+        "address": "M277 \u00b7 GET",
+        "method": "GET",
+        "mon": "M277"
+      },
+      {
+        "name": "/admin/api/v1/table-registry/config/{id}",
+        "health": "ok",
+        "source": "Internal endpoints / M278 PUT",
+        "address": "M278 \u00b7 PUT",
+        "method": "PUT",
+        "mon": "M278"
+      },
+      {
+        "name": "/admin/api/v1/table-registry/config/{id}",
+        "health": "ok",
+        "source": "Internal endpoints / M279 DELETE",
+        "address": "M279 \u00b7 DELETE",
+        "method": "DELETE",
+        "mon": "M279"
+      },
+      {
+        "name": "/admin/api/v1/table-registry/config",
+        "health": "ok",
+        "source": "Internal endpoints / M280 GET",
+        "address": "M280 \u00b7 GET",
+        "method": "GET",
+        "mon": "M280"
+      },
+      {
+        "name": "/admin/api/v1/table-registry/config/sequence",
+        "health": "ok",
+        "source": "Internal endpoints / M281 PUT",
+        "address": "M281 \u00b7 PUT",
+        "method": "PUT",
+        "mon": "M281"
+      },
+      {
+        "name": "/admin/api/v1/section-setting",
+        "health": "ok",
+        "source": "Internal endpoints / M282 POST",
+        "address": "M282 \u00b7 POST",
+        "method": "POST",
+        "mon": "M282"
+      },
+      {
+        "name": "/admin/api/v1/section-setting",
+        "health": "ok",
+        "source": "Internal endpoints / M283 GET",
+        "address": "M283 \u00b7 GET",
+        "method": "GET",
+        "mon": "M283"
+      },
+      {
+        "name": "/admin/api/v1/sections",
+        "health": "ok",
+        "source": "Internal endpoints / M284 GET",
+        "address": "M284 \u00b7 GET",
+        "method": "GET",
+        "mon": "M284"
+      },
+      {
+        "name": "/admin/api/v1/section-setting/{id}",
+        "health": "ok",
+        "source": "Internal endpoints / M285 PUT",
+        "address": "M285 \u00b7 PUT",
+        "method": "PUT",
+        "mon": "M285"
+      },
+      {
+        "name": "/admin/api/v1/groups",
+        "health": "ok",
+        "source": "Internal endpoints / M286 GET",
+        "address": "M286 \u00b7 GET",
+        "method": "GET",
+        "mon": "M286"
+      },
+      {
+        "name": "/admin/api/v1/users",
+        "health": "ok",
+        "source": "Internal endpoints / M287 GET",
+        "address": "M287 \u00b7 GET",
+        "method": "GET",
+        "mon": "M287"
+      },
+      {
+        "name": "/admin/api/v1/role-mapping",
+        "health": "ok",
+        "source": "Internal endpoints / M288 GET",
+        "address": "M288 \u00b7 GET",
+        "method": "GET",
+        "mon": "M288"
+      },
+      {
+        "name": "/admin/api/v1/user-role-mapping",
+        "health": "ok",
+        "source": "Internal endpoints / M289 GET",
+        "address": "M289 \u00b7 GET",
+        "method": "GET",
+        "mon": "M289"
+      },
+      {
+        "name": "/admin/api/v1/user-role-mapping",
+        "health": "ok",
+        "source": "Internal endpoints / M290 PUT",
+        "address": "M290 \u00b7 PUT",
+        "method": "PUT",
+        "mon": "M290"
+      },
+      {
+        "name": "/admin/api/v1/role-codes",
+        "health": "ok",
+        "source": "Internal endpoints / M291 GET",
+        "address": "M291 \u00b7 GET",
+        "method": "GET",
+        "mon": "M291"
+      },
+      {
+        "name": "/admin/api/v1/role-master",
+        "health": "ok",
+        "source": "Internal endpoints / M292 PUT",
+        "address": "M292 \u00b7 PUT",
+        "method": "PUT",
+        "mon": "M292"
+      },
+      {
+        "name": "/admin/api/v1/role-master",
+        "health": "ok",
+        "source": "Internal endpoints / M293 POST",
+        "address": "M293 \u00b7 POST",
+        "method": "POST",
+        "mon": "M293"
+      },
+      {
+        "name": "/admin/api/v1/groups/remove-user",
+        "health": "ok",
+        "source": "Internal endpoints / M294 POST",
+        "address": "M294 \u00b7 POST",
+        "method": "POST",
+        "mon": "M294"
+      },
+      {
+        "name": "/admin/api/v1/application-permission",
+        "health": "ok",
+        "source": "Internal endpoints / M295 GET",
+        "address": "M295 \u00b7 GET",
+        "method": "GET",
+        "mon": "M295"
+      },
+      {
+        "name": "/admin/api/v1/application-permission",
+        "health": "ok",
+        "source": "Internal endpoints / M296 POST",
+        "address": "M296 \u00b7 POST",
+        "method": "POST",
+        "mon": "M296"
+      },
+      {
+        "name": "/admin/api/v1/sidebar-details",
+        "health": "ok",
+        "source": "Internal endpoints / M297 GET",
+        "address": "M297 \u00b7 GET",
+        "method": "GET",
+        "mon": "M297"
+      },
+      {
+        "name": "/admin/api/v1/user-details",
+        "health": "ok",
+        "source": "Internal endpoints / M298 GET",
+        "address": "M298 \u00b7 GET",
+        "method": "GET",
+        "mon": "M298"
+      },
+      {
+        "name": "/dispatch/api/v1/flight-hold-fuel-monitoring/reports",
+        "health": "ok",
+        "source": "Internal endpoints / M299 POST",
+        "address": "M299 \u00b7 POST",
+        "method": "POST",
+        "mon": "M299"
+      },
+      {
+        "name": "/dispatch/api/v1/flight-hold-fuel-monitoring/reports/download",
+        "health": "ok",
+        "source": "Internal endpoints / M300 POST",
+        "address": "M300 \u00b7 POST",
+        "method": "POST",
+        "mon": "M300"
+      },
+      {
+        "name": "/dispatch/api/v1/export-flight-standby-movement",
+        "health": "ok",
+        "source": "Internal endpoints / M301 POST",
+        "address": "M301 \u00b7 POST",
+        "method": "POST",
+        "mon": "M301"
+      },
+      {
+        "name": "/dispatch/api/v1/flight-standby-movement",
+        "health": "ok",
+        "source": "Internal endpoints / M302 POST",
+        "address": "M302 \u00b7 POST",
+        "method": "POST",
+        "mon": "M302"
+      },
+      {
+        "name": "/rosterautomation/api/v1/crew-roster/master-file",
+        "health": "ok",
+        "source": "Internal endpoints / M303 POST",
+        "address": "M303 \u00b7 POST",
+        "method": "POST",
+        "mon": "M303"
+      },
+      {
+        "name": "/rosterautomation/api/v1/crew-roster/master-file",
+        "health": "ok",
+        "source": "Internal endpoints / M304 GET",
+        "address": "M304 \u00b7 GET",
+        "method": "GET",
+        "mon": "M304"
+      },
+      {
+        "name": "/rosterautomation/api/v1/crew-roster/master-file",
+        "health": "ok",
+        "source": "Internal endpoints / M305 DELETE",
+        "address": "M305 \u00b7 DELETE",
+        "method": "DELETE",
+        "mon": "M305"
+      },
+      {
+        "name": "/rosterautomation/api/v1/crew-roster/config",
+        "health": "ok",
+        "source": "Internal endpoints / M306 POST",
+        "address": "M306 \u00b7 POST",
+        "method": "POST",
+        "mon": "M306"
+      },
+      {
+        "name": "/rosterautomation/api/v1/crew-roster/config",
+        "health": "ok",
+        "source": "Internal endpoints / M307 PUT",
+        "address": "M307 \u00b7 PUT",
+        "method": "PUT",
+        "mon": "M307"
+      },
+      {
+        "name": "/rosterautomation/api/v1/crew-roster/config",
+        "health": "ok",
+        "source": "Internal endpoints / M308 GET",
+        "address": "M308 \u00b7 GET",
+        "method": "GET",
+        "mon": "M308"
+      },
+      {
+        "name": "/rosterautomation/api/v1/crew-roster/config",
+        "health": "ok",
+        "source": "Internal endpoints / M309 DELETE",
+        "address": "M309 \u00b7 DELETE",
+        "method": "DELETE",
+        "mon": "M309"
+      },
+      {
+        "name": "/rosterautomation/api/v1/crew-roster/status-master",
+        "health": "ok",
+        "source": "Internal endpoints / M310 POST",
+        "address": "M310 \u00b7 POST",
+        "method": "POST",
+        "mon": "M310"
+      },
+      {
+        "name": "/rosterautomation/api/v1/crew-roster/status-master",
+        "health": "ok",
+        "source": "Internal endpoints / M311 GET",
+        "address": "M311 \u00b7 GET",
+        "method": "GET",
+        "mon": "M311"
+      },
+      {
+        "name": "/rosterautomation/api/v1/crew-roster/insert-roster-automation-files",
+        "health": "ok",
+        "source": "Internal endpoints / M312 POST",
+        "address": "M312 \u00b7 POST",
+        "method": "POST",
+        "mon": "M312"
+      },
+      {
+        "name": "/rosterautomation/api/v1/crew-roster/download",
+        "health": "ok",
+        "source": "Internal endpoints / M313 POST",
+        "address": "M313 \u00b7 POST",
+        "method": "POST",
+        "mon": "M313"
+      },
+      {
+        "name": "/rosterautomation/api/v1/crew-roster/fetch-crew-details",
+        "health": "ok",
+        "source": "Internal endpoints / M314 POST",
+        "address": "M314 \u00b7 POST",
+        "method": "POST",
+        "mon": "M314"
+      },
+      {
+        "name": "/rosterautomation/api/v1/crew-roster/reattempt",
+        "health": "ok",
+        "source": "Internal endpoints / M315 PUT",
+        "address": "M315 \u00b7 PUT",
+        "method": "PUT",
+        "mon": "M315"
+      },
+      {
+        "name": "/rosterautomation/api/v1/token/get-token",
+        "health": "ok",
+        "source": "Internal endpoints / M316 POST",
+        "address": "M316 \u00b7 POST",
+        "method": "POST",
+        "mon": "M316"
+      },
+      {
+        "name": "/weather/api/v1/crew-transition-info",
+        "health": "ok",
+        "source": "Internal endpoints / M317 GET",
+        "address": "M317 \u00b7 GET",
+        "method": "GET",
+        "mon": "M317"
+      },
+      {
+        "name": "/weatherapi/v1/crew-manifest-flight",
+        "health": "ok",
+        "source": "Internal endpoints / M318 GET",
+        "address": "M318 \u00b7 GET",
+        "method": "GET",
+        "mon": "M318"
+      },
+      {
+        "name": "/weather/api/v1/crew-manifest-station",
+        "health": "ok",
+        "source": "Internal endpoints / M319 POST",
+        "address": "M319 \u00b7 POST",
+        "method": "POST",
+        "mon": "M319"
+      },
+      {
+        "name": "/weather/api/v1/crew-manifest-station-export",
+        "health": "ok",
+        "source": "Internal endpoints / M320 POST",
+        "address": "M320 \u00b7 POST",
+        "method": "POST",
+        "mon": "M320"
+      },
+      {
+        "name": "/weather/api/v1/metar-details",
+        "health": "ok",
+        "source": "Internal endpoints / M321 GET",
+        "address": "M321 \u00b7 GET",
+        "method": "GET",
+        "mon": "M321"
+      },
+      {
+        "name": "/metar/api/weather/latest",
+        "health": "ok",
+        "source": "Internal endpoints / M322 GET",
+        "address": "M322 \u00b7 GET",
+        "method": "GET",
+        "mon": "M322"
+      },
+      {
+        "name": "/dispatch/api/v1/arrival-hold-report",
+        "health": "ok",
+        "source": "Internal endpoints / M323 GET",
+        "address": "M323 \u00b7 GET",
+        "method": "GET",
+        "mon": "M323"
+      },
+      {
+        "name": "/flight/api/v1/fetch-flight-details",
+        "health": "ok",
+        "source": "Internal endpoints / M324 POST",
+        "address": "M324 \u00b7 POST",
+        "method": "POST",
+        "mon": "M324"
+      },
+      {
+        "name": "/flight/api/v1/get-ac-type",
+        "health": "ok",
+        "source": "Internal endpoints / M325 GET",
+        "address": "M325 \u00b7 GET",
+        "method": "GET",
+        "mon": "M325"
+      },
+      {
+        "name": "/flight/api/v1/get-stc-code",
+        "health": "ok",
+        "source": "Internal endpoints / M326 GET",
+        "address": "M326 \u00b7 GET",
+        "method": "GET",
+        "mon": "M326"
+      },
+      {
+        "name": "/flight/api/v1/fetch-aircraft-tail",
+        "health": "ok",
+        "source": "Internal endpoints / M327 GET",
+        "address": "M327 \u00b7 GET",
+        "method": "GET",
+        "mon": "M327"
+      },
+      {
+        "name": "/flight/api/v1/insert-aircarft-tail",
+        "health": "ok",
+        "source": "Internal endpoints / M328 POST",
+        "address": "M328 \u00b7 POST",
+        "method": "POST",
+        "mon": "M328"
+      },
+      {
+        "name": "/flight/api/v1/update-aircraft-tail{id}",
+        "health": "ok",
+        "source": "Internal endpoints / M329 PUT",
+        "address": "M329 \u00b7 PUT",
+        "method": "PUT",
+        "mon": "M329"
+      },
+      {
+        "name": "/crew/api/v1/crew-connection-report",
+        "health": "ok",
+        "source": "Internal endpoints / M330 POST",
+        "address": "M330 \u00b7 POST",
+        "method": "POST",
+        "mon": "M330"
+      },
+      {
+        "name": "/crew/api/v1/crew-gd-report",
+        "health": "ok",
+        "source": "Internal endpoints / M331 GET",
+        "address": "M331 \u00b7 GET",
+        "method": "GET",
+        "mon": "M331"
+      },
+      {
+        "name": "/crew/api/v1/crew-rating-aircraft-masters",
+        "health": "ok",
+        "source": "Internal endpoints / M332 POST",
+        "address": "M332 \u00b7 POST",
+        "method": "POST",
+        "mon": "M332"
+      },
+      {
+        "name": "/crew/api/v1/crew-category-master",
+        "health": "ok",
+        "source": "Internal endpoints / M333 GET",
+        "address": "M333 \u00b7 GET",
+        "method": "GET",
+        "mon": "M333"
+      },
+      {
+        "name": "/crew/api/v1/delete-aircraft-qualification-cat-master-by-Id/{id}",
+        "health": "ok",
+        "source": "Internal endpoints / M334 DELETE",
+        "address": "M334 \u00b7 DELETE",
+        "method": "DELETE",
+        "mon": "M334"
+      },
+      {
+        "name": "/crew/api/v1/delete-aircraft-qualification-master-by-Id/{id}",
+        "health": "ok",
+        "source": "Internal endpoints / M335 DELETE",
+        "address": "M335 \u00b7 DELETE",
+        "method": "DELETE",
+        "mon": "M335"
+      },
+      {
+        "name": "/crew/api/v1/delete-dgca-duration-window-by-Id/{id}",
+        "health": "ok",
+        "source": "Internal endpoints / M336 DELETE",
+        "address": "M336 \u00b7 DELETE",
+        "method": "DELETE",
+        "mon": "M336"
+      },
+      {
+        "name": "/crew/api/v1/fetch-aircraft-qualification-master",
+        "health": "ok",
+        "source": "Internal endpoints / M337 GET",
+        "address": "M337 \u00b7 GET",
+        "method": "GET",
+        "mon": "M337"
+      },
+      {
+        "name": "/crew/api/v1/fetch-aircraft-qualification-master-by-Id/{id}",
+        "health": "ok",
+        "source": "Internal endpoints / M338 GET",
+        "address": "M338 \u00b7 GET",
+        "method": "GET",
+        "mon": "M338"
+      },
+      {
+        "name": "/crew/api/v1/fetch-dgca-duration-window-master-by-Id/{id}",
+        "health": "ok",
+        "source": "Internal endpoints / M339 GET",
+        "address": "M339 \u00b7 GET",
+        "method": "GET",
+        "mon": "M339"
+      },
+      {
+        "name": "/crew/api/v1/fetch-dgca-duration-window-master",
+        "health": "ok",
+        "source": "Internal endpoints / M340 GET",
+        "address": "M340 \u00b7 GET",
+        "method": "GET",
+        "mon": "M340"
+      },
+      {
+        "name": "/crew/api/v1/insert-ac-Qualification-cat",
+        "health": "ok",
+        "source": "Internal endpoints / M341 POST",
+        "address": "M341 \u00b7 POST",
+        "method": "POST",
+        "mon": "M341"
+      },
+      {
+        "name": "/crew/api/v1/get-ac-qual-cat-master-data",
+        "health": "ok",
+        "source": "Internal endpoints / M342 GET",
+        "address": "M342 \u00b7 GET",
+        "method": "GET",
+        "mon": "M342"
+      },
+      {
+        "name": "/crew/api/v1/insert-dgca-duration-window-master",
+        "health": "ok",
+        "source": "Internal endpoints / M343 POST",
+        "address": "M343 \u00b7 POST",
+        "method": "POST",
+        "mon": "M343"
+      },
+      {
+        "name": "/crew/api/v1/update-aircraft-qualification-master/{id}",
+        "health": "ok",
+        "source": "Internal endpoints / M344 PUT",
+        "address": "M344 \u00b7 PUT",
+        "method": "PUT",
+        "mon": "M344"
+      },
+      {
+        "name": "/crew/api/v1/update-dgca-duration-window-master/{id}",
+        "health": "ok",
+        "source": "Internal endpoints / M345 PUT",
+        "address": "M345 \u00b7 PUT",
+        "method": "PUT",
+        "mon": "M345"
+      },
+      {
+        "name": "/crew/api/v1/crew-rating-report",
+        "health": "ok",
+        "source": "Internal endpoints / M346 POST",
+        "address": "M346 \u00b7 POST",
+        "method": "POST",
+        "mon": "M346"
+      },
+      {
+        "name": "/crew/api/v1/delete-flight-status-master",
+        "health": "ok",
+        "source": "Internal endpoints / M347 DELETE",
+        "address": "M347 \u00b7 DELETE",
+        "method": "DELETE",
+        "mon": "M347"
+      },
+      {
+        "name": "/crew/api/v1/get-flight-status-master",
+        "health": "ok",
+        "source": "Internal endpoints / M348 GET",
+        "address": "M348 \u00b7 GET",
+        "method": "GET",
+        "mon": "M348"
+      },
+      {
+        "name": "/crew/api/v1/insert-flight-status-master",
+        "health": "ok",
+        "source": "Internal endpoints / M349 POST",
+        "address": "M349 \u00b7 POST",
+        "method": "POST",
+        "mon": "M349"
+      },
+      {
+        "name": "/crew/api/v1/aircraft-type-catalog",
+        "health": "ok",
+        "source": "Internal endpoints / M350 GET",
+        "address": "M350 \u00b7 GET",
+        "method": "GET",
+        "mon": "M350"
+      },
+      {
+        "name": "/flight/api/v1/joc-flight-data",
+        "health": "ok",
+        "source": "Internal endpoints / M351 GET",
+        "address": "M351 \u00b7 GET",
+        "method": "GET",
+        "mon": "M351"
+      },
+      {
+        "name": "/metar/api/v1/weather/historical",
+        "health": "ok",
+        "source": "Internal endpoints / M352 GET",
+        "address": "M352 \u00b7 GET",
+        "method": "GET",
+        "mon": "M352"
+      },
+      {
+        "name": "/streamorchestrator-ws/websocket/main-summary",
+        "health": "ok",
+        "source": "Internal endpoints / M353 GET",
+        "address": "M353 \u00b7 GET",
+        "method": "GET",
+        "mon": "M353"
+      },
+      {
+        "name": "/streamorchestrator-ws/websocket/base-wise-summary",
+        "health": "ok",
+        "source": "Internal endpoints / M354 GET",
+        "address": "M354 \u00b7 GET",
+        "method": "GET",
+        "mon": "M354"
+      },
+      {
+        "name": "/crewdashboard-hotac/api/v1/logistics/summary",
+        "health": "ok",
+        "source": "Internal endpoints / M355 POST",
+        "address": "M355 \u00b7 POST",
+        "method": "POST",
+        "mon": "M355"
+      },
+      {
+        "name": "/rosterautomation/v1/crew-roster/master-file",
+        "health": "ok",
+        "source": "Internal endpoints / M356 POST",
+        "address": "M356 \u00b7 POST",
+        "method": "POST",
+        "mon": "M356"
+      },
+      {
+        "name": "/rosterautomation/v1/crew-roster/master-file",
+        "health": "ok",
+        "source": "Internal endpoints / M357 GET",
+        "address": "M357 \u00b7 GET",
+        "method": "GET",
+        "mon": "M357"
+      },
+      {
+        "name": "/rosterautomation/v1/crew-roster/master-file/{Id}",
+        "health": "ok",
+        "source": "Internal endpoints / M358 DELETE",
+        "address": "M358 \u00b7 DELETE",
+        "method": "DELETE",
+        "mon": "M358"
+      },
+      {
+        "name": "/rosterautomation/v1/crew-roster/config",
+        "health": "ok",
+        "source": "Internal endpoints / M359 POST",
+        "address": "M359 \u00b7 POST",
+        "method": "POST",
+        "mon": "M359"
+      },
+      {
+        "name": "/rosterautomation/v1/crew-roster/config/{Id}",
+        "health": "ok",
+        "source": "Internal endpoints / M360 PUT",
+        "address": "M360 \u00b7 PUT",
+        "method": "PUT",
+        "mon": "M360"
+      },
+      {
+        "name": "/rosterautomation/v1/crew-roster/config",
+        "health": "ok",
+        "source": "Internal endpoints / M361 GET",
+        "address": "M361 \u00b7 GET",
+        "method": "GET",
+        "mon": "M361"
+      },
+      {
+        "name": "/rosterautomation/v1/crew-roster/config/{Id}",
+        "health": "ok",
+        "source": "Internal endpoints / M362 DELETE",
+        "address": "M362 \u00b7 DELETE",
+        "method": "DELETE",
+        "mon": "M362"
+      },
+      {
+        "name": "/rosterautomation/v1/crew-roster/status-master",
+        "health": "ok",
+        "source": "Internal endpoints / M363 POST",
+        "address": "M363 \u00b7 POST",
+        "method": "POST",
+        "mon": "M363"
+      },
+      {
+        "name": "/rosterautomation/v1/crew-roster/status-master",
+        "health": "ok",
+        "source": "Internal endpoints / M364 GET",
+        "address": "M364 \u00b7 GET",
+        "method": "GET",
+        "mon": "M364"
+      },
+      {
+        "name": "/rosterautomation/v1/crew-roster/insert-roster-automation-files",
+        "health": "ok",
+        "source": "Internal endpoints / M365 POST",
+        "address": "M365 \u00b7 POST",
+        "method": "POST",
+        "mon": "M365"
+      },
+      {
+        "name": "/rosterautomation/v1/crew-roster/download",
+        "health": "ok",
+        "source": "Internal endpoints / M366 POST",
+        "address": "M366 \u00b7 POST",
+        "method": "POST",
+        "mon": "M366"
+      },
+      {
+        "name": "/rosterautomation/v1/crew-roster/fetch-crew-details",
+        "health": "ok",
+        "source": "Internal endpoints / M367 POST",
+        "address": "M367 \u00b7 POST",
+        "method": "POST",
+        "mon": "M367"
+      },
+      {
+        "name": "/rosterautomation/v1/crew-roster/reattempt/{rtfid}",
+        "health": "ok",
+        "source": "Internal endpoints / M368 PUT",
+        "address": "M368 \u00b7 PUT",
+        "method": "PUT",
+        "mon": "M368"
+      },
+      {
+        "name": "/rosterautomation/v1/token/get-token",
+        "health": "ok",
+        "source": "Internal endpoints / M369 PUT",
+        "address": "M369 \u00b7 PUT",
+        "method": "PUT",
+        "mon": "M369"
+      },
+      {
+        "name": "/crewdashboard/api/v1/crew-dashboard/open-trips-main",
+        "health": "ok",
+        "source": "Internal endpoints / M370 GET",
+        "address": "M370 \u00b7 GET",
+        "method": "GET",
+        "mon": "M370"
+      },
+      {
+        "name": "/crewdashboard/api/v1/crew-dashboard/open-trips-position",
+        "health": "ok",
+        "source": "Internal endpoints / M371 GET",
+        "address": "M371 \u00b7 GET",
+        "method": "GET",
+        "mon": "M371"
+      },
+      {
+        "name": "/crewdashboard/api/v1/crew-dashboard/sby-main",
+        "health": "ok",
+        "source": "Internal endpoints / M372 GET",
+        "address": "M372 \u00b7 GET",
+        "method": "GET",
+        "mon": "M372"
+      },
+      {
+        "name": "/crewdashboard/api/v1/crew-dashboard/sby-position",
+        "health": "ok",
+        "source": "Internal endpoints / M373 GET",
+        "address": "M373 \u00b7 GET",
+        "method": "GET",
+        "mon": "M373"
+      },
+      {
+        "name": "/crewdashboard/api/v1/crew-dashboard/unpaired-legs",
+        "health": "ok",
+        "source": "Internal endpoints / M374 GET",
+        "address": "M374 \u00b7 GET",
+        "method": "GET",
+        "mon": "M374"
+      },
+      {
+        "name": "/crewdashboard/api/v1/crew-dashboard/unpaired-legs-base",
+        "health": "ok",
+        "source": "Internal endpoints / M375 GET",
+        "address": "M375 \u00b7 GET",
+        "method": "GET",
+        "mon": "M375"
+      },
+      {
+        "name": "/crewdashboard/api/v1/crew-dashboard/pending-notifications",
+        "health": "ok",
+        "source": "Internal endpoints / M376 GET",
+        "address": "M376 \u00b7 GET",
+        "method": "GET",
+        "mon": "M376"
+      },
+      {
+        "name": "/crewdashboard/api/v1/crew-dashboard/pending-notifications-base",
+        "health": "ok",
+        "source": "Internal endpoints / M377 GET",
+        "address": "M377 \u00b7 GET",
+        "method": "GET",
+        "mon": "M377"
+      },
+      {
+        "name": "/crewdashboard/api/v1/crew-dashboard/unfinalized-routes",
+        "health": "ok",
+        "source": "Internal endpoints / M378 GET",
+        "address": "M378 \u00b7 GET",
+        "method": "GET",
+        "mon": "M378"
+      },
+      {
+        "name": "/crewdashboard/api/v1/crew-dashboard/unfinalized-routes-base",
+        "health": "ok",
+        "source": "Internal endpoints / M379 GET",
+        "address": "M379 \u00b7 GET",
+        "method": "GET",
+        "mon": "M379"
+      },
+      {
+        "name": "/crewdashboard/api/v1/crew-dashboard/na-percentage",
+        "health": "ok",
+        "source": "Internal endpoints / M380 GET",
+        "address": "M380 \u00b7 GET",
+        "method": "GET",
+        "mon": "M380"
+      },
+      {
+        "name": "/crewdashboard/api/v1/crew-dashboard/na-percentage-position",
+        "health": "ok",
+        "source": "Internal endpoints / M381 GET",
+        "address": "M381 \u00b7 GET",
+        "method": "GET",
+        "mon": "M381"
+      },
+      {
+        "name": "/crewdashboard/api/v1/crew-dashboard/crew-rating",
+        "health": "ok",
+        "source": "Internal endpoints / M382 GET",
+        "address": "M382 \u00b7 GET",
+        "method": "GET",
+        "mon": "M382"
+      },
+      {
+        "name": "/crewdashboard/api/v1/crew-dashboard/open-sim",
+        "health": "ok",
+        "source": "Internal endpoints / M383 GET",
+        "address": "M383 \u00b7 GET",
+        "method": "GET",
+        "mon": "M383"
+      },
+      {
+        "name": "/crewdashboard/api/v1/token/get-token",
+        "health": "ok",
+        "source": "Internal endpoints / M384 POST",
+        "address": "M384 \u00b7 POST",
+        "method": "POST",
+        "mon": "M384"
+      },
+      {
+        "name": "/flight/api/v1/terminal-by-airport",
+        "health": "ok",
+        "source": "Internal endpoints / M385 GET",
+        "address": "M385 \u00b7 GET",
+        "method": "GET",
+        "mon": "M385"
+      },
+      {
+        "name": "/flight/api/v1/aircraftrecord-catalog-data",
+        "health": "ok",
+        "source": "Internal endpoints / M386 GET",
+        "address": "M386 \u00b7 GET",
+        "method": "GET",
+        "mon": "M386"
+      },
+      {
+        "name": "/flight/api/v1/aircrafttype-catalog-data",
+        "health": "ok",
+        "source": "Internal endpoints / M387 GET",
+        "address": "M387 \u00b7 GET",
+        "method": "GET",
+        "mon": "M387"
+      },
+      {
+        "name": "/flight/api/v1/get-stc-Code",
+        "health": "ok",
+        "source": "Internal endpoints / M388 GET",
+        "address": "M388 \u00b7 GET",
+        "method": "GET",
+        "mon": "M388"
+      },
+      {
+        "name": "/admin/api/v1/add-db-connections",
+        "health": "ok",
+        "source": "Internal endpoints / M389 POST",
+        "address": "M389 \u00b7 POST",
+        "method": "POST",
+        "mon": "M389"
+      },
+      {
+        "name": "/admin/api/v1/get-db-connections",
+        "health": "ok",
+        "source": "Internal endpoints / M390 GET",
+        "address": "M390 \u00b7 GET",
+        "method": "GET",
+        "mon": "M390"
+      },
+      {
+        "name": "/admin/api/v1/update-db-connections/{id}",
+        "health": "ok",
+        "source": "Internal endpoints / M391 PUT",
+        "address": "M391 \u00b7 PUT",
+        "method": "PUT",
+        "mon": "M391"
+      },
+      {
+        "name": "/admin/api/v1/delete-db-connections/{id}",
+        "health": "ok",
+        "source": "Internal endpoints / M392 DELETE",
+        "address": "M392 \u00b7 DELETE",
+        "method": "DELETE",
+        "mon": "M392"
+      },
+      {
+        "name": "/flight/api/v1/crew-master/terminals-by-airport",
+        "health": "ok",
+        "source": "Internal endpoints / M393 GET",
+        "address": "M393 \u00b7 GET",
+        "method": "GET",
+        "mon": "M393"
+      },
+      {
+        "name": "/admin/api/v1/filtered-role-codes",
+        "health": "ok",
+        "source": "Internal endpoints / M394 GET",
+        "address": "M394 \u00b7 GET",
+        "method": "GET",
+        "mon": "M394"
+      },
+      {
+        "name": "/weather/api/v1/crew-transition-info",
+        "health": "ok",
+        "source": "Internal endpoints / M395 GET",
+        "address": "M395 \u00b7 GET",
+        "method": "GET",
+        "mon": "M395"
+      },
+      {
+        "name": "/weather/api/v1/crew-manifest-flight",
+        "health": "ok",
+        "source": "Internal endpoints / M396 GET",
+        "address": "M396 \u00b7 GET",
+        "method": "GET",
+        "mon": "M396"
+      },
+      {
+        "name": "/weather/api/v1/crew-manifest-station",
+        "health": "ok",
+        "source": "Internal endpoints / M397 POST",
+        "address": "M397 \u00b7 POST",
+        "method": "POST",
+        "mon": "M397"
+      },
+      {
+        "name": "/weather/api/v1/crew-manifest-station-export",
+        "health": "ok",
+        "source": "Internal endpoints / M398 POST",
+        "address": "M398 \u00b7 POST",
+        "method": "POST",
+        "mon": "M398"
+      },
+      {
+        "name": "/crew/api/v1/crew-blank-gd-report",
+        "health": "ok",
+        "source": "Internal endpoints / M399 GET",
+        "address": "M399 \u00b7 GET",
+        "method": "GET",
+        "mon": "M399"
+      },
+      {
+        "name": "/flight/api/v1/ctot/arrival-station",
+        "health": "ok",
+        "source": "Internal endpoints / M400 POST",
+        "address": "M400 \u00b7 POST",
+        "method": "POST",
+        "mon": "M400"
+      },
+      {
+        "name": "/flight/api/v1/ctot/resend-email",
+        "health": "ok",
+        "source": "Internal endpoints / M401 POST",
+        "address": "M401 \u00b7 POST",
+        "method": "POST",
+        "mon": "M401"
+      },
+      {
+        "name": "/flight/api/v1/ctot/violation-export",
+        "health": "ok",
+        "source": "Internal endpoints / M402 POST",
+        "address": "M402 \u00b7 POST",
+        "method": "POST",
+        "mon": "M402"
+      },
+      {
+        "name": "/flight/api/v1/ctot/master",
+        "health": "ok",
+        "source": "Internal endpoints / M403 POST",
+        "address": "M403 \u00b7 POST",
+        "method": "POST",
+        "mon": "M403"
+      },
+      {
+        "name": "/flight/api/v1/ctot/master/{Id}",
+        "health": "ok",
+        "source": "Internal endpoints / M404 PUT",
+        "address": "M404 \u00b7 PUT",
+        "method": "PUT",
+        "mon": "M404"
+      },
+      {
+        "name": "/flight/api/v1/ctot/master",
+        "health": "ok",
+        "source": "Internal endpoints / M405 GET",
+        "address": "M405 \u00b7 GET",
+        "method": "GET",
+        "mon": "M405"
+      },
+      {
+        "name": "/flight/api/v1/apm-detail/export",
+        "health": "ok",
+        "source": "Internal endpoints / M406 POST",
+        "address": "M406 \u00b7 POST",
+        "method": "POST",
+        "mon": "M406"
+      },
+      {
+        "name": "/flight/api/v1/apm-detail/terminal-by-airport",
+        "health": "ok",
+        "source": "Internal endpoints / M407 GET",
+        "address": "M407 \u00b7 GET",
+        "method": "GET",
+        "mon": "M407"
+      },
+      {
+        "name": "/flight/api/v1/apm-detail",
+        "health": "ok",
+        "source": "Internal endpoints / M408 POST",
+        "address": "M408 \u00b7 POST",
+        "method": "POST",
+        "mon": "M408"
+      },
+      {
+        "name": "/flight/api/v1/apm-detail",
+        "health": "ok",
+        "source": "Internal endpoints / M409 GET",
+        "address": "M409 \u00b7 GET",
+        "method": "GET",
+        "mon": "M409"
+      },
+      {
+        "name": "/flight/api/v1/apm-detail/{id}",
+        "health": "ok",
+        "source": "Internal endpoints / M410 DELETE",
+        "address": "M410 \u00b7 DELETE",
+        "method": "DELETE",
+        "mon": "M410"
+      },
+      {
+        "name": "/flight/api/v1/apm-detail/{id}",
+        "health": "ok",
+        "source": "Internal endpoints / M411 PUT",
+        "address": "M411 \u00b7 PUT",
+        "method": "PUT",
+        "mon": "M411"
+      },
+      {
+        "name": "/flight/api/v1/ctot/send-email",
+        "health": "ok",
+        "source": "Internal endpoints / M412 POST",
+        "address": "M412 \u00b7 POST",
+        "method": "POST",
+        "mon": "M412"
+      },
+      {
+        "name": "/flight/api/v1/ctot/upload",
+        "health": "ok",
+        "source": "Internal endpoints / M413 POST",
+        "address": "M413 \u00b7 POST",
+        "method": "POST",
+        "mon": "M413"
+      },
+      {
+        "name": "/flight/api/v1/ctot/preview/{fileUploadDetailsid}",
+        "health": "ok",
+        "source": "Internal endpoints / M414 GET",
+        "address": "M414 \u00b7 GET",
+        "method": "GET",
+        "mon": "M414"
+      },
+      {
+        "name": "/flight/api/v1/ctot/violation",
+        "health": "ok",
+        "source": "Internal endpoints / M415 POST",
+        "address": "M415 \u00b7 POST",
+        "method": "POST",
+        "mon": "M415"
+      },
+      {
+        "name": "/crewdashboard/api/v1/crew-dashboard/open-trips-main-details",
+        "health": "ok",
+        "source": "Internal endpoints / M416 GET",
+        "address": "M416 \u00b7 GET",
+        "method": "GET",
+        "mon": "M416"
+      },
+      {
+        "name": "/weather/api/v1/advisories/search",
+        "health": "ok",
+        "source": "Internal endpoints / M417 GET",
+        "address": "M417 \u00b7 GET",
+        "method": "GET",
+        "mon": "M417"
+      },
+      {
+        "name": "/weather/api/v1/advisories",
+        "health": "ok",
+        "source": "Internal endpoints / M418 POST",
+        "address": "M418 \u00b7 POST",
+        "method": "POST",
+        "mon": "M418"
+      },
+      {
+        "name": "/weather/api/v1/advisories",
+        "health": "ok",
+        "source": "Internal endpoints / M419 PUT",
+        "address": "M419 \u00b7 PUT",
+        "method": "PUT",
+        "mon": "M419"
+      },
+      {
+        "name": "/weather/api/v1/advisories",
+        "health": "ok",
+        "source": "Internal endpoints / M420 DELETE",
+        "address": "M420 \u00b7 DELETE",
+        "method": "DELETE",
+        "mon": "M420"
+      },
+      {
+        "name": "/flight/api/v1/base-departure/reports",
+        "health": "ok",
+        "source": "Internal endpoints / M421 POST",
+        "address": "M421 \u00b7 POST",
+        "method": "POST",
+        "mon": "M421"
+      },
+      {
+        "name": "/flight/api/v1/save-base-departure",
+        "health": "ok",
+        "source": "Internal endpoints / M422 POST",
+        "address": "M422 \u00b7 POST",
+        "method": "POST",
+        "mon": "M422"
+      },
+      {
+        "name": "/flight/api/v1/base-departure/export-report",
+        "health": "ok",
+        "source": "Internal endpoints / M423 POST",
+        "address": "M423 \u00b7 POST",
+        "method": "POST",
+        "mon": "M423"
+      },
+      {
+        "name": "/flight/api/v1/delay-reason-master",
+        "health": "ok",
+        "source": "Internal endpoints / M424 GET",
+        "address": "M424 \u00b7 GET",
+        "method": "GET",
+        "mon": "M424"
+      },
+      {
+        "name": "/flight/api/v1/delay-reason-master",
+        "health": "ok",
+        "source": "Internal endpoints / M425 POST",
+        "address": "M425 \u00b7 POST",
+        "method": "POST",
+        "mon": "M425"
+      },
+      {
+        "name": "/flight/api/v1/delay-reason-master/{id}",
+        "health": "ok",
+        "source": "Internal endpoints / M426 PUT",
+        "address": "M426 \u00b7 PUT",
+        "method": "PUT",
+        "mon": "M426"
+      },
+      {
+        "name": "/flight/api/v1/delay-reason-master/{id}",
+        "health": "ok",
+        "source": "Internal endpoints / M427 DELETE",
+        "address": "M427 \u00b7 DELETE",
+        "method": "DELETE",
+        "mon": "M427"
+      },
+      {
+        "name": "/flight/api/v1/gpu/aircraft-history",
+        "health": "ok",
+        "source": "Internal endpoints / M428 POST",
+        "address": "M428 \u00b7 POST",
+        "method": "POST",
+        "mon": "M428"
+      },
+      {
+        "name": "/flight/api/v1/gpu/notificationhub-details",
+        "health": "ok",
+        "source": "Internal endpoints / M429 POST",
+        "address": "M429 \u00b7 POST",
+        "method": "POST",
+        "mon": "M429"
+      },
+      {
+        "name": "/flight/api/v1/gpu/notification-statistics",
+        "health": "ok",
+        "source": "Internal endpoints / M430 GET",
+        "address": "M430 \u00b7 GET",
+        "method": "GET",
+        "mon": "M430"
+      },
+      {
+        "name": "/flight/api/v1/gpu/aircrafts",
+        "health": "ok",
+        "source": "Internal endpoints / M431 GET",
+        "address": "M431 \u00b7 GET",
+        "method": "GET",
+        "mon": "M431"
+      },
+      {
+        "name": "/flight/api/v1/gpu/gpu-scheduler",
+        "health": "ok",
+        "source": "Internal endpoints / M432 POST",
+        "address": "M432 \u00b7 POST",
+        "method": "POST",
+        "mon": "M432"
+      },
+      {
+        "name": "/flight/api/v1/gpu/last-file",
+        "health": "ok",
+        "source": "Internal endpoints / M433 GET",
+        "address": "M433 \u00b7 GET",
+        "method": "GET",
+        "mon": "M433"
+      },
+      {
+        "name": "/flight/api/v1/gpu/upload",
+        "health": "ok",
+        "source": "Internal endpoints / M434 POST",
+        "address": "M434 \u00b7 POST",
+        "method": "POST",
+        "mon": "M434"
+      },
+      {
+        "name": "/flight/api/v1/gpu/aircraft-history/export",
+        "health": "ok",
+        "source": "Internal endpoints / M435 POST",
+        "address": "M435 \u00b7 POST",
+        "method": "POST",
+        "mon": "M435"
+      },
+      {
+        "name": "/flight/api/v1/gpu/notification-statistics/export",
+        "health": "ok",
+        "source": "Internal endpoints / M436 POST",
+        "address": "M436 \u00b7 POST",
+        "method": "POST",
+        "mon": "M436"
+      },
+      {
+        "name": "/flight/api/v1/gpu/notificationhub-details/export",
+        "health": "ok",
+        "source": "Internal endpoints / M437 POST",
+        "address": "M437 \u00b7 POST",
+        "method": "POST",
+        "mon": "M437"
+      },
+      {
+        "name": "/flight/api/v1/gpu/adhoc-report",
+        "health": "ok",
+        "source": "Internal endpoints / M438 POST",
+        "address": "M438 \u00b7 POST",
+        "method": "POST",
+        "mon": "M438"
+      },
+      {
+        "name": "/flight/api/v1/gpu/notification-adhoc",
+        "health": "ok",
+        "source": "Internal endpoints / M439 POST",
+        "address": "M439 \u00b7 POST",
+        "method": "POST",
+        "mon": "M439"
+      },
+      {
+        "name": "/flight/api/v1/rulesets/save",
+        "health": "ok",
+        "source": "Internal endpoints / M440 POST",
+        "address": "M440 \u00b7 POST",
+        "method": "POST",
+        "mon": "M440"
+      },
+      {
+        "name": "/flight/api/v1/terminal-by-station",
+        "health": "ok",
+        "source": "Internal endpoints / M441 GET",
+        "address": "M441 \u00b7 GET",
+        "method": "GET",
+        "mon": "M441"
+      },
+      {
+        "name": "/flight/api/v1/update-aircraft-tail/{Id}",
+        "health": "ok",
+        "source": "Internal endpoints / M442 PUT",
+        "address": "M442 \u00b7 PUT",
+        "method": "PUT",
+        "mon": "M442"
+      },
+      {
+        "name": "/flight/api/v1/duty-code",
+        "health": "ok",
+        "source": "Internal endpoints / M443 GET",
+        "address": "M443 \u00b7 GET",
+        "method": "GET",
+        "mon": "M443"
+      },
+      {
+        "name": "/flight/api/v1/position-master",
+        "health": "ok",
+        "source": "Internal endpoints / M444 GET",
+        "address": "M444 \u00b7 GET",
+        "method": "GET",
+        "mon": "M444"
+      },
+      {
+        "name": "/flight/api/v1/aircraft-type-catalog",
+        "health": "ok",
+        "source": "Internal endpoints / M445 GET",
+        "address": "M445 \u00b7 GET",
+        "method": "GET",
+        "mon": "M445"
+      },
+      {
+        "name": "/flight/api/v1/crew-cate",
+        "health": "ok",
+        "source": "Internal endpoints / M446 GET",
+        "address": "M446 \u00b7 GET",
+        "method": "GET",
+        "mon": "M446"
+      },
+      {
+        "name": "/flight/api/v1/training-qualification",
+        "health": "ok",
+        "source": "Internal endpoints / M447 GET",
+        "address": "M447 \u00b7 GET",
+        "method": "GET",
+        "mon": "M447"
+      },
+      {
+        "name": "/crew/api/v1/ruleengine/add",
+        "health": "ok",
+        "source": "Internal endpoints / M448 POST",
+        "address": "M448 \u00b7 POST",
+        "method": "POST",
+        "mon": "M448"
+      },
+      {
+        "name": "/crew/api/v1/ruleengine/edit",
+        "health": "ok",
+        "source": "Internal endpoints / M449 PUT",
+        "address": "M449 \u00b7 PUT",
+        "method": "PUT",
+        "mon": "M449"
+      },
+      {
+        "name": "/crew/api/v1/ruleengine/all",
+        "health": "ok",
+        "source": "Internal endpoints / M450 POST",
+        "address": "M450 \u00b7 POST",
+        "method": "POST",
+        "mon": "M450"
+      },
+      {
+        "name": "/crew/api/v1/rule-engine/export",
+        "health": "ok",
+        "source": "Internal endpoints / M451 POST",
+        "address": "M451 \u00b7 POST",
+        "method": "POST",
+        "mon": "M451"
+      },
+      {
+        "name": "/crew/api/v1/ruleengine/filter-rulename",
+        "health": "ok",
+        "source": "Internal endpoints / M452 GET",
+        "address": "M452 \u00b7 GET",
+        "method": "GET",
+        "mon": "M452"
+      },
+      {
+        "name": "/crew/api/v1/email/crew-duty-change",
+        "health": "ok",
+        "source": "Internal endpoints / M453 GET",
+        "address": "M453 \u00b7 GET",
+        "method": "GET",
+        "mon": "M453"
+      },
+      {
+        "name": "/cotsconfiguration/api/v1/connections",
+        "health": "ok",
+        "source": "Internal endpoints / M454 GET",
+        "address": "M454 \u00b7 GET",
+        "method": "GET",
+        "mon": "M454"
+      },
+      {
+        "name": "/cotsconfiguration/api/v1/routes",
+        "health": "ok",
+        "source": "Internal endpoints / M455 GET",
+        "address": "M455 \u00b7 GET",
+        "method": "GET",
+        "mon": "M455"
+      },
+      {
+        "name": "/cotsconfiguration/api/v1/routes/metrics",
+        "health": "ok",
+        "source": "Internal endpoints / M456 GET",
+        "address": "M456 \u00b7 GET",
+        "method": "GET",
+        "mon": "M456"
+      },
+      {
+        "name": "/cotsconfiguration/api/v1/routes/health",
+        "health": "ok",
+        "source": "Internal endpoints / M457 GET",
+        "address": "M457 \u00b7 GET",
+        "method": "GET",
+        "mon": "M457"
+      },
+      {
+        "name": "/cotsconfiguration/api/v1/routes/control/ROUTE",
+        "health": "ok",
+        "source": "Internal endpoints / M458 POST",
+        "address": "M458 \u00b7 POST",
+        "method": "POST",
+        "mon": "M458"
+      },
+      {
+        "name": "/cotsconfiguration/api/v1/connections/CONNECTION",
+        "health": "ok",
+        "source": "Internal endpoints / M459 PUT",
+        "address": "M459 \u00b7 PUT",
+        "method": "PUT",
+        "mon": "M459"
+      },
+      {
+        "name": "/cotsconfiguration/api/v1/connections/CONNECTION",
+        "health": "ok",
+        "source": "Internal endpoints / M460 DELETE",
+        "address": "M460 \u00b7 DELETE",
+        "method": "DELETE",
+        "mon": "M460"
+      },
+      {
+        "name": "/cotsconfiguration/api/v1/routes",
+        "health": "ok",
+        "source": "Internal endpoints / M461 POST",
+        "address": "M461 \u00b7 POST",
+        "method": "POST",
+        "mon": "M461"
+      },
+      {
+        "name": "/cotsconfiguration/api/v1/connections",
+        "health": "ok",
+        "source": "Internal endpoints / M462 POST",
+        "address": "M462 \u00b7 POST",
+        "method": "POST",
+        "mon": "M462"
+      },
+      {
+        "name": "/cotsconfiguration/api/v1/routes/ROUTE",
+        "health": "ok",
+        "source": "Internal endpoints / M463 PUT",
+        "address": "M463 \u00b7 PUT",
+        "method": "PUT",
+        "mon": "M463"
+      },
+      {
+        "name": "/cotsconfiguration/api/v1/routes/ROUTE",
+        "health": "ok",
+        "source": "Internal endpoints / M464 DELETE",
+        "address": "M464 \u00b7 DELETE",
+        "method": "DELETE",
+        "mon": "M464"
+      },
+      {
+        "name": "/flight/api/v1/email/flight-counts-mismatch",
+        "health": "ok",
+        "source": "Internal endpoints / M465 POST",
+        "address": "M465 \u00b7 POST",
+        "method": "POST",
+        "mon": "M465"
+      },
+      {
+        "name": "/metar/api/weather/add",
+        "health": "ok",
+        "source": "Internal endpoints / M466 POST",
+        "address": "M466 \u00b7 POST",
+        "method": "POST",
+        "mon": "M466"
+      },
+      {
+        "name": "/metar/api/weather/delete",
+        "health": "ok",
+        "source": "Internal endpoints / M467 DELETE",
+        "address": "M467 \u00b7 DELETE",
+        "method": "DELETE",
+        "mon": "M467"
+      },
+      {
+        "name": "/metar/api/weather/records",
+        "health": "ok",
+        "source": "Internal endpoints / M468 GET",
+        "address": "M468 \u00b7 GET",
+        "method": "GET",
+        "mon": "M468"
+      },
+      {
+        "name": "/metar/api/weather/update",
+        "health": "ok",
+        "source": "Internal endpoints / M469 PUT",
+        "address": "M469 \u00b7 PUT",
+        "method": "PUT",
+        "mon": "M469"
+      },
+      {
+        "name": "/metar/api/weather/latest",
+        "health": "ok",
+        "source": "Internal endpoints / M470 GET",
+        "address": "M470 \u00b7 GET",
+        "method": "GET",
+        "mon": "M470"
+      },
+      {
+        "name": "/admin/api/v1/application-usage",
+        "health": "ok",
+        "source": "Internal endpoints / M471 DELETE",
+        "address": "M471 \u00b7 DELETE",
+        "method": "DELETE",
+        "mon": "M471"
+      },
+      {
+        "name": "/admin/api/v1/application-usage",
+        "health": "ok",
+        "source": "Internal endpoints / M472 POST",
+        "address": "M472 \u00b7 POST",
+        "method": "POST",
+        "mon": "M472"
+      },
+      {
+        "name": "/admin/api/v1/application-usage-summary",
+        "health": "ok",
+        "source": "Internal endpoints / M473 GET",
+        "address": "M473 \u00b7 GET",
+        "method": "GET",
+        "mon": "M473"
+      },
+      {
+        "name": "/admin/api/v1/module-usage",
+        "health": "ok",
+        "source": "Internal endpoints / M474 GET",
+        "address": "M474 \u00b7 GET",
+        "method": "GET",
+        "mon": "M474"
+      },
+      {
+        "name": "/admin/api/v1/user-usage-summary",
+        "health": "ok",
+        "source": "Internal endpoints / M475 GET",
+        "address": "M475 \u00b7 GET",
+        "method": "GET",
+        "mon": "M475"
+      },
+      {
+        "name": "/dispatch/api/v1/cost-index",
+        "health": "ok",
+        "source": "Internal endpoints / M476 GET",
+        "address": "M476 \u00b7 GET",
+        "method": "GET",
+        "mon": "M476"
+      },
+      {
+        "name": "/dispatch/api/v1/fuel-information",
+        "health": "ok",
+        "source": "Internal endpoints / M477 POST",
+        "address": "M477 \u00b7 POST",
+        "method": "POST",
+        "mon": "M477"
+      },
+      {
+        "name": "/dispatch/api/v1/fuel-information",
+        "health": "ok",
+        "source": "Internal endpoints / M478 PUT",
+        "address": "M478 \u00b7 PUT",
+        "method": "PUT",
+        "mon": "M478"
+      },
+      {
+        "name": "/dispatch/api/v1/fuel-information-export",
+        "health": "ok",
+        "source": "Internal endpoints / M479 POST",
+        "address": "M479 \u00b7 POST",
+        "method": "POST",
+        "mon": "M479"
+      },
+      {
+        "name": "/weather/api/v1/fuel-advisory",
+        "health": "ok",
+        "source": "Internal endpoints / M480 POST",
+        "address": "M480 \u00b7 POST",
+        "method": "POST",
+        "mon": "M480"
+      },
+      {
+        "name": "/weather/api/v1/fuel-advisory",
+        "health": "ok",
+        "source": "Internal endpoints / M481 GET",
+        "address": "M481 \u00b7 GET",
+        "method": "GET",
+        "mon": "M481"
+      },
+      {
+        "name": "/weather/api/v1/fuel-advisory/{id}",
+        "health": "ok",
+        "source": "Internal endpoints / M482 PUT",
+        "address": "M482 \u00b7 PUT",
+        "method": "PUT",
+        "mon": "M482"
+      },
+      {
+        "name": "/weather/api/v1/fuel-advisory/{id}",
+        "health": "ok",
+        "source": "Internal endpoints / M483 DELETE",
+        "address": "M483 \u00b7 DELETE",
+        "method": "DELETE",
+        "mon": "M483"
+      },
+      {
+        "name": "/weather/api/v1/met-mapping",
+        "health": "ok",
+        "source": "Internal endpoints / M484 POST",
+        "address": "M484 \u00b7 POST",
+        "method": "POST",
+        "mon": "M484"
+      },
+      {
+        "name": "/weather/api/v1/met-mapping",
+        "health": "ok",
+        "source": "Internal endpoints / M485 GET",
+        "address": "M485 \u00b7 GET",
+        "method": "GET",
+        "mon": "M485"
+      },
+      {
+        "name": "/weather/api/v1/met-mapping/{id}",
+        "health": "ok",
+        "source": "Internal endpoints / M486 PUT",
+        "address": "M486 \u00b7 PUT",
+        "method": "PUT",
+        "mon": "M486"
+      },
+      {
+        "name": "/weather/api/v1/met-mapping/{id}",
+        "health": "ok",
+        "source": "Internal endpoints / M487 DELETE",
+        "address": "M487 \u00b7 DELETE",
+        "method": "DELETE",
+        "mon": "M487"
+      },
+      {
+        "name": "/weather/api/v1/metar-tafor",
+        "health": "ok",
+        "source": "Internal endpoints / M488 POST",
+        "address": "M488 \u00b7 POST",
+        "method": "POST",
+        "mon": "M488"
+      },
+      {
+        "name": "/weather/api/v1/metar-tafor-detail",
+        "health": "ok",
+        "source": "Internal endpoints / M489 POST",
+        "address": "M489 \u00b7 POST",
+        "method": "POST",
+        "mon": "M489"
+      },
+      {
+        "name": "/weather/api/v1/metar-tafor",
+        "health": "ok",
+        "source": "Internal endpoints / M490 PUT",
+        "address": "M490 \u00b7 PUT",
+        "method": "PUT",
+        "mon": "M490"
+      },
+      {
+        "name": "/weather/api/v1/metar-tafor/{id}",
+        "health": "ok",
+        "source": "Internal endpoints / M491 DELETE",
+        "address": "M491 \u00b7 DELETE",
+        "method": "DELETE",
+        "mon": "M491"
+      },
+      {
+        "name": "/flight/api/v1/joc-nav-aims-comparison/export",
+        "health": "ok",
+        "source": "Internal endpoints / M492 POST",
+        "address": "M492 \u00b7 POST",
+        "method": "POST",
+        "mon": "M492"
+      },
+      {
+        "name": "/flight/api/v1/joc-nav-aims-comparison/export-future",
+        "health": "ok",
+        "source": "Internal endpoints / M493 POST",
+        "address": "M493 \u00b7 POST",
+        "method": "POST",
+        "mon": "M493"
+      },
+      {
+        "name": "/flight/api/v1/joc-nav-aims-comparison/reports",
+        "health": "ok",
+        "source": "Internal endpoints / M494 POST",
+        "address": "M494 \u00b7 POST",
+        "method": "POST",
+        "mon": "M494"
+      },
+      {
+        "name": "/flight/api/v1/joc-nav-aims-comparison/reports-future",
+        "health": "ok",
+        "source": "Internal endpoints / M495 POST",
+        "address": "M495 \u00b7 POST",
+        "method": "POST",
+        "mon": "M495"
+      },
+      {
+        "name": "/crewdashboard/api/v1/crew-dashboard/pending-notifications-details",
+        "health": "ok",
+        "source": "Internal endpoints / M496 GET",
+        "address": "M496 \u00b7 GET",
+        "method": "GET",
+        "mon": "M496"
+      }
+    ],
+    "external": [
+      {
+        "name": "ORI",
+        "health": "ok",
+        "source": "New design 16 june 26 Abhinav / External Services",
+        "address": "External Services"
+      },
+      {
+        "name": "JOC",
+        "health": "ok",
+        "source": "New design 16 june 26 Abhinav / External Services",
+        "address": "External Services"
+      },
+      {
+        "name": "Navitar",
+        "health": "ok",
+        "source": "New design 16 june 26 Abhinav / External Services",
+        "address": "External Services"
+      },
+      {
+        "name": "NavBlue",
+        "health": "down",
+        "source": "New design 16 june 26 Abhinav / External Services",
+        "address": "External Services"
+      },
+      {
+        "name": "6EAviate",
+        "health": "ok",
+        "source": "New design 16 june 26 Abhinav / External Services",
+        "address": "External Services"
+      },
+      {
+        "name": "Jeppson",
+        "health": "ok",
+        "source": "New design 16 june 26 Abhinav / External Services",
+        "address": "External Services"
+      },
+      {
+        "name": "PROVERNE",
+        "health": "ok",
+        "source": "New design 16 june 26 Abhinav / External Services",
+        "address": "External Services"
+      },
+      {
+        "name": "HOTAC",
+        "health": "ok",
+        "source": "New design 16 june 26 Abhinav / External Services",
+        "address": "External Services"
+      },
+      {
+        "name": "Notification",
+        "health": "ok",
+        "source": "New design 16 june 26 Abhinav / External Services",
+        "address": "External Services"
+      },
+      {
+        "name": "Metar",
+        "health": "ok",
+        "source": "New design 16 june 26 Abhinav / External Services",
+        "address": "External Services"
+      },
+      {
+        "name": "Wingops",
+        "health": "ok",
+        "source": "New design 16 june 26 Abhinav / External Services",
+        "address": "External Services"
+      }
+    ],
+    "jobs": [
+      {
+        "name": "api/v1/gpu/gpu-scheduler",
+        "health": "ok",
+        "source": "New design 16 june 26 Abhinav / Cron Job",
+        "address": "12:00 AM daily"
+      },
+      {
+        "name": "api/v1/email/crew-duty-change Every 5 min",
+        "health": "ok",
+        "source": "New design 16 june 26 Abhinav / Cron Job",
+        "address": "scheduled job"
+      },
+      {
+        "name": "api/v1/mvt/ scheduler/process",
+        "health": "ok",
+        "source": "New design 16 june 26 Abhinav / Cron Job",
+        "address": "IST 13:00 hrs daily"
+      },
+      {
+        "name": "/api/v1/email/sir",
+        "health": "ok",
+        "source": "New design 16 june 26 Abhinav / Cron Job",
+        "address": "10 AM Daily"
+      },
+      {
+        "name": "/api/v1/scr Every 5 min",
+        "health": "ok",
+        "source": "New design 16 june 26 Abhinav / Cron Job",
+        "address": "scheduled job"
+      },
+      {
+        "name": "/api/v1/email/flight-counts-mismatch",
+        "health": "ok",
+        "source": "New design 16 june 26 Abhinav / Cron Job",
+        "address": "10:30 AM daily"
+      },
+      {
+        "name": "email/refresh-subscriptions",
+        "health": "ok",
+        "source": "New design 16 june 26 Abhinav / Cron Job",
+        "address": "10 AM Daily"
+      }
+    ],
+    "kafka_producer": [
+      {
+        "name": "prod.crd.logistics-summary.v1.json",
+        "health": "ok",
+        "source": "New design 16 june 26 Abhinav / occhub-streamorchestrator-ms-release Topic's / Micro services / prod.crd.logistics-summary.v1.json",
+        "address": "kafka topic"
+      },
+      {
+        "name": "prod.crd.pending-notifications-base.v1.error.json",
+        "health": "ok",
+        "source": "New design 16 june 26 Abhinav / occhub-streamorchestrator-ms-release Topic's / Micro services / prod.crd.pending-notifications-base.v1.error.json",
+        "address": "kafka topic"
+      },
+      {
+        "name": "prod.crd.communication-summary.v1.error.json",
+        "health": "ok",
+        "source": "New design 16 june 26 Abhinav / occhub-streamorchestrator-ms-release Topic's / Micro services / prod.crd.communication-summary.v1.error.json",
+        "address": "kafka topic"
+      },
+      {
+        "name": "prod.crd.unpaired-legs.v1.json",
+        "health": "ok",
+        "source": "New design 16 june 26 Abhinav / occhub-streamorchestrator-ms-release Topic's / Micro services / prod.crd.unpaired-legs.v1.json",
+        "address": "kafka topic"
+      },
+      {
+        "name": "prod.crd.unpaired-legs-base.v1.error.json",
+        "health": "ok",
+        "source": "New design 16 june 26 Abhinav / occhub-streamorchestrator-ms-release Topic's / Micro services / prod.crd.unpaired-legs-base.v1.error.json",
+        "address": "kafka topic"
+      },
+      {
+        "name": "prod.crd.sby-position.v1.json",
+        "health": "ok",
+        "source": "New design 16 june 26 Abhinav / occhub-streamorchestrator-ms-release Topic's / Micro services / prod.crd.sby-position.v1.json",
+        "address": "kafka topic"
+      },
+      {
+        "name": "prod.crd.unpaired-legs.v1.error.json",
+        "health": "ok",
+        "source": "New design 16 june 26 Abhinav / occhub-streamorchestrator-ms-release Topic's / Micro services / prod.crd.unpaired-legs.v1.error.json",
+        "address": "kafka topic"
+      },
+      {
+        "name": "prod.crd.open-trips-position.v1.json",
+        "health": "ok",
+        "source": "New design 16 june 26 Abhinav / occhub-streamorchestrator-ms-release Topic's / Micro services / prod.crd.open-trips-position.v1.json",
+        "address": "kafka topic"
+      },
+      {
+        "name": "prod.crd.na-percentage.v1.error.json",
+        "health": "ok",
+        "source": "New design 16 june 26 Abhinav / occhub-streamorchestrator-ms-release Topic's / Micro services / prod.crd.na-percentage.v1.error.json",
+        "address": "kafka topic"
+      },
+      {
+        "name": "prod.crd.logistics-summary.v1.error.json",
+        "health": "warn",
+        "source": "New design 16 june 26 Abhinav / occhub-streamorchestrator-ms-release Topic's / Micro services / prod.crd.logistics-summary.v1.error.json",
+        "address": "kafka topic"
+      },
+      {
+        "name": "prod.crd.unfinalized-routes.v1.json",
+        "health": "ok",
+        "source": "New design 16 june 26 Abhinav / occhub-streamorchestrator-ms-release Topic's / Micro services / prod.crd.unfinalized-routes.v1.json",
+        "address": "kafka topic"
+      },
+      {
+        "name": "prod.crd.open-trips-main-details.v1.error.json",
+        "health": "ok",
+        "source": "New design 16 june 26 Abhinav / occhub-streamorchestrator-ms-release Topic's / Micro services / prod.crd.open-trips-main-details.v1.error.json",
+        "address": "kafka topic"
+      },
+      {
+        "name": "prod.crd.sby-position.v1.error.json",
+        "health": "ok",
+        "source": "New design 16 june 26 Abhinav / occhub-streamorchestrator-ms-release Topic's / Micro services / prod.crd.sby-position.v1.error.json",
+        "address": "kafka topic"
+      },
+      {
+        "name": "prod.crd.crew-rating-alerts.v1.error.json",
+        "health": "ok",
+        "source": "New design 16 june 26 Abhinav / occhub-streamorchestrator-ms-release Topic's / Micro services / prod.crd.crew-rating-alerts.v1.error.json",
+        "address": "kafka topic"
+      },
+      {
+        "name": "prod.crd.crew-fdtl-summary.v1.error.json",
+        "health": "ok",
+        "source": "New design 16 june 26 Abhinav / occhub-streamorchestrator-ms-release Topic's / Micro services / prod.crd.crew-fdtl-summary.v1.error.json",
+        "address": "kafka topic"
+      },
+      {
+        "name": "prod.crd.crew-rating-alerts.v1.json",
+        "health": "ok",
+        "source": "New design 16 june 26 Abhinav / occhub-streamorchestrator-ms-release Topic's / Micro services / prod.crd.crew-rating-alerts.v1.json",
+        "address": "kafka topic"
+      },
+      {
+        "name": "prod.crd.open-trips-position.v1.error.json",
+        "health": "ok",
+        "source": "New design 16 june 26 Abhinav / occhub-streamorchestrator-ms-release Topic's / Micro services / prod.crd.open-trips-position.v1.error.json",
+        "address": "kafka topic"
+      },
+      {
+        "name": "prod.crd.na-percentage-position.v1.json",
+        "health": "ok",
+        "source": "New design 16 june 26 Abhinav / occhub-streamorchestrator-ms-release Topic's / Micro services / prod.crd.na-percentage-position.v1.json",
+        "address": "kafka topic"
+      },
+      {
+        "name": "prod.crd.unfinalized-routes-base.v1.error.json",
+        "health": "ok",
+        "source": "New design 16 june 26 Abhinav / occhub-streamorchestrator-ms-release Topic's / Micro services / prod.crd.unfinalized-routes-base.v1.error.json",
+        "address": "kafka topic"
+      },
+      {
+        "name": "prod.crd.sby-main.v1.error.json",
+        "health": "ok",
+        "source": "New design 16 june 26 Abhinav / occhub-streamorchestrator-ms-release Topic's / Micro services / prod.crd.sby-main.v1.error.json",
+        "address": "kafka topic"
+      },
+      {
+        "name": "prod.crd.open-trips-main.v1.error.json",
+        "health": "ok",
+        "source": "New design 16 june 26 Abhinav / occhub-streamorchestrator-ms-release Topic's / Micro services / prod.crd.open-trips-main.v1.error.json",
+        "address": "kafka topic"
+      },
+      {
+        "name": "prod.crd.open-sim.v1.error.json",
+        "health": "ok",
+        "source": "New design 16 june 26 Abhinav / occhub-streamorchestrator-ms-release Topic's / Micro services / prod.crd.open-sim.v1.error.json",
+        "address": "kafka topic"
+      },
+      {
+        "name": "prod.crd.unfinalized-routes.v1.error.json",
+        "health": "ok",
+        "source": "New design 16 june 26 Abhinav / occhub-streamorchestrator-ms-release Topic's / Micro services / prod.crd.unfinalized-routes.v1.error.json",
+        "address": "kafka topic"
+      },
+      {
+        "name": "prod.crd.graph-flights.v1.error.json",
+        "health": "ok",
+        "source": "New design 16 june 26 Abhinav / occhub-streamorchestrator-ms-release Topic's / Micro services / prod.crd.graph-flights.v1.error.json",
+        "address": "kafka topic"
+      },
+      {
+        "name": "prod.crd.na-percentage-position.v1.error.json",
+        "health": "ok",
+        "source": "New design 16 june 26 Abhinav / occhub-streamorchestrator-ms-release Topic's / Micro services / prod.crd.na-percentage-position.v1.error.json",
+        "address": "kafka topic"
+      },
+      {
+        "name": "prod.crd.pending-notifications.v1.error.json",
+        "health": "ok",
+        "source": "New design 16 june 26 Abhinav / occhub-streamorchestrator-ms-release Topic's / Micro services / prod.crd.pending-notifications.v1.error.json",
+        "address": "kafka topic"
+      },
+      {
+        "name": "prod.crd.pending-notifications-main-details.v1.error.json",
+        "health": "ok",
+        "source": "New design 16 june 26 Abhinav / occhub-streamorchestrator-ms-release Topic's / Micro services / prod.crd.pending-notifications-main-details.v1.error.json",
+        "address": "kafka topic"
+      },
+      {
+        "name": "prod.crd.open-sim.v1.json",
+        "health": "ok",
+        "source": "New design 16 june 26 Abhinav / occhub-streamorchestrator-ms-release Topic's / Micro services / prod.crd.open-sim.v1.json",
+        "address": "kafka topic"
+      },
+      {
+        "name": "prod.crd.pending-notifications-base.v1.json",
+        "health": "ok",
+        "source": "New design 16 june 26 Abhinav / occhub-streamorchestrator-ms-release Topic's / Micro services / prod.crd.pending-notifications-base.v1.json",
+        "address": "kafka topic"
+      },
+      {
+        "name": "prod.crd.communication-summary.v1.json",
+        "health": "ok",
+        "source": "New design 16 june 26 Abhinav / occhub-streamorchestrator-ms-release Topic's / Micro services / prod.crd.communication-summary.v1.json",
+        "address": "kafka topic"
+      },
+      {
+        "name": "prod.crd.unfinalized-routes-base.v1.json",
+        "health": "ok",
+        "source": "New design 16 june 26 Abhinav / occhub-streamorchestrator-ms-release Topic's / Micro services / prod.crd.unfinalized-routes-base.v1.json",
+        "address": "kafka topic"
+      },
+      {
+        "name": "prod.crd.open-trips-main.v1.json",
+        "health": "ok",
+        "source": "New design 16 june 26 Abhinav / occhub-streamorchestrator-ms-release Topic's / Micro services / prod.crd.open-trips-main.v1.json",
+        "address": "kafka topic"
+      },
+      {
+        "name": "prod.crd.unpaired-legs-base.v1.json",
+        "health": "ok",
+        "source": "New design 16 june 26 Abhinav / occhub-streamorchestrator-ms-release Topic's / Micro services / prod.crd.unpaired-legs-base.v1.json",
+        "address": "kafka topic"
+      },
+      {
+        "name": "prod.crd.na-percentage.v1.json",
+        "health": "ok",
+        "source": "New design 16 june 26 Abhinav / occhub-streamorchestrator-ms-release Topic's / Micro services / prod.crd.na-percentage.v1.json",
+        "address": "kafka topic"
+      },
+      {
+        "name": "prod.crd.open-trips-main-details.v1.json",
+        "health": "ok",
+        "source": "New design 16 june 26 Abhinav / occhub-streamorchestrator-ms-release Topic's / Micro services / prod.crd.open-trips-main-details.v1.json",
+        "address": "kafka topic"
+      },
+      {
+        "name": "prod.crd.sby-main.v1.json",
+        "health": "ok",
+        "source": "New design 16 june 26 Abhinav / occhub-streamorchestrator-ms-release Topic's / Micro services / prod.crd.sby-main.v1.json",
+        "address": "kafka topic"
+      },
+      {
+        "name": "prod.crd.graph-flights.v1.json",
+        "health": "ok",
+        "source": "New design 16 june 26 Abhinav / occhub-streamorchestrator-ms-release Topic's / Micro services / prod.crd.graph-flights.v1.json",
+        "address": "kafka topic"
+      },
+      {
+        "name": "prod.crd.crew-fdtl-summary.v1.json",
+        "health": "ok",
+        "source": "New design 16 june 26 Abhinav / occhub-streamorchestrator-ms-release Topic's / Micro services / prod.crd.crew-fdtl-summary.v1.json",
+        "address": "kafka topic"
+      },
+      {
+        "name": "prod.crd.pending-notifications.v1.json",
+        "health": "ok",
+        "source": "New design 16 june 26 Abhinav / occhub-streamorchestrator-ms-release Topic's / Micro services / prod.crd.pending-notifications.v1.json",
+        "address": "kafka topic"
+      },
+      {
+        "name": "prod.crd.pending-notifications-main-details.v1.json",
+        "health": "ok",
+        "source": "New design 16 june 26 Abhinav / occhub-streamorchestrator-ms-release Topic's / Micro services / prod.crd.pending-notifications-main-details.v1.json",
+        "address": "kafka topic"
+      }
+    ],
+    "kafka_consumer": [
+      {
+        "name": "flight.cancel.event.json",
+        "health": "warn",
+        "source": "New design 16 june 26 Abhinav / Joc kafka Topic's amq-streams-prod-kafka-bootstrap-amq-streams.apps.ocpappprdclu.goindigo.in:443 / Micro services / flight.cancel.event.json",
+        "address": "amq-streams-prod-kafka-bootstrap-amq-streams.apps.ocpappprdclu.goindigo.in:443"
+      },
+      {
+        "name": "flight.equipment.event.json",
+        "health": "ok",
+        "source": "New design 16 june 26 Abhinav / Joc kafka Topic's amq-streams-prod-kafka-bootstrap-amq-streams.apps.ocpappprdclu.goindigo.in:443 / Micro services / flight.equipment.event.json",
+        "address": "amq-streams-prod-kafka-bootstrap-amq-streams.apps.ocpappprdclu.goindigo.in:443"
+      },
+      {
+        "name": "flight.ops.actual.in-block-time.event.json",
+        "health": "ok",
+        "source": "New design 16 june 26 Abhinav / Joc kafka Topic's amq-streams-prod-kafka-bootstrap-amq-streams.apps.ocpappprdclu.goindigo.in:443 / Micro services / flight.ops.actual.in-block-time.event.json",
+        "address": "amq-streams-prod-kafka-bootstrap-amq-streams.apps.ocpappprdclu.goindigo.in:443"
+      },
+      {
+        "name": "flight.ops.actual.off-block-time.event.json",
+        "health": "ok",
+        "source": "New design 16 june 26 Abhinav / Joc kafka Topic's amq-streams-prod-kafka-bootstrap-amq-streams.apps.ocpappprdclu.goindigo.in:443 / Micro services / flight.ops.actual.off-block-time.event.json",
+        "address": "amq-streams-prod-kafka-bootstrap-amq-streams.apps.ocpappprdclu.goindigo.in:443"
+      },
+      {
+        "name": "flight.ops.actual.landing-time.event.json",
+        "health": "ok",
+        "source": "New design 16 june 26 Abhinav / Joc kafka Topic's amq-streams-prod-kafka-bootstrap-amq-streams.apps.ocpappprdclu.goindigo.in:443 / Micro services / flight.ops.actual.landing-time.event.json",
+        "address": "amq-streams-prod-kafka-bootstrap-amq-streams.apps.ocpappprdclu.goindigo.in:443"
+      },
+      {
+        "name": "flight.ops.actual.take-off-time.event.json",
+        "health": "ok",
+        "source": "New design 16 june 26 Abhinav / Joc kafka Topic's amq-streams-prod-kafka-bootstrap-amq-streams.apps.ocpappprdclu.goindigo.in:443 / Micro services / flight.ops.actual.take-off-time.event.json",
+        "address": "amq-streams-prod-kafka-bootstrap-amq-streams.apps.ocpappprdclu.goindigo.in:443"
+      },
+      {
+        "name": "flight.ops.estimated.in-block-time.event.json",
+        "health": "ok",
+        "source": "New design 16 june 26 Abhinav / Joc kafka Topic's amq-streams-prod-kafka-bootstrap-amq-streams.apps.ocpappprdclu.goindigo.in:443 / Micro services / flight.ops.estimated.in-block-time.event.json",
+        "address": "amq-streams-prod-kafka-bootstrap-amq-streams.apps.ocpappprdclu.goindigo.in:443"
+      },
+      {
+        "name": "flight.ops.estimated.off-block-time.event.json",
+        "health": "ok",
+        "source": "New design 16 june 26 Abhinav / Joc kafka Topic's amq-streams-prod-kafka-bootstrap-amq-streams.apps.ocpappprdclu.goindigo.in:443 / Micro services / flight.ops.estimated.off-block-time.event.json",
+        "address": "amq-streams-prod-kafka-bootstrap-amq-streams.apps.ocpappprdclu.goindigo.in:443"
+      },
+      {
+        "name": "flight.ops.estimated.landing-time.event.json",
+        "health": "ok",
+        "source": "New design 16 june 26 Abhinav / Joc kafka Topic's amq-streams-prod-kafka-bootstrap-amq-streams.apps.ocpappprdclu.goindigo.in:443 / Micro services / flight.ops.estimated.landing-time.event.json",
+        "address": "amq-streams-prod-kafka-bootstrap-amq-streams.apps.ocpappprdclu.goindigo.in:443"
+      },
+      {
+        "name": "flight.ops.estimated.take-off-time.event.json",
+        "health": "ok",
+        "source": "New design 16 june 26 Abhinav / Joc kafka Topic's amq-streams-prod-kafka-bootstrap-amq-streams.apps.ocpappprdclu.goindigo.in:443 / Micro services / flight.ops.estimated.take-off-time.event.json",
+        "address": "amq-streams-prod-kafka-bootstrap-amq-streams.apps.ocpappprdclu.goindigo.in:443"
+      },
+      {
+        "name": "flight.delay.event.json",
+        "health": "ok",
+        "source": "New design 16 june 26 Abhinav / Joc kafka Topic's amq-streams-prod-kafka-bootstrap-amq-streams.apps.ocpappprdclu.goindigo.in:443 / Micro services / flight.delay.event.json",
+        "address": "amq-streams-prod-kafka-bootstrap-amq-streams.apps.ocpappprdclu.goindigo.in:443"
+      },
+      {
+        "name": "flight.diversion.event.json",
+        "health": "ok",
+        "source": "New design 16 june 26 Abhinav / Joc kafka Topic's amq-streams-prod-kafka-bootstrap-amq-streams.apps.ocpappprdclu.goindigo.in:443 / Micro services / flight.diversion.event.json",
+        "address": "amq-streams-prod-kafka-bootstrap-amq-streams.apps.ocpappprdclu.goindigo.in:443"
+      },
+      {
+        "name": "flight.return.event.json",
+        "health": "ok",
+        "source": "New design 16 june 26 Abhinav / Joc kafka Topic's amq-streams-prod-kafka-bootstrap-amq-streams.apps.ocpappprdclu.goindigo.in:443 / Micro services / flight.return.event.json",
+        "address": "amq-streams-prod-kafka-bootstrap-amq-streams.apps.ocpappprdclu.goindigo.in:443"
+      },
+      {
+        "name": "flight.gate-return.event.json",
+        "health": "ok",
+        "source": "New design 16 june 26 Abhinav / Joc kafka Topic's amq-streams-prod-kafka-bootstrap-amq-streams.apps.ocpappprdclu.goindigo.in:443 / Micro services / flight.gate-return.event.json",
+        "address": "amq-streams-prod-kafka-bootstrap-amq-streams.apps.ocpappprdclu.goindigo.in:443"
+      },
+      {
+        "name": "flight.new.event.json",
+        "health": "ok",
+        "source": "New design 16 june 26 Abhinav / Joc kafka Topic's amq-streams-prod-kafka-bootstrap-amq-streams.apps.ocpappprdclu.goindigo.in:443 / Micro services / flight.new.event.json",
+        "address": "amq-streams-prod-kafka-bootstrap-amq-streams.apps.ocpappprdclu.goindigo.in:443"
+      },
+      {
+        "name": "prd.cms.roster.update.v1.json",
+        "health": "ok",
+        "source": "New design 16 june 26 Abhinav / AIMS kafka Topic's amq-streams-prod-kafka-bootstrap-amq-streams.apps.ocpappprdclu2.goindigo.in:443 / Micro services / prd.cms.roster.update.v1.json",
+        "address": "amq-streams-prod-kafka-bootstrap-amq-streams.apps.ocpappprdclu2.goindigo.in:443"
+      },
+      {
+        "name": "prd.cms.roster.insert.v1.json",
+        "health": "ok",
+        "source": "New design 16 june 26 Abhinav / AIMS kafka Topic's amq-streams-prod-kafka-bootstrap-amq-streams.apps.ocpappprdclu2.goindigo.in:443 / Micro services / prd.cms.roster.insert.v1.json",
+        "address": "amq-streams-prod-kafka-bootstrap-amq-streams.apps.ocpappprdclu2.goindigo.in:443"
+      },
+      {
+        "name": "prd.cms.roster.delete.v1.json",
+        "health": "ok",
+        "source": "New design 16 june 26 Abhinav / AIMS kafka Topic's amq-streams-prod-kafka-bootstrap-amq-streams.apps.ocpappprdclu2.goindigo.in:443 / Micro services / prd.cms.roster.delete.v1.json",
+        "address": "amq-streams-prod-kafka-bootstrap-amq-streams.apps.ocpappprdclu2.goindigo.in:443"
+      }
+    ],
+    "redis": [
+      {
+        "name": "Redis",
+        "health": "ok",
+        "source": "New design 16 june 26 Abhinav",
+        "address": "OCP cache layer"
+      }
+    ],
+    "shared_path": [
+      {
+        "name": "JOC MVT Path",
+        "health": "ok",
+        "source": "New design 16 june 26 Abhinav / Shared Path",
+        "address": "Shared Path"
+      },
+      {
+        "name": "AIMS MVT Path",
+        "health": "ok",
+        "source": "New design 16 june 26 Abhinav / Shared Path",
+        "address": "Shared Path"
+      }
+    ],
+    "sp": [
+      {
+        "name": "[CRA].[RosterAutomation_GetCrewEmployment]",
+        "health": "ok",
+        "source": "SP / New design 16 june 26 Abhinav",
+        "address": "M15",
+        "mon": "M15"
+      },
+      {
+        "name": "[CRA].[RosterAutomation_GetCrewCategories]",
+        "health": "ok",
+        "source": "SP / New design 16 june 26 Abhinav",
+        "address": "M16",
+        "mon": "M16"
+      },
+      {
+        "name": "[CRA].[RosterAutomation_GetFlightDetailsForSSIM]",
+        "health": "ok",
+        "source": "SP / New design 16 june 26 Abhinav",
+        "address": "M17",
+        "mon": "M17"
+      },
+      {
+        "name": "[CRA].[RosterAutomation_GetCrewDetails]",
+        "health": "ok",
+        "source": "SP / New design 16 june 26 Abhinav",
+        "address": "M18",
+        "mon": "M18"
+      },
+      {
+        "name": "[CRA].[RosterAutomation_GetCrewRoster]",
+        "health": "ok",
+        "source": "SP / New design 16 june 26 Abhinav",
+        "address": "M19",
+        "mon": "M19"
+      },
+      {
+        "name": "[CRA].[RosterAutomation_GetCrewRoutes]",
+        "health": "ok",
+        "source": "SP / New design 16 june 26 Abhinav",
+        "address": "M20",
+        "mon": "M20"
+      },
+      {
+        "name": "[CRA].[RosterAutomation_GetCrewRulesAndPreferences]",
+        "health": "ok",
+        "source": "SP / New design 16 june 26 Abhinav",
+        "address": "M21",
+        "mon": "M21"
+      },
+      {
+        "name": "[CRA].[RosterAutomation_GetCrewExpiryDetails]",
+        "health": "ok",
+        "source": "SP / New design 16 june 26 Abhinav",
+        "address": "M22",
+        "mon": "M22"
+      },
+      {
+        "name": "[CRA].[RosterAutomation_usp_GetCrewSimGroundExpiry]",
+        "health": "ok",
+        "source": "SP / New design 16 june 26 Abhinav",
+        "address": "M23",
+        "mon": "M23"
+      },
+      {
+        "name": "[CRA].[RosterAutomation_elearningexpirytxt]",
+        "health": "ok",
+        "source": "SP / New design 16 june 26 Abhinav",
+        "address": "M24",
+        "mon": "M24"
+      },
+      {
+        "name": "[CRA].[RosterAutomation_GetSimAndGroundSlots]",
+        "health": "ok",
+        "source": "SP / New design 16 june 26 Abhinav",
+        "address": "M25",
+        "mon": "M25"
+      },
+      {
+        "name": "CRD_GetPublishedCrewDutiesWithFlt_For_API",
+        "health": "ok",
+        "source": "SP / New design 16 june 26 Abhinav",
+        "address": "M26",
+        "mon": "M26"
+      },
+      {
+        "name": "CRD_SP_GetActiveACQualifications",
+        "health": "ok",
+        "source": "SP / New design 16 june 26 Abhinav",
+        "address": "M27",
+        "mon": "M27"
+      },
+      {
+        "name": "dbo.CRD_SP_CrewDashboardOpenSim2_For_API",
+        "health": "ok",
+        "source": "SP / New design 16 june 26 Abhinav",
+        "address": "M28",
+        "mon": "M28"
+      },
+      {
+        "name": "dbo.CRD_SP_GetCrewRouteDiscrepancies_V10_For_API",
+        "health": "ok",
+        "source": "SP / New design 16 june 26 Abhinav",
+        "address": "M29",
+        "mon": "M29"
+      },
+      {
+        "name": "CRD_SP_ValidateCrewComposition_For_API",
+        "health": "ok",
+        "source": "SP / New design 16 june 26 Abhinav",
+        "address": "M30",
+        "mon": "M30"
+      },
+      {
+        "name": "CRD_SP_GetFlightScheduleByISTTimeRange_For_API",
+        "health": "ok",
+        "source": "SP / New design 16 june 26 Abhinav",
+        "address": "M31",
+        "mon": "M31"
+      },
+      {
+        "name": "CRD_SP_DashboardPendingNotificationsV3_For_API",
+        "health": "ok",
+        "source": "SP / New design 16 june 26 Abhinav",
+        "address": "M32",
+        "mon": "M32"
+      },
+      {
+        "name": "dbo.CRD_SP_CrewOpsDashboardSBYAvailableV2_For_API",
+        "health": "ok",
+        "source": "SP / New design 16 june 26 Abhinav",
+        "address": "M33",
+        "mon": "M33"
+      },
+      {
+        "name": "CRD_SP_GetCrewExpectedCounts_Unfinalised_For_API",
+        "health": "ok",
+        "source": "SP / New design 16 june 26 Abhinav",
+        "address": "M34",
+        "mon": "M34"
+      },
+      {
+        "name": "CRD_SP_GetFirstFlightStartTime_unfinalizedRoutes_For_API",
+        "health": "ok",
+        "source": "SP / New design 16 june 26 Abhinav",
+        "address": "M35",
+        "mon": "M35"
+      },
+      {
+        "name": "CRD_SP_GetMissingFlightsUnpaired_For_API",
+        "health": "ok",
+        "source": "SP / New design 16 june 26 Abhinav",
+        "address": "M36",
+        "mon": "M36"
+      },
+      {
+        "name": "CRD_SP_ValidateCrewCompositionForUnpairedLegs_For_API",
+        "health": "ok",
+        "source": "SP / New design 16 june 26 Abhinav",
+        "address": "M37",
+        "mon": "M37"
+      },
+      {
+        "name": "CRD_SP_GetCrewExpectedCounts_For_API",
+        "health": "ok",
+        "source": "SP / New design 16 june 26 Abhinav",
+        "address": "M38",
+        "mon": "M38"
+      },
+      {
+        "name": "CRD_SP_GetCrewExpectedCountsv2_For_API",
+        "health": "ok",
+        "source": "SP / New design 16 june 26 Abhinav",
+        "address": "M39",
+        "mon": "M39"
+      },
+      {
+        "name": "CRD_SP_GetFlightDescriptionCroutes_For_API",
+        "health": "ok",
+        "source": "SP / New design 16 june 26 Abhinav",
+        "address": "M40",
+        "mon": "M40"
+      }
+    ],
+    "ms": [
+      {
+        "name": "occhub-admin-ms",
+        "health": "ok",
+        "source": "New design 16 june 26 Abhinav / Micro services",
+        "address": "Micro services \u00b7 OpenShift"
+      },
+      {
+        "name": "occhub-flight-ms",
+        "health": "ok",
+        "source": "New design 16 june 26 Abhinav / Micro services",
+        "address": "Micro services \u00b7 OpenShift"
+      },
+      {
+        "name": "occhub-crew-ms",
+        "health": "ok",
+        "source": "New design 16 june 26 Abhinav / Micro services",
+        "address": "Micro services \u00b7 OpenShift"
+      },
+      {
+        "name": "occhub-dispatch-ms",
+        "health": "ok",
+        "source": "New design 16 june 26 Abhinav / Micro services",
+        "address": "Micro services \u00b7 OpenShift"
+      },
+      {
+        "name": "occhub-weather-ms",
+        "health": "ok",
+        "source": "New design 16 june 26 Abhinav / Micro services",
+        "address": "Micro services \u00b7 OpenShift"
+      },
+      {
+        "name": "occhub-externalcomunication-ms",
+        "health": "ok",
+        "source": "New design 16 june 26 Abhinav / Micro services",
+        "address": "Micro services \u00b7 OpenShift"
+      },
+      {
+        "name": "occhub-crewresoucedashboard-ms",
+        "health": "ok",
+        "source": "New design 16 june 26 Abhinav / Micro services",
+        "address": "Micro services \u00b7 OpenShift"
+      },
+      {
+        "name": "occhub-rosterautomation-ms",
+        "health": "ok",
+        "source": "New design 16 june 26 Abhinav / Micro services",
+        "address": "Micro services \u00b7 OpenShift"
+      },
+      {
+        "name": "occhub-streamorchestor-ms",
+        "health": "ok",
+        "source": "New design 16 june 26 Abhinav / Micro services",
+        "address": "Micro services \u00b7 OpenShift"
+      },
+      {
+        "name": "occhub-ingesthub-ms",
+        "health": "ok",
+        "source": "New design 16 june 26 Abhinav / Micro services",
+        "address": "Micro services \u00b7 OpenShift"
+      },
+      {
+        "name": "occhub-eventConsumer-service-ms",
+        "health": "ok",
+        "source": "New design 16 june 26 Abhinav / Micro services",
+        "address": "Micro services \u00b7 OpenShift"
+      }
+    ],
+    "mongo": [
+      {
+        "name": "Occhub (MongoDB)",
+        "health": "ok",
+        "source": "New design 16 june 26 Abhinav",
+        "address": "document store \u00b7 Occhub"
+      }
+    ],
+    "aims": [
+      {
+        "name": "AIMS (MSQL)",
+        "health": "ok",
+        "source": "New design 16 june 26 Abhinav",
+        "address": "system of record \u00b7 MSQL"
+      }
+    ],
+    "uncategorized": []
+  },
+  "microservices": [
+    "occhub-admin-ms",
+    "occhub-flight-ms",
+    "occhub-crew-ms",
+    "occhub-dispatch-ms",
+    "occhub-weather-ms",
+    "occhub-externalcomunication-ms",
+    "occhub-crewresoucedashboard-ms",
+    "occhub-rosterautomation-ms",
+    "occhub-streamorchestor-ms",
+    "occhub-ingesthub-ms",
+    "occhub-eventConsumer-service-ms"
+  ],
+  "apps": [
+    {
+      "code": "ACRA",
+      "name": "Aircraft and Crew Rating Alert",
+      "ring": 0,
+      "health": "ok",
+      "source": "New design 16 june 26 Abhinav / Apps",
+      "address": "Operations application"
+    },
+    {
+      "code": "AHS",
+      "name": "Arrival Hold Summary",
+      "ring": 1,
+      "health": "ok",
+      "source": "New design 16 june 26 Abhinav / Apps",
+      "address": "Operations application"
+    },
+    {
+      "code": "AD",
+      "name": "APM Details",
+      "ring": 0,
+      "health": "ok",
+      "source": "New design 16 june 26 Abhinav / Apps",
+      "address": "Operations application"
+    },
+    {
+      "code": "ADMINS",
+      "name": "Admins",
+      "ring": 1,
+      "health": "ok",
+      "source": "New design 16 june 26 Abhinav / Apps",
+      "address": "Operations application"
+    },
+    {
+      "code": "BD",
+      "name": "Base Departures",
+      "ring": 0,
+      "health": "ok",
+      "source": "New design 16 june 26 Abhinav / Apps",
+      "address": "Operations application"
+    },
+    {
+      "code": "CA",
+      "name": "CTOT Automation",
+      "ring": 1,
+      "health": "ok",
+      "source": "New design 16 june 26 Abhinav / Apps",
+      "address": "Operations application"
+    },
+    {
+      "code": "RIF",
+      "name": "Roster Input Files",
+      "ring": 0,
+      "health": "ok",
+      "source": "New design 16 june 26 Abhinav / Apps",
+      "address": "Operations application"
+    },
+    {
+      "code": "GPU",
+      "name": "Ground Power Unit (GPU)",
+      "ring": 1,
+      "health": "ok",
+      "source": "New design 16 june 26 Abhinav / Apps",
+      "address": "Operations application"
+    },
+    {
+      "code": "JNAC",
+      "name": "JOC NAV AIMS Comparison",
+      "ring": 0,
+      "health": "ok",
+      "source": "New design 16 june 26 Abhinav / Apps",
+      "address": "Operations application"
+    },
+    {
+      "code": "PETD",
+      "name": "Postponement (PETD)",
+      "ring": 1,
+      "health": "ok",
+      "source": "New design 16 june 26 Abhinav / Apps",
+      "address": "Operations application"
+    },
+    {
+      "code": "SFM",
+      "name": "Standby Flight Movement",
+      "ring": 0,
+      "health": "down",
+      "source": "New design 16 june 26 Abhinav / Apps",
+      "address": "Operations application"
+    },
+    {
+      "code": "SCR",
+      "name": "Slot Change Request (SCR)",
+      "ring": 1,
+      "health": "ok",
+      "source": "New design 16 june 26 Abhinav / Apps",
+      "address": "Operations application"
+    },
+    {
+      "code": "FI",
+      "name": "Fuel Information",
+      "ring": 0,
+      "health": "ok",
+      "source": "New design 16 june 26 Abhinav / Apps",
+      "address": "Operations application"
+    },
+    {
+      "code": "FHFM",
+      "name": "Flight & Hold Fuel Monitoring",
+      "ring": 1,
+      "health": "ok",
+      "source": "New design 16 june 26 Abhinav / Apps",
+      "address": "Operations application"
+    },
+    {
+      "code": "IG",
+      "name": "IndiGo GD",
+      "ring": 0,
+      "health": "ok",
+      "source": "New design 16 june 26 Abhinav / Apps",
+      "address": "Operations application"
+    },
+    {
+      "code": "RE",
+      "name": "Rule Engine",
+      "ring": 1,
+      "health": "ok",
+      "source": "New design 16 june 26 Abhinav / Apps",
+      "address": "Operations application"
+    },
+    {
+      "code": "UA",
+      "name": "User Adoption",
+      "ring": 0,
+      "health": "ok",
+      "source": "New design 16 june 26 Abhinav / Apps",
+      "address": "Operations application"
+    },
+    {
+      "code": "CCT",
+      "name": "Crew Connection Tracker",
+      "ring": 1,
+      "health": "ok",
+      "source": "New design 16 june 26 Abhinav / Apps",
+      "address": "Operations application"
+    },
+    {
+      "code": "CRD",
+      "name": "Crew Resource Dashboard",
+      "ring": 0,
+      "health": "down",
+      "source": "New design 16 june 26 Abhinav / Apps",
+      "address": "Operations application"
+    },
+    {
+      "code": "MP",
+      "name": "Met Plus",
+      "ring": 1,
+      "health": "ok",
+      "source": "New design 16 june 26 Abhinav / Apps",
+      "address": "Operations application"
+    },
+    {
+      "code": "STRATO",
+      "name": "Stratosphere",
+      "ring": 0,
+      "health": "ok",
+      "source": "New design 16 june 26 Abhinav / Apps",
+      "address": "Operations application"
+    },
+    {
+      "code": "MCM",
+      "name": "METAR and Crew Manifest",
+      "ring": 1,
+      "health": "ok",
+      "source": "New design 16 june 26 Abhinav / Apps",
+      "address": "Operations application"
+    }
+  ]
+}

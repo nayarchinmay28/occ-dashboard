@@ -1,0 +1,1286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>6E · Operations Control Centre — Orbital Topology</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg-0:#03060F;--bg-1:#060B1A;--ink:#E6EEFF;--ink-dim:#8AA0D8;--ink-faint:#52689F;
+    --panel-stroke:rgba(90,140,255,.20);--indigo:#2E7BFF;--indigo-2:#6BA4FF;--cyan:#59E0FF;
+    --ok:#3CC8FF;--warn:#FFC24B;--crit:#FF5C7E;--down:#FF3B4E;--violet:#4F8BFF;--grid:rgba(70,120,230,.07);
+    --mono:"JetBrains Mono",ui-monospace,monospace;--disp:"Space Grotesk",system-ui,sans-serif;--body:"Inter",system-ui,sans-serif;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;height:100%;background:var(--bg-0);color:var(--ink);font-family:var(--body);overflow:hidden;font-size:15px}
+  #stage{position:fixed;inset:0;background:radial-gradient(1300px 850px at 50% 40%,#0B1E47 0%,var(--bg-1) 46%,var(--bg-0) 100%)}
+  svg{position:absolute;inset:0;width:100%;height:100%;display:block;touch-action:none;cursor:grab}
+  svg.grabbing{cursor:grabbing}
+
+  .hud{position:absolute;z-index:5;pointer-events:none}
+  .hud *{pointer-events:auto}
+  .hud.brand,.hud.metrics,.hud.controls,.hud.ticker{pointer-events:auto}
+  .glass{background:linear-gradient(180deg,rgba(20,30,66,.8),rgba(10,15,38,.74));border:1px solid var(--panel-stroke);
+    border-radius:14px;backdrop-filter:blur(14px);box-shadow:0 12px 40px rgba(0,0,0,.45),inset 0 1px 0 rgba(255,255,255,.04)}
+
+  .brand{top:18px;left:18px;padding:14px 18px}
+  .brand .row{display:flex;align-items:center;gap:12px}
+  .logo{width:38px;height:38px;border-radius:10px;display:grid;place-items:center;background:linear-gradient(135deg,var(--indigo),var(--cyan));
+    font-family:var(--disp);font-weight:700;font-size:17px;box-shadow:0 0 24px rgba(46,123,255,.6)}
+  .brand h1{font-family:var(--disp);font-size:16px;font-weight:600;margin:0}
+  .brand .sub{font-family:var(--mono);font-size:11px;color:var(--ink-dim);letter-spacing:.6px;margin-top:2px}
+  .live{display:inline-flex;align-items:center;gap:6px;font-family:var(--mono);font-size:11px;color:var(--ok);margin-top:8px}
+  .live .dot{width:7px;height:7px;border-radius:50%;background:var(--ok);box-shadow:0 0 10px var(--ok);animation:blink 1.6s infinite}
+  @keyframes blink{0%,100%{opacity:1}50%{opacity:.25}}
+
+  .metrics{top:18px;right:18px;z-index:25;padding:14px 16px;min-width:280px;transition:opacity .28s,transform .28s,visibility .28s}
+  .metrics.metrics-hidden{opacity:0;visibility:hidden;pointer-events:none;transform:translateY(-8px)}
+  .metrics-head{display:flex;align-items:center;justify-content:space-between;gap:12px;width:100%;cursor:pointer;user-select:none}
+  .metrics-head:hover h2{color:var(--ink)}
+  .metrics h2{font-family:var(--mono);font-size:11px;letter-spacing:1.4px;color:var(--ink-dim);margin:0;text-transform:uppercase;transition:color .15s}
+  .metrics-chev{font-size:11px;color:var(--ink-dim);transition:transform .3s cubic-bezier(.22,1,.36,1)}
+  .metrics.open .metrics-chev{transform:rotate(180deg)}
+  .metrics-body{max-height:0;overflow:hidden;opacity:0;transition:max-height .35s cubic-bezier(.22,1,.36,1),opacity .25s,margin .35s;margin-top:0}
+  .metrics.open .metrics-body{max-height:420px;opacity:1;margin-top:10px;overflow-y:auto}
+  .mgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+  #m-probe{font-family:var(--mono);font-size:11px;color:var(--ink-dim);line-height:1.3}
+  .metric{background:rgba(8,12,30,.55);border:1px solid rgba(120,150,255,.12);border-radius:10px;padding:9px 10px}
+  .metric .k{font-family:var(--mono);font-size:10px;letter-spacing:.6px;color:var(--ink-dim);text-transform:uppercase}
+  .metric .v{font-family:var(--disp);font-size:21px;font-weight:600;margin-top:3px;line-height:1}
+  .metric .u{font-size:11px;color:var(--ink-dim);font-family:var(--mono);margin-left:3px}
+  .spark{margin-top:10px;height:34px;width:100%}
+
+  .controls{bottom:18px;left:18px;padding:12px 14px;display:flex;flex-direction:column;gap:10px}
+  .legend-head{display:flex;align-items:center;justify-content:space-between;gap:12px;cursor:pointer;user-select:none}
+  .legend-head:hover h2{color:var(--ink)}
+  .legend-head h2{font-family:var(--mono);font-size:11px;letter-spacing:1.4px;color:var(--ink-dim);margin:0;text-transform:uppercase;transition:color .15s}
+  .legend-chev{font-size:11px;color:var(--ink-dim);transition:transform .3s cubic-bezier(.22,1,.36,1)}
+  .legend-panel.open .legend-chev{transform:rotate(180deg)}
+  .legend-body{max-height:0;overflow:hidden;opacity:0;transition:max-height .35s cubic-bezier(.22,1,.36,1),opacity .25s,margin .35s;margin-top:0}
+  .legend-panel.open .legend-body{max-height:80px;opacity:1;margin-top:8px}
+  .legend{display:flex;gap:14px;flex-wrap:wrap}
+  .lg{display:flex;align-items:center;gap:6px;font-family:var(--mono);font-size:11px;color:var(--ink-dim)}
+  .lg i{width:10px;height:10px;border-radius:50%;display:inline-block}
+  .btns{display:flex;gap:8px;flex-wrap:wrap}
+  button.ctl{font-family:var(--mono);font-size:11.5px;color:var(--ink);background:rgba(30,42,82,.7);border:1px solid var(--panel-stroke);
+    border-radius:9px;padding:8px 12px;cursor:pointer;transition:.15s}
+  button.ctl:hover{background:rgba(46,123,255,.35);border-color:var(--indigo-2);transform:translateY(-1px)}
+  button.ctl.active{background:rgba(46,123,255,.45);border-color:var(--indigo-2)}
+  .search{display:flex;align-items:center;gap:8px;background:rgba(8,12,30,.6);border:1px solid var(--panel-stroke);border-radius:9px;padding:6px 10px}
+  .search input{background:none;border:none;outline:none;color:var(--ink);font-family:var(--mono);font-size:12px;width:150px}
+  .search input::placeholder{color:var(--ink-faint)}
+
+  .ticker{bottom:18px;right:18px;width:380px;padding:12px 14px;display:flex;flex-direction:column}
+  .ticker-head{display:flex;align-items:center;justify-content:space-between;gap:12px;cursor:pointer;user-select:none}
+  .ticker-head:hover h2{color:var(--ink)}
+  .ticker h2{font-family:var(--mono);font-size:11px;letter-spacing:1.4px;color:var(--ink-dim);margin:0;text-transform:uppercase;transition:color .15s;display:flex;justify-content:space-between;flex:1;gap:8px}
+  .ticker-chev{font-size:11px;color:var(--ink-dim);transition:transform .3s cubic-bezier(.22,1,.36,1)}
+  .ticker.open .ticker-chev{transform:rotate(180deg)}
+  .ticker-body{max-height:0;overflow:hidden;opacity:0;transition:max-height .35s cubic-bezier(.22,1,.36,1),opacity .25s,margin .35s;margin-top:0;flex:1;display:flex;flex-direction:column;min-height:0}
+  .ticker.open .ticker-body{max-height:120px;opacity:1;margin-top:8px}
+  .feed{flex:1;overflow:hidden;font-family:var(--mono);font-size:11.5px;line-height:1.7;mask-image:linear-gradient(180deg,transparent,#000 18%,#000 100%)}
+  .feed .e{display:flex;gap:8px;white-space:nowrap;opacity:0;animation:rise .5s forwards}
+  @keyframes rise{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+  .feed .t{color:var(--ink-faint)}.feed .ok{color:var(--ok)}.feed .warn{color:var(--warn)}.feed .crit{color:var(--crit)}.feed .id{color:var(--cyan)}
+
+  .panel{top:0;right:0;height:100%;width:420px;transform:translateX(108%);transition:transform .42s cubic-bezier(.22,1,.36,1);
+    z-index:8;border-radius:18px 0 0 18px;display:flex;flex-direction:column;pointer-events:none}
+  .panel.open{transform:none;pointer-events:auto}
+  .panel .ph{padding:20px 22px 16px;border-bottom:1px solid var(--panel-stroke)}
+  .panel .code{font-family:var(--disp);font-size:32px;font-weight:700;line-height:1}
+  .panel .name{color:var(--ink-dim);font-size:14px;margin-top:6px}
+  .pill{display:inline-flex;align-items:center;gap:6px;font-family:var(--mono);font-size:11px;padding:4px 9px;border-radius:20px;margin-top:12px;text-transform:uppercase}
+  .pb{flex:1;overflow-y:auto;overflow-x:hidden;padding:18px 22px;-webkit-overflow-scrolling:touch}
+  .kv{display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px solid rgba(120,150,255,.08);font-size:13px}
+  .kv .k{color:var(--ink-dim);font-family:var(--mono);font-size:11px}.kv .v{font-family:var(--mono)}
+  .sect{font-family:var(--mono);font-size:11px;letter-spacing:1.2px;color:var(--ink-dim);text-transform:uppercase;margin:18px 0 8px}
+  .chips{display:flex;flex-wrap:wrap;gap:6px}
+  .chip{font-family:var(--mono);font-size:11px;padding:4px 9px;border-radius:7px;background:rgba(46,123,255,.18);border:1px solid rgba(110,139,255,.3);color:var(--indigo-2)}
+  .pclose{position:absolute;top:16px;right:16px;width:30px;height:30px;border-radius:8px;border:1px solid var(--panel-stroke);background:rgba(8,12,30,.6);color:var(--ink);cursor:pointer;font-size:15px}
+  .barwrap{height:6px;background:rgba(255,255,255,.06);border-radius:6px;overflow:hidden;margin-top:6px}.bar{height:100%;border-radius:6px}
+
+  text{font-family:var(--mono);fill:var(--ink);user-select:none}
+  .mon-tag{fill:#FFAB40 !important;font-weight:700}
+
+  /* glow on hover (every node) */
+  .nodeRect{cursor:pointer;transition:filter .18s}
+  .nodeRect:hover{filter:url(#hoverglow)}
+  .nodeRect:hover>rect{stroke:#dbe4ff}
+  .nodeRect:hover .db-stroke{stroke:#dbe4ff}
+  .db-node{cursor:pointer;transition:filter .18s}
+  .db-node:hover{filter:url(#hoverglow)}
+  .planet{cursor:pointer;transition:filter .18s}
+  .planet:hover{filter:url(#hoverglow)}
+  .dim{opacity:.12;transition:opacity .25s}.hot{opacity:1 !important}
+
+  /* red blink for down external APIs / alarms */
+  @keyframes blinkred{0%,45%{opacity:1}55%,100%{opacity:.1}}
+  .blink{animation:blinkred .85s infinite}
+  .extrow.searchhit>rect{stroke:var(--cyan);stroke-width:2}
+  .apilist{display:flex;flex-direction:column;gap:6px}
+  .apirow{display:flex;align-items:flex-start;gap:10px;padding:9px 10px;border-radius:8px;background:rgba(46,123,255,.08);border:1px solid rgba(110,139,255,.18);font-family:var(--mono);font-size:13px}
+  .apirow.apiwarn{background:rgba(255,194,75,.08);border-color:rgba(255,194,75,.35)}
+  .apirow.apidown{background:rgba(255,59,78,.10);border-color:rgba(255,59,78,.4)}
+  .apirow.apiok{background:rgba(46,123,255,.08);border-color:rgba(110,139,255,.22)}
+  .apidot{width:9px;height:9px;border-radius:50%;flex:0 0 auto;margin-top:4px;box-shadow:0 0 8px currentColor}
+  .apibody{flex:1;min-width:0}
+  .apiname{font-size:13px;line-height:1.35;word-break:break-word}
+  .apiaddr{font-size:10px;color:var(--ink-dim);margin-top:3px;line-height:1.4;word-break:break-all}
+  .apistat{font-size:10px;letter-spacing:.5px;flex:0 0 auto;margin-top:2px}
+  .apibadge{display:inline-block;font-size:8.5px;padding:1px 5px;border-radius:4px;margin-right:6px;background:rgba(89,224,255,.15);color:#BFEFFF;vertical-align:middle}
+  .apibadge.grp{background:rgba(79,139,255,.22);color:#B8CCFF}
+  .apibadge.mon{background:rgba(255,171,64,.14);color:#FFAB40;border:1px solid rgba(255,171,64,.35)}
+
+  .mstip{position:fixed;z-index:25;pointer-events:none;opacity:0;transition:opacity .12s;
+    font-family:var(--mono);font-size:10.5px;padding:7px 11px;border-radius:9px;
+    background:linear-gradient(180deg,rgba(20,30,66,.94),rgba(10,15,38,.9));
+    border:1px solid var(--panel-stroke);color:var(--ink);box-shadow:0 8px 28px rgba(0,0,0,.45);
+    max-width:320px;white-space:nowrap}
+  .mstip.show{opacity:1}
+  .mstip .short{color:var(--cyan);font-weight:600;margin-right:8px}
+  .mstip .full{color:var(--ink-dim);font-size:10px}
+
+  /* edit mode */
+  body.edit-mode svg{cursor:default}
+  body.edit-mode .nodeRect,body.edit-mode .planet{cursor:move}
+  body.edit-mode .editable-selected{filter:url(#hoverglow)}
+  body.edit-mode .editable-selected>rect,body.edit-mode .editable-selected .db-stroke{stroke:#59E0FF !important;stroke-width:2.2}
+  .edit-outline{fill:none;stroke:#59E0FF;stroke-width:1.6;stroke-dasharray:6 4;pointer-events:none}
+  .edit-handle{fill:#0B1530;stroke:#59E0FF;stroke-width:1.4;cursor:pointer}
+  .edit-handle.n,.edit-handle.s{cursor:ns-resize}
+  .edit-handle.e,.edit-handle.w{cursor:ew-resize}
+  .edit-handle.ne,.edit-handle.sw{cursor:nesw-resize}
+  .edit-handle.nw,.edit-handle.se{cursor:nwse-resize}
+  .edit-bar{position:fixed;top:18px;left:50%;transform:translateX(-50%);z-index:30;display:none;align-items:center;gap:10px;padding:10px 16px;font-family:var(--mono);font-size:11.5px}
+  body.edit-mode .edit-bar{display:flex}
+  .edit-bar .hint{color:var(--ink-dim)}
+  .edit-bar .dirty{color:var(--warn)}
+  button.ctl.save{background:rgba(60,200,255,.22);border-color:var(--cyan)}
+  button.ctl.save:hover{background:rgba(60,200,255,.38)}
+  .edit-props{position:fixed;top:80px;right:18px;z-index:30;display:none;flex-direction:column;gap:8px;padding:14px 16px;min-width:200px;font-family:var(--mono);font-size:11px}
+  body.edit-mode .edit-props.show{display:flex}
+  .edit-props h3{margin:0 0 4px;font-size:10px;letter-spacing:1.2px;color:var(--ink-dim);text-transform:uppercase}
+  .edit-props label{display:flex;align-items:center;justify-content:space-between;gap:10px;color:var(--ink-dim)}
+  .edit-props input{width:72px;background:rgba(8,12,30,.7);border:1px solid var(--panel-stroke);border-radius:6px;color:var(--ink);font-family:var(--mono);font-size:11px;padding:5px 7px;text-align:right}
+  .edit-toast{position:fixed;bottom:90px;left:50%;transform:translateX(-50%) translateY(12px);z-index:35;padding:10px 18px;border-radius:10px;
+    background:rgba(20,30,66,.95);border:1px solid var(--cyan);color:var(--cyan);font-family:var(--mono);font-size:12px;opacity:0;pointer-events:none;transition:.25s}
+  .edit-toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+  @media (max-width:1100px){.ticker,.metrics{display:none}}
+</style>
+</head>
+<body>
+<div id="stage">
+  <svg id="svg" preserveAspectRatio="xMidYMid meet">
+    <defs>
+      <radialGradient id="gHub" cx="50%" cy="35%" r="80%"><stop offset="0%" stop-color="#17326F"/><stop offset="100%" stop-color="#081038"/></radialGradient>
+      <linearGradient id="gContainer" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="rgba(18,38,92,.55)"/><stop offset="100%" stop-color="rgba(6,13,36,.62)"/></linearGradient>
+      <linearGradient id="gPanel" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="rgba(20,40,92,.92)"/><stop offset="100%" stop-color="rgba(8,15,42,.94)"/></linearGradient>
+      <radialGradient id="gPlanet" cx="35%" cy="30%" r="75%"><stop offset="0%" stop-color="#2A4FA6"/><stop offset="100%" stop-color="#0D1842"/></radialGradient>
+      <radialGradient id="gCore" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="rgba(46,123,255,.85)"/><stop offset="55%" stop-color="rgba(46,123,255,.18)"/><stop offset="100%" stop-color="rgba(46,123,255,0)"/></radialGradient>
+      <filter id="glow" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+      <filter id="hoverglow" x="-80%" y="-80%" width="260%" height="260%"><feGaussianBlur stdDeviation="6" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+      <filter id="softglow" x="-80%" y="-80%" width="260%" height="260%"><feGaussianBlur stdDeviation="9"/></filter>
+    </defs>
+    <g id="viewport">
+      <g id="layer-grid"></g><g id="layer-rings"></g><g id="layer-links"></g>
+      <g id="layer-particles"></g><g id="layer-core"></g><g id="layer-link-labels"></g><g id="layer-planets"></g>
+      <g id="layer-edit-ui"></g>
+    </g>
+  </svg>
+
+  <div class="hud glass brand">
+    <div class="row"><div class="logo">6E</div>
+      <div><h1>Operations Control Centre</h1><div class="sub">IGA · OCP L3 PLATFORM · JOC INTEGRATION FABRIC</div></div></div>
+    <div class="live"><span class="dot"></span>LIVE · ZPL-OCP-BSTN2 · <span id="clock"></span></div>
+  </div>
+
+  <div class="hud glass metrics" id="metrics">
+    <div class="metrics-head" id="metrics-toggle">
+      <h2>Fabric Observability</h2>
+      <span class="metrics-chev">▾</span>
+    </div>
+    <div class="metrics-body">
+      <div class="mgrid">
+        <div class="metric"><div class="k">Throughput</div><div class="v"><span id="m-tps">—</span><span class="u">msg/s</span></div></div>
+        <div class="metric"><div class="k">p95 latency</div><div class="v"><span id="m-lat">—</span><span class="u">ms</span></div></div>
+        <div class="metric"><div class="k">Error rate</div><div class="v"><span id="m-err">—</span><span class="u">%</span></div></div>
+        <div class="metric"><div class="k">Nodes up</div><div class="v"><span id="m-up">—</span></div></div>
+        <div class="metric"><div class="k">Kafka lag</div><div class="v"><span id="m-lag">—</span></div></div>
+        <div class="metric"><div class="k">APIs down</div><div class="v"><span id="m-down" style="color:var(--down)">—</span></div></div>
+        <div class="metric"><div class="k">APIs listed</div><div class="v"><span id="m-apis">—</span></div></div>
+        <div class="metric"><div class="k">Probe</div><div class="v" style="font-size:11px"><span id="m-probe">—</span></div></div>
+      </div>
+      <svg class="spark" id="spark" viewBox="0 0 300 34" preserveAspectRatio="none"></svg>
+    </div>
+  </div>
+
+  <div class="hud glass controls">
+    <div class="legend-panel" id="legend-panel">
+      <div class="legend-head" id="legend-toggle">
+        <h2>Status Legend</h2>
+        <span class="legend-chev">▾</span>
+      </div>
+      <div class="legend-body">
+        <div class="legend">
+          <span class="lg"><i style="background:var(--ok)"></i>Healthy</span>
+          <span class="lg"><i style="background:var(--warn)"></i>Degraded</span>
+          <span class="lg"><i style="background:var(--down)"></i>Down / Critical</span>
+          <span class="lg"><i style="background:var(--cyan)"></i>Data flow</span>
+        </div>
+      </div>
+    </div>
+    <div class="search">🔍<input id="search" placeholder="find app / API / M#…"></div>
+    <div class="btns">
+      <button class="ctl" id="b-all">☰ All APIs</button>
+      <button class="ctl" id="b-orbit">▶ Orbit</button>
+      <button class="ctl active" id="b-flow">✦ Flow</button>
+      <button class="ctl" id="b-in">+</button>
+      <button class="ctl" id="b-out">−</button>
+      <button class="ctl" id="b-fit">⤢ Fit</button>
+      <button class="ctl" id="b-edit">✎ Edit</button>
+      <button class="ctl save" id="b-save-edit" style="display:none" title="Saved automatically">💾 Saved</button>
+      <button class="ctl" id="b-reset-layout" style="display:none" title="Restore original layout">↺ Reset</button>
+      <button class="ctl" id="b-cancel-edit" style="display:none">✕ Cancel</button>
+    </div>
+  </div>
+
+  <div class="hud glass edit-bar" id="edit-bar">
+    <span class="hint">Edit mode — drag to move · changes save automatically</span>
+    <span class="dirty" id="edit-dirty" style="display:none">● saving…</span>
+  </div>
+  <div class="hud glass edit-props" id="edit-props">
+    <h3 id="edit-props-title">—</h3>
+    <label>X <input type="number" id="ep-x" step="1"></label>
+    <label>Y <input type="number" id="ep-y" step="1"></label>
+    <label>W <input type="number" id="ep-w" step="1" min="20"></label>
+    <label>H <input type="number" id="ep-h" step="1" min="16"></label>
+    <label id="ep-r-wrap" style="display:none">R <input type="number" id="ep-r" step="1" min="20"></label>
+  </div>
+  <div class="edit-toast" id="edit-toast"></div>
+
+  <div class="hud glass ticker" id="ticker">
+    <div class="ticker-head" id="ticker-toggle">
+      <h2>Event Stream <span id="eps" style="color:var(--cyan)"></span></h2>
+      <span class="ticker-chev">▾</span>
+    </div>
+    <div class="ticker-body">
+      <div class="feed" id="feed"></div>
+    </div>
+  </div>
+
+  <div class="hud glass panel" id="panel">
+    <button class="pclose" id="pclose">✕</button>
+    <div class="ph"><div class="code" id="p-code">—</div><div class="name" id="p-name">—</div><div class="pill" id="p-status">—</div></div>
+    <div class="pb" id="p-body"></div>
+  </div>
+  <div id="mstip" class="mstip"></div>
+</div>
+
+<script>
+const CFG = {"viewBox": "0 0 1860 1380", "CX": 930, "CY": 680, "container": {"x": 480, "y": 280, "w": 900, "h": 780, "label": "CORE SYSTEMS FABRIC"}, "mf": {"x": 700, "y": 328, "w": 250, "h": 52, "label": "MF", "sub": "MAINFRAME", "mon": "M1"}, "hub": {"x": 700, "y": 408, "w": 390, "h": 300, "label": "MS"}, "ms": [["ADMIN", "occhub-admin-ms", "M2"], ["FLIGHT", "occhub-flight-ms", "M3"], ["CREW", "occhub-crew-ms", "M4"], ["DISP", "occhub-dispatch-ms", "M5"], ["WX", "occhub-weather-ms", "M6"], ["EXTCOM", "occhub-externalcomunication-ms", "M7"], ["CRDASH", "occhub-crewresoucedashboard-ms", "M8"], ["ROSTER", "occhub-rosterautomation-ms", "M9"], ["STREAM", "occhub-streamorchestor-ms", "M10"], ["INGEST", "occhub-ingesthub-ms", "M11"], ["EVTCON", "occhub-eventConsumer-service-ms", "M12"]], "spine": [{"id": "mongo", "label": "MongoDB", "sub": "document store", "x": 620, "y": 800, "w": 104, "h": 84, "color": "#2E7BFF", "mon": "M13"}, {"id": "aims", "label": "AIMS DB", "sub": "system of record", "x": 780, "y": 800, "w": 104, "h": 84, "color": "#59E0FF", "mon": "M14"}], "apiGroups": {"internal": [{"name": "/crew/api/v1/crew-dashboard/open-trips-main", "health": "ok", "source": "Internal endpoints / M160 GET", "address": "M160 \u00b7 GET", "method": "GET", "mon": "M160"}, {"name": "/crew/api/v1/crew-dashboard/open-trips-position", "health": "ok", "source": "Internal endpoints / M161 GET", "address": "M161 \u00b7 GET", "method": "GET", "mon": "M161"}, {"name": "/crew/api/v1/crew-dashboard/sby-main", "health": "ok", "source": "Internal endpoints / M162 GET", "address": "M162 \u00b7 GET", "method": "GET", "mon": "M162"}, {"name": "/crew/api/v1/crew-dashboard/sby-position", "health": "ok", "source": "Internal endpoints / M163 GET", "address": "M163 \u00b7 GET", "method": "GET", "mon": "M163"}, {"name": "/crew/api/v1/crew-dashboard/unpaired-legs", "health": "ok", "source": "Internal endpoints / M164 GET", "address": "M164 \u00b7 GET", "method": "GET", "mon": "M164"}, {"name": "/crew/api/v1/crew-dashboard/unpaired-legs-base", "health": "ok", "source": "Internal endpoints / M165 GET", "address": "M165 \u00b7 GET", "method": "GET", "mon": "M165"}, {"name": "/crew/api/v1/crew-dashboard/pending-notifications", "health": "ok", "source": "Internal endpoints / M166 GET", "address": "M166 \u00b7 GET", "method": "GET", "mon": "M166"}, {"name": "/crew/api/v1/crew-dashboard/pending-notifications-base", "health": "ok", "source": "Internal endpoints / M167 GET", "address": "M167 \u00b7 GET", "method": "GET", "mon": "M167"}, {"name": "/crew/api/v1/crew-dashboard/unfinalized-routes", "health": "ok", "source": "Internal endpoints / M168 GET", "address": "M168 \u00b7 GET", "method": "GET", "mon": "M168"}, {"name": "/crew/api/v1/crew-dashboard/unfinalized-routes-base", "health": "ok", "source": "Internal endpoints / M169 GET", "address": "M169 \u00b7 GET", "method": "GET", "mon": "M169"}, {"name": "/crew/api/v1/crew-dashboard/na-percentage", "health": "ok", "source": "Internal endpoints / M170 GET", "address": "M170 \u00b7 GET", "method": "GET", "mon": "M170"}, {"name": "/crew/api/v1/crew-dashboard/na-percentage-position", "health": "ok", "source": "Internal endpoints / M171 GET", "address": "M171 \u00b7 GET", "method": "GET", "mon": "M171"}, {"name": "/crew/api/v1/crew-dashboard/crew-rating", "health": "ok", "source": "Internal endpoints / M172 GET", "address": "M172 \u00b7 GET", "method": "GET", "mon": "M172"}, {"name": "/crew/api/v1/crew-dashboard/open-sim", "health": "ok", "source": "Internal endpoints / M173 GET", "address": "M173 \u00b7 GET", "method": "GET", "mon": "M173"}, {"name": "/crew/api/v1/token/get-token", "health": "ok", "source": "Internal endpoints / M174 POST", "address": "M174 \u00b7 POST", "method": "POST", "mon": "M174"}, {"name": "/flight/api/v1/ctot/send-email", "health": "ok", "source": "Internal endpoints / M175 POST", "address": "M175 \u00b7 POST", "method": "POST", "mon": "M175"}, {"name": "/flight/api/v1/ctot/upload", "health": "ok", "source": "Internal endpoints / M176 POST", "address": "M176 \u00b7 POST", "method": "POST", "mon": "M176"}, {"name": "/flight/api/v1/ctot/preview/{fileUploadDetailsid}", "health": "ok", "source": "Internal endpoints / M177 GET", "address": "M177 \u00b7 GET", "method": "GET", "mon": "M177"}, {"name": "/flight/api/v1/ctot/violation", "health": "ok", "source": "Internal endpoints / M178 POST", "address": "M178 \u00b7 POST", "method": "POST", "mon": "M178"}, {"name": "/flight/api/v1/joc-nav-aims-comparison/export", "health": "ok", "source": "Internal endpoints / M179 POST", "address": "M179 \u00b7 POST", "method": "POST", "mon": "M179"}, {"name": "/flight/api/v1/joc-nav-aims-comparison/reports", "health": "ok", "source": "Internal endpoints / M180 POST", "address": "M180 \u00b7 POST", "method": "POST", "mon": "M180"}, {"name": "/flight/api/v1/nav/trip-details", "health": "ok", "source": "Internal endpoints / M181 POST", "address": "M181 \u00b7 POST", "method": "POST", "mon": "M181"}, {"name": "/flight/api/v1/emailconfigs", "health": "ok", "source": "Internal endpoints / M182 POST", "address": "M182 \u00b7 POST", "method": "POST", "mon": "M182"}, {"name": "/flight/api/v1/emailconfigs", "health": "ok", "source": "Internal endpoints / M183 GET", "address": "M183 \u00b7 GET", "method": "GET", "mon": "M183"}, {"name": "/flight/api/v1/emailconfigs/check-duplicate", "health": "ok", "source": "Internal endpoints / M184 GET", "address": "M184 \u00b7 GET", "method": "GET", "mon": "M184"}, {"name": "/flight/api/v1/emailconfigs/{id}", "health": "ok", "source": "Internal endpoints / M185 GET", "address": "M185 \u00b7 GET", "method": "GET", "mon": "M185"}, {"name": "/flight/api/v1/emailconfigs/{id}", "health": "ok", "source": "Internal endpoints / M186 PUT", "address": "M186 \u00b7 PUT", "method": "PUT", "mon": "M186"}, {"name": "/flight/api/v1/emailconfigs/hubs", "health": "ok", "source": "Internal endpoints / M187 GET", "address": "M187 \u00b7 GET", "method": "GET", "mon": "M187"}, {"name": "/flight/api/v1/email/sir", "health": "ok", "source": "Internal endpoints / M188 POST", "address": "M188 \u00b7 POST", "method": "POST", "mon": "M188"}, {"name": "/flight/api/v1/email/process-sir-response", "health": "ok", "source": "Internal endpoints / M189 POST", "address": "M189 \u00b7 POST", "method": "POST", "mon": "M189"}, {"name": "/flight/api/v1/sir/document/upload", "health": "ok", "source": "Internal endpoints / M190 POST", "address": "M190 \u00b7 POST", "method": "POST", "mon": "M190"}, {"name": "/flight/api/v1/sir/document/details", "health": "ok", "source": "Internal endpoints / M191 GET", "address": "M191 \u00b7 GET", "method": "GET", "mon": "M191"}, {"name": "/flight/api/v1/aircraft-records", "health": "ok", "source": "Internal endpoints / M192 GET", "address": "M192 \u00b7 GET", "method": "GET", "mon": "M192"}, {"name": "/flight/api/v1/aircraft-type", "health": "ok", "source": "Internal endpoints / M193 GET", "address": "M193 \u00b7 GET", "method": "GET", "mon": "M193"}, {"name": "/flight/api/v1/flight-numbers", "health": "ok", "source": "Internal endpoints / M194 POST", "address": "M194 \u00b7 POST", "method": "POST", "mon": "M194"}, {"name": "/flight/api/v1/station-catalog", "health": "ok", "source": "Internal endpoints / M195 GET", "address": "M195 \u00b7 GET", "method": "GET", "mon": "M195"}, {"name": "/flight/api/v1/station-turn-time-catalog", "health": "ok", "source": "Internal endpoints / M196 GET", "address": "M196 \u00b7 GET", "method": "GET", "mon": "M196"}, {"name": "/flight/api/v1/scr", "health": "ok", "source": "Internal endpoints / M197 POST", "address": "M197 \u00b7 POST", "method": "POST", "mon": "M197"}, {"name": "/flight/api/v1/scr/{id}/emails", "health": "ok", "source": "Internal endpoints / M198 GET", "address": "M198 \u00b7 GET", "method": "GET", "mon": "M198"}, {"name": "/flight/api/v1/scr/{id}/remarks", "health": "ok", "source": "Internal endpoints / M199 PATCH", "address": "M199 \u00b7 PATCH", "method": "PATCH", "mon": "M199"}, {"name": "/flight/api/v1/scr-flight-ops-preview", "health": "ok", "source": "Internal endpoints / M200 POST", "address": "M200 \u00b7 POST", "method": "POST", "mon": "M200"}, {"name": "/flight/api/v1/scr-flight-ops-mail", "health": "ok", "source": "Internal endpoints / M201 POST", "address": "M201 \u00b7 POST", "method": "POST", "mon": "M201"}, {"name": "/flight/api/v1/email/subscriptions", "health": "ok", "source": "Internal endpoints / M202 POST", "address": "M202 \u00b7 POST", "method": "POST", "mon": "M202"}, {"name": "/flight/api/v1/email/test", "health": "ok", "source": "Internal endpoints / M203 POST", "address": "M203 \u00b7 POST", "method": "POST", "mon": "M203"}, {"name": "/flight/api/v1/email/notifications", "health": "ok", "source": "Internal endpoints / M204 POST", "address": "M204 \u00b7 POST", "method": "POST", "mon": "M204"}, {"name": "/flight/api/v1/email/refresh-subscriptions", "health": "ok", "source": "Internal endpoints / M205 PATCH", "address": "M205 \u00b7 PATCH", "method": "PATCH", "mon": "M205"}, {"name": "/flight/api/v1/qual-training-data", "health": "ok", "source": "Internal endpoints / M206 GET", "address": "M206 \u00b7 GET", "method": "GET", "mon": "M206"}, {"name": "/flight/api/v1/send-to-notification-hub", "health": "ok", "source": "Internal endpoints / M207 POST", "address": "M207 \u00b7 POST", "method": "POST", "mon": "M207"}, {"name": "/flight/api/v1/nav-pax-count", "health": "ok", "source": "Internal endpoints / M208 POST", "address": "M208 \u00b7 POST", "method": "POST", "mon": "M208"}, {"name": "/flight/api/v1/ott-otp/reports/download", "health": "ok", "source": "Internal endpoints / M209 POST", "address": "M209 \u00b7 POST", "method": "POST", "mon": "M209"}, {"name": "/flight/api/v1/ott-otp/reports", "health": "ok", "source": "Internal endpoints / M210 POST", "address": "M210 \u00b7 POST", "method": "POST", "mon": "M210"}, {"name": "/flight/api/v1/ott-otp-master", "health": "ok", "source": "Internal endpoints / M211 POST", "address": "M211 \u00b7 POST", "method": "POST", "mon": "M211"}, {"name": "/flight/api/v1/ott-otp-master", "health": "ok", "source": "Internal endpoints / M212 GET", "address": "M212 \u00b7 GET", "method": "GET", "mon": "M212"}, {"name": "/flight/api/v1/ott-otp-master/{id}", "health": "ok", "source": "Internal endpoints / M213 DELETE", "address": "M213 \u00b7 DELETE", "method": "DELETE", "mon": "M213"}, {"name": "/flight/api/v1/ott-otp-master/{id}", "health": "ok", "source": "Internal endpoints / M214 PUT", "address": "M214 \u00b7 PUT", "method": "PUT", "mon": "M214"}, {"name": "/flight/api/v1/mvt/postponement/upload", "health": "ok", "source": "Internal endpoints / M215 POST", "address": "M215 \u00b7 POST", "method": "POST", "mon": "M215"}, {"name": "/flight/api/v1/mvt/postponement/report/download", "health": "ok", "source": "Internal endpoints / M216 POST", "address": "M216 \u00b7 POST", "method": "POST", "mon": "M216"}, {"name": "/flight/api/v1/mvt/postponement/report", "health": "ok", "source": "Internal endpoints / M217 POST", "address": "M217 \u00b7 POST", "method": "POST", "mon": "M217"}, {"name": "/flight/api/v1/mvt/scheduler/process", "health": "ok", "source": "Internal endpoints / M218 POST", "address": "M218 \u00b7 POST", "method": "POST", "mon": "M218"}, {"name": "/flight/api/v1/reports/dashboard/overview", "health": "ok", "source": "Internal endpoints / M219 POST", "address": "M219 \u00b7 POST", "method": "POST", "mon": "M219"}, {"name": "/flight/api/v1/reports/{moduleid}/{type}/download", "health": "ok", "source": "Internal endpoints / M220 POST", "address": "M220 \u00b7 POST", "method": "POST", "mon": "M220"}, {"name": "/flight/api/v1/reports/scr-flight-ops", "health": "ok", "source": "Internal endpoints / M221 POST", "address": "M221 \u00b7 POST", "method": "POST", "mon": "M221"}, {"name": "/flight/api/v1/reports/schedule/date-wise", "health": "ok", "source": "Internal endpoints / M222 POST", "address": "M222 \u00b7 POST", "method": "POST", "mon": "M222"}, {"name": "/flight/api/v1/reports/schedule/season-wise", "health": "ok", "source": "Internal endpoints / M223 POST", "address": "M223 \u00b7 POST", "method": "POST", "mon": "M223"}, {"name": "/flight/api/v1/reports/trigger", "health": "ok", "source": "Internal endpoints / M224 POST", "address": "M224 \u00b7 POST", "method": "POST", "mon": "M224"}, {"name": "/flight/api/v1/station-master/{id}", "health": "ok", "source": "Internal endpoints / M225 GET", "address": "M225 \u00b7 GET", "method": "GET", "mon": "M225"}, {"name": "/flight/api/v1/station-master/{id}", "health": "ok", "source": "Internal endpoints / M226 DELETE", "address": "M226 \u00b7 DELETE", "method": "DELETE", "mon": "M226"}, {"name": "/flight/api/v1/station-master/{id}", "health": "ok", "source": "Internal endpoints / M227 PUT", "address": "M227 \u00b7 PUT", "method": "PUT", "mon": "M227"}, {"name": "/flight/api/v1/station-master", "health": "ok", "source": "Internal endpoints / M228 GET", "address": "M228 \u00b7 GET", "method": "GET", "mon": "M228"}, {"name": "/flight/api/v1/station-master", "health": "ok", "source": "Internal endpoints / M229 POST", "address": "M229 \u00b7 POST", "method": "POST", "mon": "M229"}, {"name": "/flight/api/v1/template-master", "health": "ok", "source": "Internal endpoints / M230 POST", "address": "M230 \u00b7 POST", "method": "POST", "mon": "M230"}, {"name": "/flight/api/v1/template-master", "health": "ok", "source": "Internal endpoints / M231 GET", "address": "M231 \u00b7 GET", "method": "GET", "mon": "M231"}, {"name": "/flight/api/v1/terminal-master", "health": "ok", "source": "Internal endpoints / M232 GET", "address": "M232 \u00b7 GET", "method": "GET", "mon": "M232"}, {"name": "/flight/api/v1/terminal-master", "health": "ok", "source": "Internal endpoints / M233 POST", "address": "M233 \u00b7 POST", "method": "POST", "mon": "M233"}, {"name": "/flight/api/v1/terminal-master/name-list", "health": "ok", "source": "Internal endpoints / M234 GET", "address": "M234 \u00b7 GET", "method": "GET", "mon": "M234"}, {"name": "/admin/api/v1/alert-setting", "health": "ok", "source": "Internal endpoints / M235 DELETE", "address": "M235 \u00b7 DELETE", "method": "DELETE", "mon": "M235"}, {"name": "/admin/api/v1/alert-setting", "health": "ok", "source": "Internal endpoints / M236 PUT", "address": "M236 \u00b7 PUT", "method": "PUT", "mon": "M236"}, {"name": "/admin/api/v1/alert-setting", "health": "ok", "source": "Internal endpoints / M237 POST", "address": "M237 \u00b7 POST", "method": "POST", "mon": "M237"}, {"name": "/admin/api/v1/alert-setting", "health": "ok", "source": "Internal endpoints / M238 GET", "address": "M238 \u00b7 GET", "method": "GET", "mon": "M238"}, {"name": "/admin/api/v1/alert-type", "health": "ok", "source": "Internal endpoints / M239 DELETE", "address": "M239 \u00b7 DELETE", "method": "DELETE", "mon": "M239"}, {"name": "/admin/api/v1/alert-type", "health": "ok", "source": "Internal endpoints / M240 PUT", "address": "M240 \u00b7 PUT", "method": "PUT", "mon": "M240"}, {"name": "/admin/api/v1/alert-type", "health": "ok", "source": "Internal endpoints / M241 POST", "address": "M241 \u00b7 POST", "method": "POST", "mon": "M241"}, {"name": "/admin/api/v1/alert-type", "health": "ok", "source": "Internal endpoints / M242 GET", "address": "M242 \u00b7 GET", "method": "GET", "mon": "M242"}, {"name": "/admin/api/v1/application/name-list", "health": "ok", "source": "Internal endpoints / M243 GET", "address": "M243 \u00b7 GET", "method": "GET", "mon": "M243"}, {"name": "/admin/api/v1/applications", "health": "ok", "source": "Internal endpoints / M244 POST", "address": "M244 \u00b7 POST", "method": "POST", "mon": "M244"}, {"name": "/admin/api/v1/applications", "health": "ok", "source": "Internal endpoints / M245 GET", "address": "M245 \u00b7 GET", "method": "GET", "mon": "M245"}, {"name": "/admin/api/v1/applications", "health": "ok", "source": "Internal endpoints / M246 PUT", "address": "M246 \u00b7 PUT", "method": "PUT", "mon": "M246"}, {"name": "/admin/api/v1/applications/{id}", "health": "ok", "source": "Internal endpoints / M247 GET", "address": "M247 \u00b7 GET", "method": "GET", "mon": "M247"}, {"name": "/admin/api/v1/actions-type", "health": "ok", "source": "Internal endpoints / M248 POST", "address": "M248 \u00b7 POST", "method": "POST", "mon": "M248"}, {"name": "/admin/api/v1/actions-type", "health": "ok", "source": "Internal endpoints / M249 GET", "address": "M249 \u00b7 GET", "method": "GET", "mon": "M249"}, {"name": "/admin/api/v1/application-actions", "health": "ok", "source": "Internal endpoints / M250 POST", "address": "M250 \u00b7 POST", "method": "POST", "mon": "M250"}, {"name": "/admin/api/v1/application-actions", "health": "ok", "source": "Internal endpoints / M251 GET", "address": "M251 \u00b7 GET", "method": "GET", "mon": "M251"}, {"name": "/admin/api/v1/application-actions", "health": "ok", "source": "Internal endpoints / M252 PUT", "address": "M252 \u00b7 PUT", "method": "PUT", "mon": "M252"}, {"name": "/admin/api/v1/columns/config", "health": "ok", "source": "Internal endpoints / M253 GET", "address": "M253 \u00b7 GET", "method": "GET", "mon": "M253"}, {"name": "/admin/api/v1/columns/config", "health": "ok", "source": "Internal endpoints / M254 POST", "address": "M254 \u00b7 POST", "method": "POST", "mon": "M254"}, {"name": "/admin/api/v1/columns/config/{id}", "health": "ok", "source": "Internal endpoints / M255 GET", "address": "M255 \u00b7 GET", "method": "GET", "mon": "M255"}, {"name": "/admin/api/v1/columns/config", "health": "ok", "source": "Internal endpoints / M256 PUT", "address": "M256 \u00b7 PUT", "method": "PUT", "mon": "M256"}, {"name": "/admin/api/v1/columns/config", "health": "ok", "source": "Internal endpoints / M257 DELETE", "address": "M257 \u00b7 DELETE", "method": "DELETE", "mon": "M257"}, {"name": "/admin/api/v1/columns/config/sequence", "health": "ok", "source": "Internal endpoints / M258 PUT", "address": "M258 \u00b7 PUT", "method": "PUT", "mon": "M258"}, {"name": "/admin/api/v1/email-configuration", "health": "ok", "source": "Internal endpoints / M259 POST", "address": "M259 \u00b7 POST", "method": "POST", "mon": "M259"}, {"name": "/admin/api/v1/email-configuration", "health": "ok", "source": "Internal endpoints / M260 GET", "address": "M260 \u00b7 GET", "method": "GET", "mon": "M260"}, {"name": "/admin/api/v1/email-configuration", "health": "ok", "source": "Internal endpoints / M261 DELETE", "address": "M261 \u00b7 DELETE", "method": "DELETE", "mon": "M261"}, {"name": "/admin/api/v1/email-configuration", "health": "ok", "source": "Internal endpoints / M262 PUT", "address": "M262 \u00b7 PUT", "method": "PUT", "mon": "M262"}, {"name": "/admin/api/v1/email-configuration/applications", "health": "ok", "source": "Internal endpoints / M263 GET", "address": "M263 \u00b7 GET", "method": "GET", "mon": "M263"}, {"name": "/admin/api/v1/reports/Export", "health": "ok", "source": "Internal endpoints / M264 POST", "address": "M264 \u00b7 POST", "method": "POST", "mon": "M264"}, {"name": "/admin/api/v1/grpc-module-mapping", "health": "ok", "source": "Internal endpoints / M265 POST", "address": "M265 \u00b7 POST", "method": "POST", "mon": "M265"}, {"name": "/admin/api/v1/download", "health": "ok", "source": "Internal endpoints / M266 POST", "address": "M266 \u00b7 POST", "method": "POST", "mon": "M266"}, {"name": "/admin/api/v1/log-reports", "health": "ok", "source": "Internal endpoints / M267 POST", "address": "M267 \u00b7 POST", "method": "POST", "mon": "M267"}, {"name": "/admin/api/v1/log-types", "health": "ok", "source": "Internal endpoints / M268 GET", "address": "M268 \u00b7 GET", "method": "GET", "mon": "M268"}, {"name": "/admin/api/v1/modules", "health": "ok", "source": "Internal endpoints / M269 GET", "address": "M269 \u00b7 GET", "method": "GET", "mon": "M269"}, {"name": "/admin/api/v1/reports/downloads", "health": "ok", "source": "Internal endpoints / M270 POST", "address": "M270 \u00b7 POST", "method": "POST", "mon": "M270"}, {"name": "/admin/api/v1/tables/preferences", "health": "ok", "source": "Internal endpoints / M271 GET", "address": "M271 \u00b7 GET", "method": "GET", "mon": "M271"}, {"name": "/admin/api/v1/tables/preferences", "health": "ok", "source": "Internal endpoints / M272 POST", "address": "M272 \u00b7 POST", "method": "POST", "mon": "M272"}, {"name": "/admin/api/v1/columns/preferences", "health": "ok", "source": "Internal endpoints / M273 GET", "address": "M273 \u00b7 GET", "method": "GET", "mon": "M273"}, {"name": "/admin/api/v1/columns/preferences", "health": "ok", "source": "Internal endpoints / M274 POST", "address": "M274 \u00b7 POST", "method": "POST", "mon": "M274"}, {"name": "/admin/api/v1/table-registry/config", "health": "ok", "source": "Internal endpoints / M275 GET", "address": "M275 \u00b7 GET", "method": "GET", "mon": "M275"}, {"name": "/admin/api/v1/table-registry/config", "health": "ok", "source": "Internal endpoints / M276 POST", "address": "M276 \u00b7 POST", "method": "POST", "mon": "M276"}, {"name": "/admin/api/v1/table-registry/config/{id}", "health": "ok", "source": "Internal endpoints / M277 GET", "address": "M277 \u00b7 GET", "method": "GET", "mon": "M277"}, {"name": "/admin/api/v1/table-registry/config/{id}", "health": "ok", "source": "Internal endpoints / M278 PUT", "address": "M278 \u00b7 PUT", "method": "PUT", "mon": "M278"}, {"name": "/admin/api/v1/table-registry/config/{id}", "health": "ok", "source": "Internal endpoints / M279 DELETE", "address": "M279 \u00b7 DELETE", "method": "DELETE", "mon": "M279"}, {"name": "/admin/api/v1/table-registry/config", "health": "ok", "source": "Internal endpoints / M280 GET", "address": "M280 \u00b7 GET", "method": "GET", "mon": "M280"}, {"name": "/admin/api/v1/table-registry/config/sequence", "health": "ok", "source": "Internal endpoints / M281 PUT", "address": "M281 \u00b7 PUT", "method": "PUT", "mon": "M281"}, {"name": "/admin/api/v1/section-setting", "health": "ok", "source": "Internal endpoints / M282 POST", "address": "M282 \u00b7 POST", "method": "POST", "mon": "M282"}, {"name": "/admin/api/v1/section-setting", "health": "ok", "source": "Internal endpoints / M283 GET", "address": "M283 \u00b7 GET", "method": "GET", "mon": "M283"}, {"name": "/admin/api/v1/sections", "health": "ok", "source": "Internal endpoints / M284 GET", "address": "M284 \u00b7 GET", "method": "GET", "mon": "M284"}, {"name": "/admin/api/v1/section-setting/{id}", "health": "ok", "source": "Internal endpoints / M285 PUT", "address": "M285 \u00b7 PUT", "method": "PUT", "mon": "M285"}, {"name": "/admin/api/v1/groups", "health": "ok", "source": "Internal endpoints / M286 GET", "address": "M286 \u00b7 GET", "method": "GET", "mon": "M286"}, {"name": "/admin/api/v1/users", "health": "ok", "source": "Internal endpoints / M287 GET", "address": "M287 \u00b7 GET", "method": "GET", "mon": "M287"}, {"name": "/admin/api/v1/role-mapping", "health": "ok", "source": "Internal endpoints / M288 GET", "address": "M288 \u00b7 GET", "method": "GET", "mon": "M288"}, {"name": "/admin/api/v1/user-role-mapping", "health": "ok", "source": "Internal endpoints / M289 GET", "address": "M289 \u00b7 GET", "method": "GET", "mon": "M289"}, {"name": "/admin/api/v1/user-role-mapping", "health": "ok", "source": "Internal endpoints / M290 PUT", "address": "M290 \u00b7 PUT", "method": "PUT", "mon": "M290"}, {"name": "/admin/api/v1/role-codes", "health": "ok", "source": "Internal endpoints / M291 GET", "address": "M291 \u00b7 GET", "method": "GET", "mon": "M291"}, {"name": "/admin/api/v1/role-master", "health": "ok", "source": "Internal endpoints / M292 PUT", "address": "M292 \u00b7 PUT", "method": "PUT", "mon": "M292"}, {"name": "/admin/api/v1/role-master", "health": "ok", "source": "Internal endpoints / M293 POST", "address": "M293 \u00b7 POST", "method": "POST", "mon": "M293"}, {"name": "/admin/api/v1/groups/remove-user", "health": "ok", "source": "Internal endpoints / M294 POST", "address": "M294 \u00b7 POST", "method": "POST", "mon": "M294"}, {"name": "/admin/api/v1/application-permission", "health": "ok", "source": "Internal endpoints / M295 GET", "address": "M295 \u00b7 GET", "method": "GET", "mon": "M295"}, {"name": "/admin/api/v1/application-permission", "health": "ok", "source": "Internal endpoints / M296 POST", "address": "M296 \u00b7 POST", "method": "POST", "mon": "M296"}, {"name": "/admin/api/v1/sidebar-details", "health": "ok", "source": "Internal endpoints / M297 GET", "address": "M297 \u00b7 GET", "method": "GET", "mon": "M297"}, {"name": "/admin/api/v1/user-details", "health": "ok", "source": "Internal endpoints / M298 GET", "address": "M298 \u00b7 GET", "method": "GET", "mon": "M298"}, {"name": "/dispatch/api/v1/flight-hold-fuel-monitoring/reports", "health": "ok", "source": "Internal endpoints / M299 POST", "address": "M299 \u00b7 POST", "method": "POST", "mon": "M299"}, {"name": "/dispatch/api/v1/flight-hold-fuel-monitoring/reports/download", "health": "ok", "source": "Internal endpoints / M300 POST", "address": "M300 \u00b7 POST", "method": "POST", "mon": "M300"}, {"name": "/dispatch/api/v1/export-flight-standby-movement", "health": "ok", "source": "Internal endpoints / M301 POST", "address": "M301 \u00b7 POST", "method": "POST", "mon": "M301"}, {"name": "/dispatch/api/v1/flight-standby-movement", "health": "ok", "source": "Internal endpoints / M302 POST", "address": "M302 \u00b7 POST", "method": "POST", "mon": "M302"}, {"name": "/rosterautomation/api/v1/crew-roster/master-file", "health": "ok", "source": "Internal endpoints / M303 POST", "address": "M303 \u00b7 POST", "method": "POST", "mon": "M303"}, {"name": "/rosterautomation/api/v1/crew-roster/master-file", "health": "ok", "source": "Internal endpoints / M304 GET", "address": "M304 \u00b7 GET", "method": "GET", "mon": "M304"}, {"name": "/rosterautomation/api/v1/crew-roster/master-file", "health": "ok", "source": "Internal endpoints / M305 DELETE", "address": "M305 \u00b7 DELETE", "method": "DELETE", "mon": "M305"}, {"name": "/rosterautomation/api/v1/crew-roster/config", "health": "ok", "source": "Internal endpoints / M306 POST", "address": "M306 \u00b7 POST", "method": "POST", "mon": "M306"}, {"name": "/rosterautomation/api/v1/crew-roster/config", "health": "ok", "source": "Internal endpoints / M307 PUT", "address": "M307 \u00b7 PUT", "method": "PUT", "mon": "M307"}, {"name": "/rosterautomation/api/v1/crew-roster/config", "health": "ok", "source": "Internal endpoints / M308 GET", "address": "M308 \u00b7 GET", "method": "GET", "mon": "M308"}, {"name": "/rosterautomation/api/v1/crew-roster/config", "health": "ok", "source": "Internal endpoints / M309 DELETE", "address": "M309 \u00b7 DELETE", "method": "DELETE", "mon": "M309"}, {"name": "/rosterautomation/api/v1/crew-roster/status-master", "health": "ok", "source": "Internal endpoints / M310 POST", "address": "M310 \u00b7 POST", "method": "POST", "mon": "M310"}, {"name": "/rosterautomation/api/v1/crew-roster/status-master", "health": "ok", "source": "Internal endpoints / M311 GET", "address": "M311 \u00b7 GET", "method": "GET", "mon": "M311"}, {"name": "/rosterautomation/api/v1/crew-roster/insert-roster-automation-files", "health": "ok", "source": "Internal endpoints / M312 POST", "address": "M312 \u00b7 POST", "method": "POST", "mon": "M312"}, {"name": "/rosterautomation/api/v1/crew-roster/download", "health": "ok", "source": "Internal endpoints / M313 POST", "address": "M313 \u00b7 POST", "method": "POST", "mon": "M313"}, {"name": "/rosterautomation/api/v1/crew-roster/fetch-crew-details", "health": "ok", "source": "Internal endpoints / M314 POST", "address": "M314 \u00b7 POST", "method": "POST", "mon": "M314"}, {"name": "/rosterautomation/api/v1/crew-roster/reattempt", "health": "ok", "source": "Internal endpoints / M315 PUT", "address": "M315 \u00b7 PUT", "method": "PUT", "mon": "M315"}, {"name": "/rosterautomation/api/v1/token/get-token", "health": "ok", "source": "Internal endpoints / M316 POST", "address": "M316 \u00b7 POST", "method": "POST", "mon": "M316"}, {"name": "/weather/api/v1/crew-transition-info", "health": "ok", "source": "Internal endpoints / M317 GET", "address": "M317 \u00b7 GET", "method": "GET", "mon": "M317"}, {"name": "/weatherapi/v1/crew-manifest-flight", "health": "ok", "source": "Internal endpoints / M318 GET", "address": "M318 \u00b7 GET", "method": "GET", "mon": "M318"}, {"name": "/weather/api/v1/crew-manifest-station", "health": "ok", "source": "Internal endpoints / M319 POST", "address": "M319 \u00b7 POST", "method": "POST", "mon": "M319"}, {"name": "/weather/api/v1/crew-manifest-station-export", "health": "ok", "source": "Internal endpoints / M320 POST", "address": "M320 \u00b7 POST", "method": "POST", "mon": "M320"}, {"name": "/weather/api/v1/metar-details", "health": "ok", "source": "Internal endpoints / M321 GET", "address": "M321 \u00b7 GET", "method": "GET", "mon": "M321"}, {"name": "/metar/api/weather/latest", "health": "ok", "source": "Internal endpoints / M322 GET", "address": "M322 \u00b7 GET", "method": "GET", "mon": "M322"}, {"name": "/dispatch/api/v1/arrival-hold-report", "health": "ok", "source": "Internal endpoints / M323 GET", "address": "M323 \u00b7 GET", "method": "GET", "mon": "M323"}, {"name": "/flight/api/v1/fetch-flight-details", "health": "ok", "source": "Internal endpoints / M324 POST", "address": "M324 \u00b7 POST", "method": "POST", "mon": "M324"}, {"name": "/flight/api/v1/get-ac-type", "health": "ok", "source": "Internal endpoints / M325 GET", "address": "M325 \u00b7 GET", "method": "GET", "mon": "M325"}, {"name": "/flight/api/v1/get-stc-code", "health": "ok", "source": "Internal endpoints / M326 GET", "address": "M326 \u00b7 GET", "method": "GET", "mon": "M326"}, {"name": "/flight/api/v1/fetch-aircraft-tail", "health": "ok", "source": "Internal endpoints / M327 GET", "address": "M327 \u00b7 GET", "method": "GET", "mon": "M327"}, {"name": "/flight/api/v1/insert-aircarft-tail", "health": "ok", "source": "Internal endpoints / M328 POST", "address": "M328 \u00b7 POST", "method": "POST", "mon": "M328"}, {"name": "/flight/api/v1/update-aircraft-tail{id}", "health": "ok", "source": "Internal endpoints / M329 PUT", "address": "M329 \u00b7 PUT", "method": "PUT", "mon": "M329"}, {"name": "/crew/api/v1/crew-connection-report", "health": "ok", "source": "Internal endpoints / M330 POST", "address": "M330 \u00b7 POST", "method": "POST", "mon": "M330"}, {"name": "/crew/api/v1/crew-gd-report", "health": "ok", "source": "Internal endpoints / M331 GET", "address": "M331 \u00b7 GET", "method": "GET", "mon": "M331"}, {"name": "/crew/api/v1/crew-rating-aircraft-masters", "health": "ok", "source": "Internal endpoints / M332 POST", "address": "M332 \u00b7 POST", "method": "POST", "mon": "M332"}, {"name": "/crew/api/v1/crew-category-master", "health": "ok", "source": "Internal endpoints / M333 GET", "address": "M333 \u00b7 GET", "method": "GET", "mon": "M333"}, {"name": "/crew/api/v1/delete-aircraft-qualification-cat-master-by-Id/{id}", "health": "ok", "source": "Internal endpoints / M334 DELETE", "address": "M334 \u00b7 DELETE", "method": "DELETE", "mon": "M334"}, {"name": "/crew/api/v1/delete-aircraft-qualification-master-by-Id/{id}", "health": "ok", "source": "Internal endpoints / M335 DELETE", "address": "M335 \u00b7 DELETE", "method": "DELETE", "mon": "M335"}, {"name": "/crew/api/v1/delete-dgca-duration-window-by-Id/{id}", "health": "ok", "source": "Internal endpoints / M336 DELETE", "address": "M336 \u00b7 DELETE", "method": "DELETE", "mon": "M336"}, {"name": "/crew/api/v1/fetch-aircraft-qualification-master", "health": "ok", "source": "Internal endpoints / M337 GET", "address": "M337 \u00b7 GET", "method": "GET", "mon": "M337"}, {"name": "/crew/api/v1/fetch-aircraft-qualification-master-by-Id/{id}", "health": "ok", "source": "Internal endpoints / M338 GET", "address": "M338 \u00b7 GET", "method": "GET", "mon": "M338"}, {"name": "/crew/api/v1/fetch-dgca-duration-window-master-by-Id/{id}", "health": "ok", "source": "Internal endpoints / M339 GET", "address": "M339 \u00b7 GET", "method": "GET", "mon": "M339"}, {"name": "/crew/api/v1/fetch-dgca-duration-window-master", "health": "ok", "source": "Internal endpoints / M340 GET", "address": "M340 \u00b7 GET", "method": "GET", "mon": "M340"}, {"name": "/crew/api/v1/insert-ac-Qualification-cat", "health": "ok", "source": "Internal endpoints / M341 POST", "address": "M341 \u00b7 POST", "method": "POST", "mon": "M341"}, {"name": "/crew/api/v1/get-ac-qual-cat-master-data", "health": "ok", "source": "Internal endpoints / M342 GET", "address": "M342 \u00b7 GET", "method": "GET", "mon": "M342"}, {"name": "/crew/api/v1/insert-dgca-duration-window-master", "health": "ok", "source": "Internal endpoints / M343 POST", "address": "M343 \u00b7 POST", "method": "POST", "mon": "M343"}, {"name": "/crew/api/v1/update-aircraft-qualification-master/{id}", "health": "ok", "source": "Internal endpoints / M344 PUT", "address": "M344 \u00b7 PUT", "method": "PUT", "mon": "M344"}, {"name": "/crew/api/v1/update-dgca-duration-window-master/{id}", "health": "ok", "source": "Internal endpoints / M345 PUT", "address": "M345 \u00b7 PUT", "method": "PUT", "mon": "M345"}, {"name": "/crew/api/v1/crew-rating-report", "health": "ok", "source": "Internal endpoints / M346 POST", "address": "M346 \u00b7 POST", "method": "POST", "mon": "M346"}, {"name": "/crew/api/v1/delete-flight-status-master", "health": "ok", "source": "Internal endpoints / M347 DELETE", "address": "M347 \u00b7 DELETE", "method": "DELETE", "mon": "M347"}, {"name": "/crew/api/v1/get-flight-status-master", "health": "ok", "source": "Internal endpoints / M348 GET", "address": "M348 \u00b7 GET", "method": "GET", "mon": "M348"}, {"name": "/crew/api/v1/insert-flight-status-master", "health": "ok", "source": "Internal endpoints / M349 POST", "address": "M349 \u00b7 POST", "method": "POST", "mon": "M349"}, {"name": "/crew/api/v1/aircraft-type-catalog", "health": "ok", "source": "Internal endpoints / M350 GET", "address": "M350 \u00b7 GET", "method": "GET", "mon": "M350"}, {"name": "/flight/api/v1/joc-flight-data", "health": "ok", "source": "Internal endpoints / M351 GET", "address": "M351 \u00b7 GET", "method": "GET", "mon": "M351"}, {"name": "/metar/api/v1/weather/historical", "health": "ok", "source": "Internal endpoints / M352 GET", "address": "M352 \u00b7 GET", "method": "GET", "mon": "M352"}, {"name": "/streamorchestrator-ws/websocket/main-summary", "health": "ok", "source": "Internal endpoints / M353 GET", "address": "M353 \u00b7 GET", "method": "GET", "mon": "M353"}, {"name": "/streamorchestrator-ws/websocket/base-wise-summary", "health": "ok", "source": "Internal endpoints / M354 GET", "address": "M354 \u00b7 GET", "method": "GET", "mon": "M354"}, {"name": "/crewdashboard-hotac/api/v1/logistics/summary", "health": "ok", "source": "Internal endpoints / M355 POST", "address": "M355 \u00b7 POST", "method": "POST", "mon": "M355"}, {"name": "/rosterautomation/v1/crew-roster/master-file", "health": "ok", "source": "Internal endpoints / M356 POST", "address": "M356 \u00b7 POST", "method": "POST", "mon": "M356"}, {"name": "/rosterautomation/v1/crew-roster/master-file", "health": "ok", "source": "Internal endpoints / M357 GET", "address": "M357 \u00b7 GET", "method": "GET", "mon": "M357"}, {"name": "/rosterautomation/v1/crew-roster/master-file/{Id}", "health": "ok", "source": "Internal endpoints / M358 DELETE", "address": "M358 \u00b7 DELETE", "method": "DELETE", "mon": "M358"}, {"name": "/rosterautomation/v1/crew-roster/config", "health": "ok", "source": "Internal endpoints / M359 POST", "address": "M359 \u00b7 POST", "method": "POST", "mon": "M359"}, {"name": "/rosterautomation/v1/crew-roster/config/{Id}", "health": "ok", "source": "Internal endpoints / M360 PUT", "address": "M360 \u00b7 PUT", "method": "PUT", "mon": "M360"}, {"name": "/rosterautomation/v1/crew-roster/config", "health": "ok", "source": "Internal endpoints / M361 GET", "address": "M361 \u00b7 GET", "method": "GET", "mon": "M361"}, {"name": "/rosterautomation/v1/crew-roster/config/{Id}", "health": "ok", "source": "Internal endpoints / M362 DELETE", "address": "M362 \u00b7 DELETE", "method": "DELETE", "mon": "M362"}, {"name": "/rosterautomation/v1/crew-roster/status-master", "health": "ok", "source": "Internal endpoints / M363 POST", "address": "M363 \u00b7 POST", "method": "POST", "mon": "M363"}, {"name": "/rosterautomation/v1/crew-roster/status-master", "health": "ok", "source": "Internal endpoints / M364 GET", "address": "M364 \u00b7 GET", "method": "GET", "mon": "M364"}, {"name": "/rosterautomation/v1/crew-roster/insert-roster-automation-files", "health": "ok", "source": "Internal endpoints / M365 POST", "address": "M365 \u00b7 POST", "method": "POST", "mon": "M365"}, {"name": "/rosterautomation/v1/crew-roster/download", "health": "ok", "source": "Internal endpoints / M366 POST", "address": "M366 \u00b7 POST", "method": "POST", "mon": "M366"}, {"name": "/rosterautomation/v1/crew-roster/fetch-crew-details", "health": "ok", "source": "Internal endpoints / M367 POST", "address": "M367 \u00b7 POST", "method": "POST", "mon": "M367"}, {"name": "/rosterautomation/v1/crew-roster/reattempt/{rtfid}", "health": "ok", "source": "Internal endpoints / M368 PUT", "address": "M368 \u00b7 PUT", "method": "PUT", "mon": "M368"}, {"name": "/rosterautomation/v1/token/get-token", "health": "ok", "source": "Internal endpoints / M369 PUT", "address": "M369 \u00b7 PUT", "method": "PUT", "mon": "M369"}, {"name": "/crewdashboard/api/v1/crew-dashboard/open-trips-main", "health": "ok", "source": "Internal endpoints / M370 GET", "address": "M370 \u00b7 GET", "method": "GET", "mon": "M370"}, {"name": "/crewdashboard/api/v1/crew-dashboard/open-trips-position", "health": "ok", "source": "Internal endpoints / M371 GET", "address": "M371 \u00b7 GET", "method": "GET", "mon": "M371"}, {"name": "/crewdashboard/api/v1/crew-dashboard/sby-main", "health": "ok", "source": "Internal endpoints / M372 GET", "address": "M372 \u00b7 GET", "method": "GET", "mon": "M372"}, {"name": "/crewdashboard/api/v1/crew-dashboard/sby-position", "health": "ok", "source": "Internal endpoints / M373 GET", "address": "M373 \u00b7 GET", "method": "GET", "mon": "M373"}, {"name": "/crewdashboard/api/v1/crew-dashboard/unpaired-legs", "health": "ok", "source": "Internal endpoints / M374 GET", "address": "M374 \u00b7 GET", "method": "GET", "mon": "M374"}, {"name": "/crewdashboard/api/v1/crew-dashboard/unpaired-legs-base", "health": "ok", "source": "Internal endpoints / M375 GET", "address": "M375 \u00b7 GET", "method": "GET", "mon": "M375"}, {"name": "/crewdashboard/api/v1/crew-dashboard/pending-notifications", "health": "ok", "source": "Internal endpoints / M376 GET", "address": "M376 \u00b7 GET", "method": "GET", "mon": "M376"}, {"name": "/crewdashboard/api/v1/crew-dashboard/pending-notifications-base", "health": "ok", "source": "Internal endpoints / M377 GET", "address": "M377 \u00b7 GET", "method": "GET", "mon": "M377"}, {"name": "/crewdashboard/api/v1/crew-dashboard/unfinalized-routes", "health": "ok", "source": "Internal endpoints / M378 GET", "address": "M378 \u00b7 GET", "method": "GET", "mon": "M378"}, {"name": "/crewdashboard/api/v1/crew-dashboard/unfinalized-routes-base", "health": "ok", "source": "Internal endpoints / M379 GET", "address": "M379 \u00b7 GET", "method": "GET", "mon": "M379"}, {"name": "/crewdashboard/api/v1/crew-dashboard/na-percentage", "health": "ok", "source": "Internal endpoints / M380 GET", "address": "M380 \u00b7 GET", "method": "GET", "mon": "M380"}, {"name": "/crewdashboard/api/v1/crew-dashboard/na-percentage-position", "health": "ok", "source": "Internal endpoints / M381 GET", "address": "M381 \u00b7 GET", "method": "GET", "mon": "M381"}, {"name": "/crewdashboard/api/v1/crew-dashboard/crew-rating", "health": "ok", "source": "Internal endpoints / M382 GET", "address": "M382 \u00b7 GET", "method": "GET", "mon": "M382"}, {"name": "/crewdashboard/api/v1/crew-dashboard/open-sim", "health": "ok", "source": "Internal endpoints / M383 GET", "address": "M383 \u00b7 GET", "method": "GET", "mon": "M383"}, {"name": "/crewdashboard/api/v1/token/get-token", "health": "ok", "source": "Internal endpoints / M384 POST", "address": "M384 \u00b7 POST", "method": "POST", "mon": "M384"}, {"name": "/flight/api/v1/terminal-by-airport", "health": "ok", "source": "Internal endpoints / M385 GET", "address": "M385 \u00b7 GET", "method": "GET", "mon": "M385"}, {"name": "/flight/api/v1/aircraftrecord-catalog-data", "health": "ok", "source": "Internal endpoints / M386 GET", "address": "M386 \u00b7 GET", "method": "GET", "mon": "M386"}, {"name": "/flight/api/v1/aircrafttype-catalog-data", "health": "ok", "source": "Internal endpoints / M387 GET", "address": "M387 \u00b7 GET", "method": "GET", "mon": "M387"}, {"name": "/flight/api/v1/get-stc-Code", "health": "ok", "source": "Internal endpoints / M388 GET", "address": "M388 \u00b7 GET", "method": "GET", "mon": "M388"}, {"name": "/admin/api/v1/add-db-connections", "health": "ok", "source": "Internal endpoints / M389 POST", "address": "M389 \u00b7 POST", "method": "POST", "mon": "M389"}, {"name": "/admin/api/v1/get-db-connections", "health": "ok", "source": "Internal endpoints / M390 GET", "address": "M390 \u00b7 GET", "method": "GET", "mon": "M390"}, {"name": "/admin/api/v1/update-db-connections/{id}", "health": "ok", "source": "Internal endpoints / M391 PUT", "address": "M391 \u00b7 PUT", "method": "PUT", "mon": "M391"}, {"name": "/admin/api/v1/delete-db-connections/{id}", "health": "ok", "source": "Internal endpoints / M392 DELETE", "address": "M392 \u00b7 DELETE", "method": "DELETE", "mon": "M392"}, {"name": "/flight/api/v1/crew-master/terminals-by-airport", "health": "ok", "source": "Internal endpoints / M393 GET", "address": "M393 \u00b7 GET", "method": "GET", "mon": "M393"}, {"name": "/admin/api/v1/filtered-role-codes", "health": "ok", "source": "Internal endpoints / M394 GET", "address": "M394 \u00b7 GET", "method": "GET", "mon": "M394"}, {"name": "/weather/api/v1/crew-transition-info", "health": "ok", "source": "Internal endpoints / M395 GET", "address": "M395 \u00b7 GET", "method": "GET", "mon": "M395"}, {"name": "/weather/api/v1/crew-manifest-flight", "health": "ok", "source": "Internal endpoints / M396 GET", "address": "M396 \u00b7 GET", "method": "GET", "mon": "M396"}, {"name": "/weather/api/v1/crew-manifest-station", "health": "ok", "source": "Internal endpoints / M397 POST", "address": "M397 \u00b7 POST", "method": "POST", "mon": "M397"}, {"name": "/weather/api/v1/crew-manifest-station-export", "health": "ok", "source": "Internal endpoints / M398 POST", "address": "M398 \u00b7 POST", "method": "POST", "mon": "M398"}, {"name": "/crew/api/v1/crew-blank-gd-report", "health": "ok", "source": "Internal endpoints / M399 GET", "address": "M399 \u00b7 GET", "method": "GET", "mon": "M399"}, {"name": "/flight/api/v1/ctot/arrival-station", "health": "ok", "source": "Internal endpoints / M400 POST", "address": "M400 \u00b7 POST", "method": "POST", "mon": "M400"}, {"name": "/flight/api/v1/ctot/resend-email", "health": "ok", "source": "Internal endpoints / M401 POST", "address": "M401 \u00b7 POST", "method": "POST", "mon": "M401"}, {"name": "/flight/api/v1/ctot/violation-export", "health": "ok", "source": "Internal endpoints / M402 POST", "address": "M402 \u00b7 POST", "method": "POST", "mon": "M402"}, {"name": "/flight/api/v1/ctot/master", "health": "ok", "source": "Internal endpoints / M403 POST", "address": "M403 \u00b7 POST", "method": "POST", "mon": "M403"}, {"name": "/flight/api/v1/ctot/master/{Id}", "health": "ok", "source": "Internal endpoints / M404 PUT", "address": "M404 \u00b7 PUT", "method": "PUT", "mon": "M404"}, {"name": "/flight/api/v1/ctot/master", "health": "ok", "source": "Internal endpoints / M405 GET", "address": "M405 \u00b7 GET", "method": "GET", "mon": "M405"}, {"name": "/flight/api/v1/apm-detail/export", "health": "ok", "source": "Internal endpoints / M406 POST", "address": "M406 \u00b7 POST", "method": "POST", "mon": "M406"}, {"name": "/flight/api/v1/apm-detail/terminal-by-airport", "health": "ok", "source": "Internal endpoints / M407 GET", "address": "M407 \u00b7 GET", "method": "GET", "mon": "M407"}, {"name": "/flight/api/v1/apm-detail", "health": "ok", "source": "Internal endpoints / M408 POST", "address": "M408 \u00b7 POST", "method": "POST", "mon": "M408"}, {"name": "/flight/api/v1/apm-detail", "health": "ok", "source": "Internal endpoints / M409 GET", "address": "M409 \u00b7 GET", "method": "GET", "mon": "M409"}, {"name": "/flight/api/v1/apm-detail/{id}", "health": "ok", "source": "Internal endpoints / M410 DELETE", "address": "M410 \u00b7 DELETE", "method": "DELETE", "mon": "M410"}, {"name": "/flight/api/v1/apm-detail/{id}", "health": "ok", "source": "Internal endpoints / M411 PUT", "address": "M411 \u00b7 PUT", "method": "PUT", "mon": "M411"}, {"name": "/flight/api/v1/ctot/send-email", "health": "ok", "source": "Internal endpoints / M412 POST", "address": "M412 \u00b7 POST", "method": "POST", "mon": "M412"}, {"name": "/flight/api/v1/ctot/upload", "health": "ok", "source": "Internal endpoints / M413 POST", "address": "M413 \u00b7 POST", "method": "POST", "mon": "M413"}, {"name": "/flight/api/v1/ctot/preview/{fileUploadDetailsid}", "health": "ok", "source": "Internal endpoints / M414 GET", "address": "M414 \u00b7 GET", "method": "GET", "mon": "M414"}, {"name": "/flight/api/v1/ctot/violation", "health": "ok", "source": "Internal endpoints / M415 POST", "address": "M415 \u00b7 POST", "method": "POST", "mon": "M415"}, {"name": "/crewdashboard/api/v1/crew-dashboard/open-trips-main-details", "health": "ok", "source": "Internal endpoints / M416 GET", "address": "M416 \u00b7 GET", "method": "GET", "mon": "M416"}, {"name": "/weather/api/v1/advisories/search", "health": "ok", "source": "Internal endpoints / M417 GET", "address": "M417 \u00b7 GET", "method": "GET", "mon": "M417"}, {"name": "/weather/api/v1/advisories", "health": "ok", "source": "Internal endpoints / M418 POST", "address": "M418 \u00b7 POST", "method": "POST", "mon": "M418"}, {"name": "/weather/api/v1/advisories", "health": "ok", "source": "Internal endpoints / M419 PUT", "address": "M419 \u00b7 PUT", "method": "PUT", "mon": "M419"}, {"name": "/weather/api/v1/advisories", "health": "ok", "source": "Internal endpoints / M420 DELETE", "address": "M420 \u00b7 DELETE", "method": "DELETE", "mon": "M420"}, {"name": "/flight/api/v1/base-departure/reports", "health": "ok", "source": "Internal endpoints / M421 POST", "address": "M421 \u00b7 POST", "method": "POST", "mon": "M421"}, {"name": "/flight/api/v1/save-base-departure", "health": "ok", "source": "Internal endpoints / M422 POST", "address": "M422 \u00b7 POST", "method": "POST", "mon": "M422"}, {"name": "/flight/api/v1/base-departure/export-report", "health": "ok", "source": "Internal endpoints / M423 POST", "address": "M423 \u00b7 POST", "method": "POST", "mon": "M423"}, {"name": "/flight/api/v1/delay-reason-master", "health": "ok", "source": "Internal endpoints / M424 GET", "address": "M424 \u00b7 GET", "method": "GET", "mon": "M424"}, {"name": "/flight/api/v1/delay-reason-master", "health": "ok", "source": "Internal endpoints / M425 POST", "address": "M425 \u00b7 POST", "method": "POST", "mon": "M425"}, {"name": "/flight/api/v1/delay-reason-master/{id}", "health": "ok", "source": "Internal endpoints / M426 PUT", "address": "M426 \u00b7 PUT", "method": "PUT", "mon": "M426"}, {"name": "/flight/api/v1/delay-reason-master/{id}", "health": "ok", "source": "Internal endpoints / M427 DELETE", "address": "M427 \u00b7 DELETE", "method": "DELETE", "mon": "M427"}, {"name": "/flight/api/v1/gpu/aircraft-history", "health": "ok", "source": "Internal endpoints / M428 POST", "address": "M428 \u00b7 POST", "method": "POST", "mon": "M428"}, {"name": "/flight/api/v1/gpu/notificationhub-details", "health": "ok", "source": "Internal endpoints / M429 POST", "address": "M429 \u00b7 POST", "method": "POST", "mon": "M429"}, {"name": "/flight/api/v1/gpu/notification-statistics", "health": "ok", "source": "Internal endpoints / M430 GET", "address": "M430 \u00b7 GET", "method": "GET", "mon": "M430"}, {"name": "/flight/api/v1/gpu/aircrafts", "health": "ok", "source": "Internal endpoints / M431 GET", "address": "M431 \u00b7 GET", "method": "GET", "mon": "M431"}, {"name": "/flight/api/v1/gpu/gpu-scheduler", "health": "ok", "source": "Internal endpoints / M432 POST", "address": "M432 \u00b7 POST", "method": "POST", "mon": "M432"}, {"name": "/flight/api/v1/gpu/last-file", "health": "ok", "source": "Internal endpoints / M433 GET", "address": "M433 \u00b7 GET", "method": "GET", "mon": "M433"}, {"name": "/flight/api/v1/gpu/upload", "health": "ok", "source": "Internal endpoints / M434 POST", "address": "M434 \u00b7 POST", "method": "POST", "mon": "M434"}, {"name": "/flight/api/v1/gpu/aircraft-history/export", "health": "ok", "source": "Internal endpoints / M435 POST", "address": "M435 \u00b7 POST", "method": "POST", "mon": "M435"}, {"name": "/flight/api/v1/gpu/notification-statistics/export", "health": "ok", "source": "Internal endpoints / M436 POST", "address": "M436 \u00b7 POST", "method": "POST", "mon": "M436"}, {"name": "/flight/api/v1/gpu/notificationhub-details/export", "health": "ok", "source": "Internal endpoints / M437 POST", "address": "M437 \u00b7 POST", "method": "POST", "mon": "M437"}, {"name": "/flight/api/v1/gpu/adhoc-report", "health": "ok", "source": "Internal endpoints / M438 POST", "address": "M438 \u00b7 POST", "method": "POST", "mon": "M438"}, {"name": "/flight/api/v1/gpu/notification-adhoc", "health": "ok", "source": "Internal endpoints / M439 POST", "address": "M439 \u00b7 POST", "method": "POST", "mon": "M439"}, {"name": "/flight/api/v1/rulesets/save", "health": "ok", "source": "Internal endpoints / M440 POST", "address": "M440 \u00b7 POST", "method": "POST", "mon": "M440"}, {"name": "/flight/api/v1/terminal-by-station", "health": "ok", "source": "Internal endpoints / M441 GET", "address": "M441 \u00b7 GET", "method": "GET", "mon": "M441"}, {"name": "/flight/api/v1/update-aircraft-tail/{Id}", "health": "ok", "source": "Internal endpoints / M442 PUT", "address": "M442 \u00b7 PUT", "method": "PUT", "mon": "M442"}, {"name": "/flight/api/v1/duty-code", "health": "ok", "source": "Internal endpoints / M443 GET", "address": "M443 \u00b7 GET", "method": "GET", "mon": "M443"}, {"name": "/flight/api/v1/position-master", "health": "ok", "source": "Internal endpoints / M444 GET", "address": "M444 \u00b7 GET", "method": "GET", "mon": "M444"}, {"name": "/flight/api/v1/aircraft-type-catalog", "health": "ok", "source": "Internal endpoints / M445 GET", "address": "M445 \u00b7 GET", "method": "GET", "mon": "M445"}, {"name": "/flight/api/v1/crew-cate", "health": "ok", "source": "Internal endpoints / M446 GET", "address": "M446 \u00b7 GET", "method": "GET", "mon": "M446"}, {"name": "/flight/api/v1/training-qualification", "health": "ok", "source": "Internal endpoints / M447 GET", "address": "M447 \u00b7 GET", "method": "GET", "mon": "M447"}, {"name": "/crew/api/v1/ruleengine/add", "health": "ok", "source": "Internal endpoints / M448 POST", "address": "M448 \u00b7 POST", "method": "POST", "mon": "M448"}, {"name": "/crew/api/v1/ruleengine/edit", "health": "ok", "source": "Internal endpoints / M449 PUT", "address": "M449 \u00b7 PUT", "method": "PUT", "mon": "M449"}, {"name": "/crew/api/v1/ruleengine/all", "health": "ok", "source": "Internal endpoints / M450 POST", "address": "M450 \u00b7 POST", "method": "POST", "mon": "M450"}, {"name": "/crew/api/v1/rule-engine/export", "health": "ok", "source": "Internal endpoints / M451 POST", "address": "M451 \u00b7 POST", "method": "POST", "mon": "M451"}, {"name": "/crew/api/v1/ruleengine/filter-rulename", "health": "ok", "source": "Internal endpoints / M452 GET", "address": "M452 \u00b7 GET", "method": "GET", "mon": "M452"}, {"name": "/crew/api/v1/email/crew-duty-change", "health": "ok", "source": "Internal endpoints / M453 GET", "address": "M453 \u00b7 GET", "method": "GET", "mon": "M453"}, {"name": "/cotsconfiguration/api/v1/connections", "health": "ok", "source": "Internal endpoints / M454 GET", "address": "M454 \u00b7 GET", "method": "GET", "mon": "M454"}, {"name": "/cotsconfiguration/api/v1/routes", "health": "ok", "source": "Internal endpoints / M455 GET", "address": "M455 \u00b7 GET", "method": "GET", "mon": "M455"}, {"name": "/cotsconfiguration/api/v1/routes/metrics", "health": "ok", "source": "Internal endpoints / M456 GET", "address": "M456 \u00b7 GET", "method": "GET", "mon": "M456"}, {"name": "/cotsconfiguration/api/v1/routes/health", "health": "ok", "source": "Internal endpoints / M457 GET", "address": "M457 \u00b7 GET", "method": "GET", "mon": "M457"}, {"name": "/cotsconfiguration/api/v1/routes/control/ROUTE", "health": "ok", "source": "Internal endpoints / M458 POST", "address": "M458 \u00b7 POST", "method": "POST", "mon": "M458"}, {"name": "/cotsconfiguration/api/v1/connections/CONNECTION", "health": "ok", "source": "Internal endpoints / M459 PUT", "address": "M459 \u00b7 PUT", "method": "PUT", "mon": "M459"}, {"name": "/cotsconfiguration/api/v1/connections/CONNECTION", "health": "ok", "source": "Internal endpoints / M460 DELETE", "address": "M460 \u00b7 DELETE", "method": "DELETE", "mon": "M460"}, {"name": "/cotsconfiguration/api/v1/routes", "health": "ok", "source": "Internal endpoints / M461 POST", "address": "M461 \u00b7 POST", "method": "POST", "mon": "M461"}, {"name": "/cotsconfiguration/api/v1/connections", "health": "ok", "source": "Internal endpoints / M462 POST", "address": "M462 \u00b7 POST", "method": "POST", "mon": "M462"}, {"name": "/cotsconfiguration/api/v1/routes/ROUTE", "health": "ok", "source": "Internal endpoints / M463 PUT", "address": "M463 \u00b7 PUT", "method": "PUT", "mon": "M463"}, {"name": "/cotsconfiguration/api/v1/routes/ROUTE", "health": "ok", "source": "Internal endpoints / M464 DELETE", "address": "M464 \u00b7 DELETE", "method": "DELETE", "mon": "M464"}, {"name": "/flight/api/v1/email/flight-counts-mismatch", "health": "ok", "source": "Internal endpoints / M465 POST", "address": "M465 \u00b7 POST", "method": "POST", "mon": "M465"}, {"name": "/metar/api/weather/add", "health": "ok", "source": "Internal endpoints / M466 POST", "address": "M466 \u00b7 POST", "method": "POST", "mon": "M466"}, {"name": "/metar/api/weather/delete", "health": "ok", "source": "Internal endpoints / M467 DELETE", "address": "M467 \u00b7 DELETE", "method": "DELETE", "mon": "M467"}, {"name": "/metar/api/weather/records", "health": "ok", "source": "Internal endpoints / M468 GET", "address": "M468 \u00b7 GET", "method": "GET", "mon": "M468"}, {"name": "/metar/api/weather/update", "health": "ok", "source": "Internal endpoints / M469 PUT", "address": "M469 \u00b7 PUT", "method": "PUT", "mon": "M469"}, {"name": "/metar/api/weather/latest", "health": "ok", "source": "Internal endpoints / M470 GET", "address": "M470 \u00b7 GET", "method": "GET", "mon": "M470"}, {"name": "/admin/api/v1/application-usage", "health": "ok", "source": "Internal endpoints / M471 DELETE", "address": "M471 \u00b7 DELETE", "method": "DELETE", "mon": "M471"}, {"name": "/admin/api/v1/application-usage", "health": "ok", "source": "Internal endpoints / M472 POST", "address": "M472 \u00b7 POST", "method": "POST", "mon": "M472"}, {"name": "/admin/api/v1/application-usage-summary", "health": "ok", "source": "Internal endpoints / M473 GET", "address": "M473 \u00b7 GET", "method": "GET", "mon": "M473"}, {"name": "/admin/api/v1/module-usage", "health": "ok", "source": "Internal endpoints / M474 GET", "address": "M474 \u00b7 GET", "method": "GET", "mon": "M474"}, {"name": "/admin/api/v1/user-usage-summary", "health": "ok", "source": "Internal endpoints / M475 GET", "address": "M475 \u00b7 GET", "method": "GET", "mon": "M475"}, {"name": "/dispatch/api/v1/cost-index", "health": "ok", "source": "Internal endpoints / M476 GET", "address": "M476 \u00b7 GET", "method": "GET", "mon": "M476"}, {"name": "/dispatch/api/v1/fuel-information", "health": "ok", "source": "Internal endpoints / M477 POST", "address": "M477 \u00b7 POST", "method": "POST", "mon": "M477"}, {"name": "/dispatch/api/v1/fuel-information", "health": "ok", "source": "Internal endpoints / M478 PUT", "address": "M478 \u00b7 PUT", "method": "PUT", "mon": "M478"}, {"name": "/dispatch/api/v1/fuel-information-export", "health": "ok", "source": "Internal endpoints / M479 POST", "address": "M479 \u00b7 POST", "method": "POST", "mon": "M479"}, {"name": "/weather/api/v1/fuel-advisory", "health": "ok", "source": "Internal endpoints / M480 POST", "address": "M480 \u00b7 POST", "method": "POST", "mon": "M480"}, {"name": "/weather/api/v1/fuel-advisory", "health": "ok", "source": "Internal endpoints / M481 GET", "address": "M481 \u00b7 GET", "method": "GET", "mon": "M481"}, {"name": "/weather/api/v1/fuel-advisory/{id}", "health": "ok", "source": "Internal endpoints / M482 PUT", "address": "M482 \u00b7 PUT", "method": "PUT", "mon": "M482"}, {"name": "/weather/api/v1/fuel-advisory/{id}", "health": "ok", "source": "Internal endpoints / M483 DELETE", "address": "M483 \u00b7 DELETE", "method": "DELETE", "mon": "M483"}, {"name": "/weather/api/v1/met-mapping", "health": "ok", "source": "Internal endpoints / M484 POST", "address": "M484 \u00b7 POST", "method": "POST", "mon": "M484"}, {"name": "/weather/api/v1/met-mapping", "health": "ok", "source": "Internal endpoints / M485 GET", "address": "M485 \u00b7 GET", "method": "GET", "mon": "M485"}, {"name": "/weather/api/v1/met-mapping/{id}", "health": "ok", "source": "Internal endpoints / M486 PUT", "address": "M486 \u00b7 PUT", "method": "PUT", "mon": "M486"}, {"name": "/weather/api/v1/met-mapping/{id}", "health": "ok", "source": "Internal endpoints / M487 DELETE", "address": "M487 \u00b7 DELETE", "method": "DELETE", "mon": "M487"}, {"name": "/weather/api/v1/metar-tafor", "health": "ok", "source": "Internal endpoints / M488 POST", "address": "M488 \u00b7 POST", "method": "POST", "mon": "M488"}, {"name": "/weather/api/v1/metar-tafor-detail", "health": "ok", "source": "Internal endpoints / M489 POST", "address": "M489 \u00b7 POST", "method": "POST", "mon": "M489"}, {"name": "/weather/api/v1/metar-tafor", "health": "ok", "source": "Internal endpoints / M490 PUT", "address": "M490 \u00b7 PUT", "method": "PUT", "mon": "M490"}, {"name": "/weather/api/v1/metar-tafor/{id}", "health": "ok", "source": "Internal endpoints / M491 DELETE", "address": "M491 \u00b7 DELETE", "method": "DELETE", "mon": "M491"}, {"name": "/flight/api/v1/joc-nav-aims-comparison/export", "health": "ok", "source": "Internal endpoints / M492 POST", "address": "M492 \u00b7 POST", "method": "POST", "mon": "M492"}, {"name": "/flight/api/v1/joc-nav-aims-comparison/export-future", "health": "ok", "source": "Internal endpoints / M493 POST", "address": "M493 \u00b7 POST", "method": "POST", "mon": "M493"}, {"name": "/flight/api/v1/joc-nav-aims-comparison/reports", "health": "ok", "source": "Internal endpoints / M494 POST", "address": "M494 \u00b7 POST", "method": "POST", "mon": "M494"}, {"name": "/flight/api/v1/joc-nav-aims-comparison/reports-future", "health": "ok", "source": "Internal endpoints / M495 POST", "address": "M495 \u00b7 POST", "method": "POST", "mon": "M495"}, {"name": "/crewdashboard/api/v1/crew-dashboard/pending-notifications-details", "health": "ok", "source": "Internal endpoints / M496 GET", "address": "M496 \u00b7 GET", "method": "GET", "mon": "M496"}], "external": [{"name": "ORI", "health": "ok", "source": "New design 16 june 26 Abhinav / External Services", "address": "External Services", "mon": "M49"}, {"name": "JOC", "health": "ok", "source": "New design 16 june 26 Abhinav / External Services", "address": "External Services", "mon": "M43"}, {"name": "Navitar", "health": "ok", "source": "New design 16 june 26 Abhinav / External Services", "address": "External Services", "mon": "M47"}, {"name": "NavBlue", "health": "ok", "source": "New design 16 june 26 Abhinav / External Services", "address": "External Services", "mon": "M46"}, {"name": "6EAviate", "health": "ok", "source": "New design 16 june 26 Abhinav / External Services", "address": "External Services", "mon": "M41"}, {"name": "Jeppson", "health": "ok", "source": "New design 16 june 26 Abhinav / External Services", "address": "External Services", "mon": "M44"}, {"name": "PROVERNE", "health": "ok", "source": "New design 16 june 26 Abhinav / External Services", "address": "External Services", "mon": "M50"}, {"name": "HOTAC", "health": "ok", "source": "New design 16 june 26 Abhinav / External Services", "address": "External Services", "mon": "M42"}, {"name": "Notification", "health": "ok", "source": "New design 16 june 26 Abhinav / External Services", "address": "External Services", "mon": "M48"}, {"name": "Metar", "health": "ok", "source": "New design 16 june 26 Abhinav / External Services", "address": "External Services", "mon": "M45"}, {"name": "Wingops", "health": "ok", "source": "New design 16 june 26 Abhinav / External Services", "address": "External Services", "mon": "M51"}], "jobs": [{"name": "api/v1/gpu/gpu-scheduler", "health": "ok", "source": "New design 16 june 26 Abhinav / Cron Job", "address": "12:00 AM daily", "mon": "M58"}, {"name": "api/v1/email/crew-duty-change Every 5 min", "health": "ok", "source": "New design 16 june 26 Abhinav / Cron Job", "address": "scheduled job", "mon": "M57"}, {"name": "api/v1/mvt/ scheduler/process", "health": "ok", "source": "New design 16 june 26 Abhinav / Cron Job", "address": "IST 13:00 hrs daily", "mon": "M59"}, {"name": "/api/v1/email/sir", "health": "ok", "source": "New design 16 june 26 Abhinav / Cron Job", "address": "10 AM Daily", "mon": "M55"}, {"name": "/api/v1/scr Every 5 min", "health": "ok", "source": "New design 16 june 26 Abhinav / Cron Job", "address": "scheduled job", "mon": "M56"}, {"name": "/api/v1/email/flight-counts-mismatch", "health": "ok", "source": "New design 16 june 26 Abhinav / Cron Job", "address": "10:30 AM daily", "mon": "M54"}, {"name": "email/refresh-subscriptions", "health": "ok", "source": "New design 16 june 26 Abhinav / Cron Job", "address": "10 AM Daily", "mon": "M60"}], "kafka_producer": [{"name": "prod.crd.logistics-summary.v1.json", "health": "warn", "source": "New design 16 june 26 Abhinav / occhub-streamorchestrator-ms-release Topic's / Micro services / prod.crd.logistics-summary.v1.json", "address": "kafka topic", "mon": "M70"}, {"name": "prod.crd.pending-notifications-base.v1.error.json", "health": "warn", "source": "New design 16 june 26 Abhinav / occhub-streamorchestrator-ms-release Topic's / Micro services / prod.crd.pending-notifications-base.v1.error.json", "address": "kafka topic", "mon": "M83"}, {"name": "prod.crd.communication-summary.v1.error.json", "health": "warn", "source": "New design 16 june 26 Abhinav / occhub-streamorchestrator-ms-release Topic's / Micro services / prod.crd.communication-summary.v1.error.json", "address": "kafka topic", "mon": "M61"}, {"name": "prod.crd.unpaired-legs.v1.json", "health": "warn", "source": "New design 16 june 26 Abhinav / occhub-streamorchestrator-ms-release Topic's / Micro services / prod.crd.unpaired-legs.v1.json", "address": "kafka topic", "mon": "M100"}, {"name": "prod.crd.unpaired-legs-base.v1.error.json", "health": "warn", "source": "New design 16 june 26 Abhinav / occhub-streamorchestrator-ms-release Topic's / Micro services / prod.crd.unpaired-legs-base.v1.error.json", "address": "kafka topic", "mon": "M97"}, {"name": "prod.crd.sby-position.v1.json", "health": "warn", "source": "New design 16 june 26 Abhinav / occhub-streamorchestrator-ms-release Topic's / Micro services / prod.crd.sby-position.v1.json", "address": "kafka topic", "mon": "M92"}, {"name": "prod.crd.unpaired-legs.v1.error.json", "health": "warn", "source": "New design 16 june 26 Abhinav / occhub-streamorchestrator-ms-release Topic's / Micro services / prod.crd.unpaired-legs.v1.error.json", "address": "kafka topic", "mon": "M99"}, {"name": "prod.crd.open-trips-position.v1.json", "health": "warn", "source": "New design 16 june 26 Abhinav / occhub-streamorchestrator-ms-release Topic's / Micro services / prod.crd.open-trips-position.v1.json", "address": "kafka topic", "mon": "M82"}, {"name": "prod.crd.na-percentage.v1.error.json", "health": "warn", "source": "New design 16 june 26 Abhinav / occhub-streamorchestrator-ms-release Topic's / Micro services / prod.crd.na-percentage.v1.error.json", "address": "kafka topic", "mon": "M73"}, {"name": "prod.crd.logistics-summary.v1.error.json", "health": "warn", "source": "New design 16 june 26 Abhinav / occhub-streamorchestrator-ms-release Topic's / Micro services / prod.crd.logistics-summary.v1.error.json", "address": "kafka topic", "mon": "M69"}, {"name": "prod.crd.unfinalized-routes.v1.json", "health": "warn", "source": "New design 16 june 26 Abhinav / occhub-streamorchestrator-ms-release Topic's / Micro services / prod.crd.unfinalized-routes.v1.json", "address": "kafka topic", "mon": "M96"}, {"name": "prod.crd.open-trips-main-details.v1.error.json", "health": "warn", "source": "New design 16 june 26 Abhinav / occhub-streamorchestrator-ms-release Topic's / Micro services / prod.crd.open-trips-main-details.v1.error.json", "address": "kafka topic", "mon": "M77"}, {"name": "prod.crd.sby-position.v1.error.json", "health": "warn", "source": "New design 16 june 26 Abhinav / occhub-streamorchestrator-ms-release Topic's / Micro services / prod.crd.sby-position.v1.error.json", "address": "kafka topic", "mon": "M91"}, {"name": "prod.crd.crew-rating-alerts.v1.error.json", "health": "warn", "source": "New design 16 june 26 Abhinav / occhub-streamorchestrator-ms-release Topic's / Micro services / prod.crd.crew-rating-alerts.v1.error.json", "address": "kafka topic", "mon": "M65"}, {"name": "prod.crd.crew-fdtl-summary.v1.error.json", "health": "warn", "source": "New design 16 june 26 Abhinav / occhub-streamorchestrator-ms-release Topic's / Micro services / prod.crd.crew-fdtl-summary.v1.error.json", "address": "kafka topic", "mon": "M63"}, {"name": "prod.crd.crew-rating-alerts.v1.json", "health": "warn", "source": "New design 16 june 26 Abhinav / occhub-streamorchestrator-ms-release Topic's / Micro services / prod.crd.crew-rating-alerts.v1.json", "address": "kafka topic", "mon": "M66"}, {"name": "prod.crd.open-trips-position.v1.error.json", "health": "warn", "source": "New design 16 june 26 Abhinav / occhub-streamorchestrator-ms-release Topic's / Micro services / prod.crd.open-trips-position.v1.error.json", "address": "kafka topic", "mon": "M81"}, {"name": "prod.crd.na-percentage-position.v1.json", "health": "warn", "source": "New design 16 june 26 Abhinav / occhub-streamorchestrator-ms-release Topic's / Micro services / prod.crd.na-percentage-position.v1.json", "address": "kafka topic", "mon": "M72"}, {"name": "prod.crd.unfinalized-routes-base.v1.error.json", "health": "warn", "source": "New design 16 june 26 Abhinav / occhub-streamorchestrator-ms-release Topic's / Micro services / prod.crd.unfinalized-routes-base.v1.error.json", "address": "kafka topic", "mon": "M93"}, {"name": "prod.crd.sby-main.v1.error.json", "health": "warn", "source": "New design 16 june 26 Abhinav / occhub-streamorchestrator-ms-release Topic's / Micro services / prod.crd.sby-main.v1.error.json", "address": "kafka topic", "mon": "M89"}, {"name": "prod.crd.open-trips-main.v1.error.json", "health": "warn", "source": "New design 16 june 26 Abhinav / occhub-streamorchestrator-ms-release Topic's / Micro services / prod.crd.open-trips-main.v1.error.json", "address": "kafka topic", "mon": "M79"}, {"name": "prod.crd.open-sim.v1.error.json", "health": "warn", "source": "New design 16 june 26 Abhinav / occhub-streamorchestrator-ms-release Topic's / Micro services / prod.crd.open-sim.v1.error.json", "address": "kafka topic", "mon": "M75"}, {"name": "prod.crd.unfinalized-routes.v1.error.json", "health": "warn", "source": "New design 16 june 26 Abhinav / occhub-streamorchestrator-ms-release Topic's / Micro services / prod.crd.unfinalized-routes.v1.error.json", "address": "kafka topic", "mon": "M95"}, {"name": "prod.crd.graph-flights.v1.error.json", "health": "warn", "source": "New design 16 june 26 Abhinav / occhub-streamorchestrator-ms-release Topic's / Micro services / prod.crd.graph-flights.v1.error.json", "address": "kafka topic", "mon": "M67"}, {"name": "prod.crd.na-percentage-position.v1.error.json", "health": "warn", "source": "New design 16 june 26 Abhinav / occhub-streamorchestrator-ms-release Topic's / Micro services / prod.crd.na-percentage-position.v1.error.json", "address": "kafka topic", "mon": "M71"}, {"name": "prod.crd.pending-notifications.v1.error.json", "health": "warn", "source": "New design 16 june 26 Abhinav / occhub-streamorchestrator-ms-release Topic's / Micro services / prod.crd.pending-notifications.v1.error.json", "address": "kafka topic", "mon": "M87"}, {"name": "prod.crd.pending-notifications-main-details.v1.error.json", "health": "warn", "source": "New design 16 june 26 Abhinav / occhub-streamorchestrator-ms-release Topic's / Micro services / prod.crd.pending-notifications-main-details.v1.error.json", "address": "kafka topic", "mon": "M85"}, {"name": "prod.crd.open-sim.v1.json", "health": "ok", "source": "New design 16 june 26 Abhinav / occhub-streamorchestrator-ms-release Topic's / Micro services / prod.crd.open-sim.v1.json", "address": "kafka topic", "mon": "M76"}, {"name": "prod.crd.pending-notifications-base.v1.json", "health": "ok", "source": "New design 16 june 26 Abhinav / occhub-streamorchestrator-ms-release Topic's / Micro services / prod.crd.pending-notifications-base.v1.json", "address": "kafka topic", "mon": "M84"}, {"name": "prod.crd.communication-summary.v1.json", "health": "ok", "source": "New design 16 june 26 Abhinav / occhub-streamorchestrator-ms-release Topic's / Micro services / prod.crd.communication-summary.v1.json", "address": "kafka topic", "mon": "M62"}, {"name": "prod.crd.unfinalized-routes-base.v1.json", "health": "ok", "source": "New design 16 june 26 Abhinav / occhub-streamorchestrator-ms-release Topic's / Micro services / prod.crd.unfinalized-routes-base.v1.json", "address": "kafka topic", "mon": "M94"}, {"name": "prod.crd.open-trips-main.v1.json", "health": "ok", "source": "New design 16 june 26 Abhinav / occhub-streamorchestrator-ms-release Topic's / Micro services / prod.crd.open-trips-main.v1.json", "address": "kafka topic", "mon": "M80"}, {"name": "prod.crd.unpaired-legs-base.v1.json", "health": "ok", "source": "New design 16 june 26 Abhinav / occhub-streamorchestrator-ms-release Topic's / Micro services / prod.crd.unpaired-legs-base.v1.json", "address": "kafka topic", "mon": "M98"}, {"name": "prod.crd.na-percentage.v1.json", "health": "ok", "source": "New design 16 june 26 Abhinav / occhub-streamorchestrator-ms-release Topic's / Micro services / prod.crd.na-percentage.v1.json", "address": "kafka topic", "mon": "M74"}, {"name": "prod.crd.open-trips-main-details.v1.json", "health": "ok", "source": "New design 16 june 26 Abhinav / occhub-streamorchestrator-ms-release Topic's / Micro services / prod.crd.open-trips-main-details.v1.json", "address": "kafka topic", "mon": "M78"}, {"name": "prod.crd.sby-main.v1.json", "health": "ok", "source": "New design 16 june 26 Abhinav / occhub-streamorchestrator-ms-release Topic's / Micro services / prod.crd.sby-main.v1.json", "address": "kafka topic", "mon": "M90"}, {"name": "prod.crd.graph-flights.v1.json", "health": "ok", "source": "New design 16 june 26 Abhinav / occhub-streamorchestrator-ms-release Topic's / Micro services / prod.crd.graph-flights.v1.json", "address": "kafka topic", "mon": "M68"}, {"name": "prod.crd.crew-fdtl-summary.v1.json", "health": "ok", "source": "New design 16 june 26 Abhinav / occhub-streamorchestrator-ms-release Topic's / Micro services / prod.crd.crew-fdtl-summary.v1.json", "address": "kafka topic", "mon": "M64"}, {"name": "prod.crd.pending-notifications.v1.json", "health": "ok", "source": "New design 16 june 26 Abhinav / occhub-streamorchestrator-ms-release Topic's / Micro services / prod.crd.pending-notifications.v1.json", "address": "kafka topic", "mon": "M88"}, {"name": "prod.crd.pending-notifications-main-details.v1.json", "health": "ok", "source": "New design 16 june 26 Abhinav / occhub-streamorchestrator-ms-release Topic's / Micro services / prod.crd.pending-notifications-main-details.v1.json", "address": "kafka topic", "mon": "M86"}], "kafka_consumer": [{"name": "flight.cancel.event.json", "health": "ok", "source": "New design 16 june 26 Abhinav / Joc kafka Topic's amq-streams-prod-kafka-bootstrap-amq-streams.apps.ocpappprdclu.goindigo.in:443 / Micro services / flight.cancel.event.json", "address": "amq-streams-prod-kafka-bootstrap-amq-streams.apps.ocpappprdclu.goindigo.in:443", "mon": "M101"}, {"name": "flight.equipment.event.json", "health": "ok", "source": "New design 16 june 26 Abhinav / Joc kafka Topic's amq-streams-prod-kafka-bootstrap-amq-streams.apps.ocpappprdclu.goindigo.in:443 / Micro services / flight.equipment.event.json", "address": "amq-streams-prod-kafka-bootstrap-amq-streams.apps.ocpappprdclu.goindigo.in:443", "mon": "M104"}, {"name": "flight.ops.actual.in-block-time.event.json", "health": "ok", "source": "New design 16 june 26 Abhinav / Joc kafka Topic's amq-streams-prod-kafka-bootstrap-amq-streams.apps.ocpappprdclu.goindigo.in:443 / Micro services / flight.ops.actual.in-block-time.event.json", "address": "amq-streams-prod-kafka-bootstrap-amq-streams.apps.ocpappprdclu.goindigo.in:443", "mon": "M107"}, {"name": "flight.ops.actual.off-block-time.event.json", "health": "ok", "source": "New design 16 june 26 Abhinav / Joc kafka Topic's amq-streams-prod-kafka-bootstrap-amq-streams.apps.ocpappprdclu.goindigo.in:443 / Micro services / flight.ops.actual.off-block-time.event.json", "address": "amq-streams-prod-kafka-bootstrap-amq-streams.apps.ocpappprdclu.goindigo.in:443", "mon": "M109"}, {"name": "flight.ops.actual.landing-time.event.json", "health": "ok", "source": "New design 16 june 26 Abhinav / Joc kafka Topic's amq-streams-prod-kafka-bootstrap-amq-streams.apps.ocpappprdclu.goindigo.in:443 / Micro services / flight.ops.actual.landing-time.event.json", "address": "amq-streams-prod-kafka-bootstrap-amq-streams.apps.ocpappprdclu.goindigo.in:443", "mon": "M108"}, {"name": "flight.ops.actual.take-off-time.event.json", "health": "ok", "source": "New design 16 june 26 Abhinav / Joc kafka Topic's amq-streams-prod-kafka-bootstrap-amq-streams.apps.ocpappprdclu.goindigo.in:443 / Micro services / flight.ops.actual.take-off-time.event.json", "address": "amq-streams-prod-kafka-bootstrap-amq-streams.apps.ocpappprdclu.goindigo.in:443", "mon": "M110"}, {"name": "flight.ops.estimated.in-block-time.event.json", "health": "ok", "source": "New design 16 june 26 Abhinav / Joc kafka Topic's amq-streams-prod-kafka-bootstrap-amq-streams.apps.ocpappprdclu.goindigo.in:443 / Micro services / flight.ops.estimated.in-block-time.event.json", "address": "amq-streams-prod-kafka-bootstrap-amq-streams.apps.ocpappprdclu.goindigo.in:443", "mon": "M111"}, {"name": "flight.ops.estimated.off-block-time.event.json", "health": "ok", "source": "New design 16 june 26 Abhinav / Joc kafka Topic's amq-streams-prod-kafka-bootstrap-amq-streams.apps.ocpappprdclu.goindigo.in:443 / Micro services / flight.ops.estimated.off-block-time.event.json", "address": "amq-streams-prod-kafka-bootstrap-amq-streams.apps.ocpappprdclu.goindigo.in:443", "mon": "M113"}, {"name": "flight.ops.estimated.landing-time.event.json", "health": "ok", "source": "New design 16 june 26 Abhinav / Joc kafka Topic's amq-streams-prod-kafka-bootstrap-amq-streams.apps.ocpappprdclu.goindigo.in:443 / Micro services / flight.ops.estimated.landing-time.event.json", "address": "amq-streams-prod-kafka-bootstrap-amq-streams.apps.ocpappprdclu.goindigo.in:443", "mon": "M112"}, {"name": "flight.ops.estimated.take-off-time.event.json", "health": "ok", "source": "New design 16 june 26 Abhinav / Joc kafka Topic's amq-streams-prod-kafka-bootstrap-amq-streams.apps.ocpappprdclu.goindigo.in:443 / Micro services / flight.ops.estimated.take-off-time.event.json", "address": "amq-streams-prod-kafka-bootstrap-amq-streams.apps.ocpappprdclu.goindigo.in:443", "mon": "M114"}, {"name": "flight.delay.event.json", "health": "ok", "source": "New design 16 june 26 Abhinav / Joc kafka Topic's amq-streams-prod-kafka-bootstrap-amq-streams.apps.ocpappprdclu.goindigo.in:443 / Micro services / flight.delay.event.json", "address": "amq-streams-prod-kafka-bootstrap-amq-streams.apps.ocpappprdclu.goindigo.in:443", "mon": "M102"}, {"name": "flight.diversion.event.json", "health": "ok", "source": "New design 16 june 26 Abhinav / Joc kafka Topic's amq-streams-prod-kafka-bootstrap-amq-streams.apps.ocpappprdclu.goindigo.in:443 / Micro services / flight.diversion.event.json", "address": "amq-streams-prod-kafka-bootstrap-amq-streams.apps.ocpappprdclu.goindigo.in:443", "mon": "M103"}, {"name": "flight.return.event.json", "health": "ok", "source": "New design 16 june 26 Abhinav / Joc kafka Topic's amq-streams-prod-kafka-bootstrap-amq-streams.apps.ocpappprdclu.goindigo.in:443 / Micro services / flight.return.event.json", "address": "amq-streams-prod-kafka-bootstrap-amq-streams.apps.ocpappprdclu.goindigo.in:443", "mon": "M115"}, {"name": "flight.gate-return.event.json", "health": "ok", "source": "New design 16 june 26 Abhinav / Joc kafka Topic's amq-streams-prod-kafka-bootstrap-amq-streams.apps.ocpappprdclu.goindigo.in:443 / Micro services / flight.gate-return.event.json", "address": "amq-streams-prod-kafka-bootstrap-amq-streams.apps.ocpappprdclu.goindigo.in:443", "mon": "M105"}, {"name": "flight.new.event.json", "health": "ok", "source": "New design 16 june 26 Abhinav / Joc kafka Topic's amq-streams-prod-kafka-bootstrap-amq-streams.apps.ocpappprdclu.goindigo.in:443 / Micro services / flight.new.event.json", "address": "amq-streams-prod-kafka-bootstrap-amq-streams.apps.ocpappprdclu.goindigo.in:443", "mon": "M106"}, {"name": "prd.cms.roster.update.v1.json", "health": "ok", "source": "New design 16 june 26 Abhinav / AIMS kafka Topic's amq-streams-prod-kafka-bootstrap-amq-streams.apps.ocpappprdclu2.goindigo.in:443 / Micro services / prd.cms.roster.update.v1.json", "address": "amq-streams-prod-kafka-bootstrap-amq-streams.apps.ocpappprdclu2.goindigo.in:443", "mon": "M118"}, {"name": "prd.cms.roster.insert.v1.json", "health": "ok", "source": "New design 16 june 26 Abhinav / AIMS kafka Topic's amq-streams-prod-kafka-bootstrap-amq-streams.apps.ocpappprdclu2.goindigo.in:443 / Micro services / prd.cms.roster.insert.v1.json", "address": "amq-streams-prod-kafka-bootstrap-amq-streams.apps.ocpappprdclu2.goindigo.in:443", "mon": "M117"}, {"name": "prd.cms.roster.delete.v1.json", "health": "ok", "source": "New design 16 june 26 Abhinav / AIMS kafka Topic's amq-streams-prod-kafka-bootstrap-amq-streams.apps.ocpappprdclu2.goindigo.in:443 / Micro services / prd.cms.roster.delete.v1.json", "address": "amq-streams-prod-kafka-bootstrap-amq-streams.apps.ocpappprdclu2.goindigo.in:443", "mon": "M116"}], "redis": [{"name": "Redis", "health": "ok", "source": "New design 16 june 26 Abhinav", "address": "OCP cache layer", "mon": "M159"}], "shared_path": [{"name": "JOC MVT Path", "health": "ok", "source": "New design 16 june 26 Abhinav / Shared Path", "address": "Shared Path", "mon": "M53"}, {"name": "AIMS MVT Path", "health": "ok", "source": "New design 16 june 26 Abhinav / Shared Path", "address": "Shared Path", "mon": "M52"}], "sp": [{"name": "[CRA].[RosterAutomation_GetCrewEmployment]", "health": "ok", "source": "SP / New design 16 june 26 Abhinav", "address": "M15", "mon": "M15"}, {"name": "[CRA].[RosterAutomation_GetCrewCategories]", "health": "ok", "source": "SP / New design 16 june 26 Abhinav", "address": "M16", "mon": "M16"}, {"name": "[CRA].[RosterAutomation_GetFlightDetailsForSSIM]", "health": "ok", "source": "SP / New design 16 june 26 Abhinav", "address": "M17", "mon": "M17"}, {"name": "[CRA].[RosterAutomation_GetCrewDetails]", "health": "ok", "source": "SP / New design 16 june 26 Abhinav", "address": "M18", "mon": "M18"}, {"name": "[CRA].[RosterAutomation_GetCrewRoster]", "health": "ok", "source": "SP / New design 16 june 26 Abhinav", "address": "M19", "mon": "M19"}, {"name": "[CRA].[RosterAutomation_GetCrewRoutes]", "health": "ok", "source": "SP / New design 16 june 26 Abhinav", "address": "M20", "mon": "M20"}, {"name": "[CRA].[RosterAutomation_GetCrewRulesAndPreferences]", "health": "ok", "source": "SP / New design 16 june 26 Abhinav", "address": "M21", "mon": "M21"}, {"name": "[CRA].[RosterAutomation_GetCrewExpiryDetails]", "health": "ok", "source": "SP / New design 16 june 26 Abhinav", "address": "M22", "mon": "M22"}, {"name": "[CRA].[RosterAutomation_usp_GetCrewSimGroundExpiry]", "health": "ok", "source": "SP / New design 16 june 26 Abhinav", "address": "M23", "mon": "M23"}, {"name": "[CRA].[RosterAutomation_elearningexpirytxt]", "health": "ok", "source": "SP / New design 16 june 26 Abhinav", "address": "M24", "mon": "M24"}, {"name": "[CRA].[RosterAutomation_GetSimAndGroundSlots]", "health": "ok", "source": "SP / New design 16 june 26 Abhinav", "address": "M25", "mon": "M25"}, {"name": "CRD_GetPublishedCrewDutiesWithFlt_For_API", "health": "ok", "source": "SP / New design 16 june 26 Abhinav", "address": "M26", "mon": "M26"}, {"name": "CRD_SP_GetActiveACQualifications", "health": "ok", "source": "SP / New design 16 june 26 Abhinav", "address": "M27", "mon": "M27"}, {"name": "dbo.CRD_SP_CrewDashboardOpenSim2_For_API", "health": "ok", "source": "SP / New design 16 june 26 Abhinav", "address": "M28", "mon": "M28"}, {"name": "dbo.CRD_SP_GetCrewRouteDiscrepancies_V10_For_API", "health": "ok", "source": "SP / New design 16 june 26 Abhinav", "address": "M29", "mon": "M29"}, {"name": "CRD_SP_ValidateCrewComposition_For_API", "health": "ok", "source": "SP / New design 16 june 26 Abhinav", "address": "M30", "mon": "M30"}, {"name": "CRD_SP_GetFlightScheduleByISTTimeRange_For_API", "health": "ok", "source": "SP / New design 16 june 26 Abhinav", "address": "M31", "mon": "M31"}, {"name": "CRD_SP_DashboardPendingNotificationsV3_For_API", "health": "ok", "source": "SP / New design 16 june 26 Abhinav", "address": "M32", "mon": "M32"}, {"name": "dbo.CRD_SP_CrewOpsDashboardSBYAvailableV2_For_API", "health": "ok", "source": "SP / New design 16 june 26 Abhinav", "address": "M33", "mon": "M33"}, {"name": "CRD_SP_GetCrewExpectedCounts_Unfinalised_For_API", "health": "ok", "source": "SP / New design 16 june 26 Abhinav", "address": "M34", "mon": "M34"}, {"name": "CRD_SP_GetFirstFlightStartTime_unfinalizedRoutes_For_API", "health": "ok", "source": "SP / New design 16 june 26 Abhinav", "address": "M35", "mon": "M35"}, {"name": "CRD_SP_GetMissingFlightsUnpaired_For_API", "health": "ok", "source": "SP / New design 16 june 26 Abhinav", "address": "M36", "mon": "M36"}, {"name": "CRD_SP_ValidateCrewCompositionForUnpairedLegs_For_API", "health": "ok", "source": "SP / New design 16 june 26 Abhinav", "address": "M37", "mon": "M37"}, {"name": "CRD_SP_GetCrewExpectedCounts_For_API", "health": "ok", "source": "SP / New design 16 june 26 Abhinav", "address": "M38", "mon": "M38"}, {"name": "CRD_SP_GetCrewExpectedCountsv2_For_API", "health": "ok", "source": "SP / New design 16 june 26 Abhinav", "address": "M39", "mon": "M39"}, {"name": "CRD_SP_GetFlightDescriptionCroutes_For_API", "health": "ok", "source": "SP / New design 16 june 26 Abhinav", "address": "M40", "mon": "M40"}], "ms": [{"name": "occhub-admin-ms", "health": "ok", "source": "New design 16 june 26 Abhinav / Micro services", "address": "Micro services \u00b7 OpenShift", "mon": "M2"}, {"name": "occhub-flight-ms", "health": "ok", "source": "New design 16 june 26 Abhinav / Micro services", "address": "Micro services \u00b7 OpenShift", "mon": "M3"}, {"name": "occhub-crew-ms", "health": "ok", "source": "New design 16 june 26 Abhinav / Micro services", "address": "Micro services \u00b7 OpenShift", "mon": "M4"}, {"name": "occhub-dispatch-ms", "health": "ok", "source": "New design 16 june 26 Abhinav / Micro services", "address": "Micro services \u00b7 OpenShift", "mon": "M5"}, {"name": "occhub-weather-ms", "health": "ok", "source": "New design 16 june 26 Abhinav / Micro services", "address": "Micro services \u00b7 OpenShift", "mon": "M6"}, {"name": "occhub-externalcomunication-ms", "health": "ok", "source": "New design 16 june 26 Abhinav / Micro services", "address": "Micro services \u00b7 OpenShift", "mon": "M7"}, {"name": "occhub-crewresoucedashboard-ms", "health": "ok", "source": "New design 16 june 26 Abhinav / Micro services", "address": "Micro services \u00b7 OpenShift", "mon": "M8"}, {"name": "occhub-rosterautomation-ms", "health": "ok", "source": "New design 16 june 26 Abhinav / Micro services", "address": "Micro services \u00b7 OpenShift", "mon": "M9"}, {"name": "occhub-streamorchestor-ms", "health": "ok", "source": "New design 16 june 26 Abhinav / Micro services", "address": "Micro services \u00b7 OpenShift", "mon": "M10"}, {"name": "occhub-ingesthub-ms", "health": "ok", "source": "New design 16 june 26 Abhinav / Micro services", "address": "Micro services \u00b7 OpenShift", "mon": "M11"}, {"name": "occhub-eventConsumer-service-ms", "health": "ok", "source": "New design 16 june 26 Abhinav / Micro services", "address": "Micro services \u00b7 OpenShift", "mon": "M12"}], "mongo": [{"name": "Occhub (MongoDB)", "health": "ok", "source": "New design 16 june 26 Abhinav", "address": "document store \u00b7 Occhub", "mon": "M13"}], "aims": [{"name": "AIMS (MSQL)", "health": "ok", "source": "New design 16 june 26 Abhinav", "address": "system of record \u00b7 MSQL", "mon": "M14"}]}, "groupBoxes": [{"id": "sp", "label": "SP", "sub": "stored procedures", "x": 1160, "y": 408, "w": 300, "h": 68, "color": "#6BA4FF", "monRange": "M15 \u2192 M40"}, {"id": "external", "label": "EXTERNAL API", "sub": "partner gateway", "x": 1160, "y": 480, "w": 300, "h": 68, "color": "#4F8BFF", "monRange": "M41 \u2192 M51"}, {"id": "internal", "label": "INTERNAL API", "sub": "service mesh \u00b7 REST / gRPC", "x": 1160, "y": 552, "w": 300, "h": 68, "color": "#59E0FF", "monRange": "M160 \u2192 M496"}, {"id": "jobs", "label": "JOBS", "sub": "cron & schedulers", "x": 1160, "y": 624, "w": 300, "h": 68, "color": "#6BA4FF", "monRange": "M54 \u2192 M60"}, {"id": "kafka_consumer", "label": "KAFKA CONSUMER", "sub": "topic subscribers", "x": 1160, "y": 696, "w": 300, "h": 68, "color": "#4F8BFF", "monRange": "M101 \u2192 M118"}, {"id": "kafka_producer", "label": "KAFKA PRODUCER", "sub": "topic publishers", "x": 1160, "y": 768, "w": 300, "h": 68, "color": "#4F8BFF", "monRange": "M61 \u2192 M100"}, {"id": "redis", "label": "REDIS", "sub": "cache layer", "x": 1160, "y": 840, "w": 300, "h": 68, "color": "#59E0FF", "monRange": "M159"}, {"id": "shared_path", "label": "SHARED PATH", "sub": "MVT paths", "x": 1160, "y": 912, "w": 300, "h": 68, "color": "#6BA4FF", "monRange": "M52 \u2192 M53"}], "apps": [["ACRA", "Aircraft and Crew Rating Alert", 0, "ok", "Operations application", "M497"], ["AHS", "Arrival Hold Summary", 1, "ok", "Operations application", "M498"], ["AD", "APM Details", 0, "ok", "Operations application", "M499"], ["ADMINS", "Admins", 1, "ok", "Operations application", "M500"], ["BD", "Base Departures", 0, "ok", "Operations application", "M501"], ["CA", "CTOT Automation", 1, "ok", "Operations application", "M502"], ["RIF", "Roster Input Files", 0, "ok", "Operations application", "M503"], ["GPU", "Ground Power Unit (GPU)", 1, "ok", "Operations application", "M504"], ["JNAC", "JOC NAV AIMS Comparison", 0, "ok", "Operations application", "M505"], ["PETD", "Postponement (PETD)", 1, "ok", "Operations application", "M506"], ["SFM", "Standby Flight Movement", 0, "ok", "Operations application", "M507"], ["SCR", "Slot Change Request (SCR)", 1, "ok", "Operations application", "M508"], ["FI", "Fuel Information", 0, "ok", "Operations application", "M509"], ["FHFM", "Flight & Hold Fuel Monitoring", 1, "ok", "Operations application", "M510"], ["IG", "IndiGo GD", 0, "ok", "Operations application", "M511"], ["RE", "Rule Engine", 1, "ok", "Operations application", "M512"], ["UA", "User Adoption", 0, "ok", "Operations application", "M513"], ["CCT", "Crew Connection Tracker", 1, "ok", "Operations application", "M514"], ["CRD", "Crew Resource Dashboard", 0, "ok", "Operations application", "M515"], ["MP", "Met Plus", 1, "ok", "Operations application", "M516"], ["STRATO", "Stratosphere", 0, "ok", "Operations application", "M517"], ["MCM", "METAR and Crew Manifest", 1, "ok", "Operations application", "M518"]], "rings": [{"rx": 800, "ry": 560}, {"rx": 1000, "ry": 680}], "links": [], "dataStores": {"mongo": [{"name": "Occhub (MongoDB)", "health": "ok", "source": "New design 16 june 26 Abhinav", "address": "document store \u00b7 Occhub", "mon": "M13"}], "aims": [{"name": "AIMS (MSQL)", "health": "ok", "source": "New design 16 june 26 Abhinav", "address": "system of record \u00b7 MSQL", "mon": "M14"}]}, "groupMon": {"ms": "M2 \u2192 M12", "mongo": "M13", "aims": "M14", "sp": "M15 \u2192 M40", "external": "M41 \u2192 M51", "internal": "M160 \u2192 M496", "jobs": "M54 \u2192 M60", "kafka_consumer": "M101 \u2192 M118", "kafka_producer": "M61 \u2192 M100", "redis": "M159", "shared_path": "M52 \u2192 M53"}};
+const NS='http://www.w3.org/2000/svg';
+const el=(t,a={})=>{const e=document.createElementNS(NS,t);for(const k in a)e.setAttribute(k,a[k]);return e;};
+const HC={ok:'#3CC8FF',warn:'#FFC24B',crit:'#FF5C7E',down:'#FF3B4E'};
+const lerp=(a,b,t)=>a+(b-a)*t, R=(a,b)=>a+Math.random()*(b-a);
+const $=id=>document.getElementById(id);
+const Lgrid=$('layer-grid'),Lrings=$('layer-rings'),Llinks=$('layer-links'),
+      Lpart=$('layer-particles'),Lcore=$('layer-core'),LlinkLbl=$('layer-link-labels'),Lplanets=$('layer-planets'),LeditUi=$('layer-edit-ui');
+const svg=$('svg'); svg.setAttribute('viewBox',CFG.viewBox);
+const VB=CFG.viewBox.split(' ').map(Number);
+let orbitOn=false,flowOn=true,dragging=false,selected=null;
+let editMode=false,layoutDirty=false,savedLayoutSnapshot=null,selectedEditId=null,editDrag=null;
+let view={x:0,y:0,k:1};
+
+/* background */
+(function(){
+  for(let x=0;x<=VB[2];x+=80) Lgrid.appendChild(el('line',{x1:x,y1:0,x2:x,y2:VB[3],stroke:'var(--grid)'}));
+  for(let y=0;y<=VB[3];y+=80) Lgrid.appendChild(el('line',{x1:0,y1:y,x2:VB[2],y2:y,stroke:'var(--grid)'}));
+  for(let i=0;i<170;i++) Lgrid.appendChild(el('circle',{cx:R(0,VB[2]),cy:R(0,VB[3]),r:R(.4,1.6),fill:'#9fb0ff',opacity:R(.05,.5)}));
+})();
+
+/* core glow + radar */
+Lcore.appendChild(el('circle',{cx:CFG.CX,cy:CFG.CY,r:420,fill:'url(#gCore)',opacity:.5}));
+for(let i=0;i<3;i++){
+  const c=el('circle',{cx:CFG.CX,cy:CFG.CY,r:90,fill:'none',stroke:'rgba(46,123,255,.45)','stroke-width':1.4});
+  c.append(el('animate',{attributeName:'r',values:'90;540',dur:'4.8s',begin:(i*1.6)+'s',repeatCount:'indefinite'}),
+           el('animate',{attributeName:'opacity',values:'.5;0',dur:'4.8s',begin:(i*1.6)+'s',repeatCount:'indefinite'}));
+  Lcore.appendChild(c);
+}
+
+CFG.rings.forEach(r=>Lrings.appendChild(el('ellipse',{cx:CFG.CX,cy:CFG.CY,rx:r.rx,ry:r.ry,fill:'none',
+  stroke:'rgba(110,139,255,.14)','stroke-width':1,'stroke-dasharray':'2 8'})));
+
+function panel(p,{x,y,w,h,fill='url(#gPanel)',stroke='var(--panel-stroke)',rx=14,sw=1.2}){
+  const r=el('rect',{x:x-w/2,y,width:w,height:h,rx,fill,stroke,'stroke-width':sw});p.appendChild(r);return r;}
+function label(p,x,y,txt,o={}){
+  const t=el('text',{x,y,'text-anchor':o.anchor||'middle','dominant-baseline':o.base||'middle','font-size':o.size||13,
+    fill:o.fill||'var(--ink)','font-weight':o.weight||400,'letter-spacing':o.ls||0,'font-family':o.font||'var(--mono)'});
+  t.textContent=txt;p.appendChild(t);return t;}
+const MON_COLOR='#FFAB40';
+function monLabel(p,x,y,mon,o={}){if(!mon)return null;const t=label(p,x,y+(o.dy||0),mon,{size:o.size||7.5,fill:o.fill||MON_COLOR,weight:600,ls:.3,anchor:o.anchor||'middle',base:o.base||'middle'});t.setAttribute('class','mon-tag');return t;}
+function monNum(s){const m=String(s||'').match(/\bM(\d+)\b/i);return m?parseInt(m[1],10):null;}
+function normMonQuery(q){const t=q.trim().toUpperCase();if(!t)return null;if(/^M\d+$/.test(t))return t;const d=t.replace(/\D/g,'');return d?('M'+d):null;}
+function itemMon(it){return it.mon||(it.address&&String(it.address).match(/^M\d+/i)?.[0])||'';}
+function sortApiItems(items){
+  const pri={down:0,crit:0,warn:1,ok:2};
+  return [...items].sort((a,b)=>{
+    const pa=pri[a.health]??2,pb=pri[b.health]??2;
+    if(pa!==pb)return pa-pb;
+    const ma=monNum(itemMon(a)),mb=monNum(itemMon(b));
+    if(ma!=null&&mb!=null&&ma!==mb)return ma-mb;
+    if(ma!=null&&mb==null)return-1;
+    if(ma==null&&mb!=null)return 1;
+    return a.name.localeCompare(b.name);
+  });
+}
+function matchesMonQuery(q,it){
+  const want=normMonQuery(q);if(!want)return false;
+  const n=monNum(want),have=monNum(itemMon(it)||it.source||'');
+  return n!==null&&have===n;
+}
+function dbCylinder(g,cx,topY,w,h,color,anyDown){
+  const hexRgb=h=>[parseInt(h.slice(1,3),16),parseInt(h.slice(3,5),16),parseInt(h.slice(5,7),16)];
+  const rgbHex=(r,g,b)=>'#'+[r,g,b].map(v=>Math.max(0,Math.min(255,Math.round(v))).toString(16).padStart(2,'0')).join('');
+  const lighten=(hex,a)=>{const[r,g,b]=hexRgb(hex);return rgbHex(r+(255-r)*a,g+(255-g)*a,b+(255-b)*a);};
+  const darken=(hex,a)=>{const[r,g,b]=hexRgb(hex);return rgbHex(r*(1-a),g*(1-a),b*(1-a));};
+  const rx=w/2,ry=Math.max(11,w*.12);
+  const stroke=anyDown?'#FF3B4E':darken(color,.42);
+  const strokes=[];
+  const side=darken(color,.14);
+  const bandH=(h-ry*1.6)/3;
+  g.appendChild(el('rect',{x:cx-rx,y:topY+ry,width:w,height:h-ry*1.15,fill:side,stroke:'none'}));
+  for(let i=1;i<3;i++){
+    const by=topY+ry+i*bandH;
+    const band=el('ellipse',{cx,cy:by,rx:rx*.97,ry:ry*.58,fill:darken(color,.06+i*.07),stroke,'stroke-width':1.3,class:'db-stroke'});
+    g.appendChild(band);strokes.push(band);
+  }
+  const top=el('ellipse',{cx,cy:topY+ry,rx,ry,fill:lighten(color,.24),stroke,'stroke-width':2,class:'db-stroke'});
+  g.appendChild(top);strokes.push(top);
+  g.appendChild(el('ellipse',{cx,cy:topY+ry-2,rx:rx*.68,ry:ry*.5,fill:lighten(color,.4),stroke:'none'}));
+  const bot=el('ellipse',{cx,cy:topY+h-ry*.42,rx,ry:ry*.82,fill:darken(color,.28),stroke,'stroke-width':1.6,class:'db-stroke'});
+  g.appendChild(bot);strokes.push(bot);
+  return strokes;
+}
+
+const NODES={};
+
+/* ===== API group registry (all groups use the same side-panel list) ===== */
+const API_GROUPS=CFG.apiGroups||{};
+const GROUP_UI={};
+let openGroupId=null, openGroupHl=null;
+const allApiCount=()=>Object.values(API_GROUPS).flat().length;
+const countHealth=()=>{
+  const flat=Object.values(API_GROUPS).flat();
+  return{
+    down:flat.filter(s=>s.health==='down'||s.health==='crit').length,
+    warn:flat.filter(s=>s.health==='warn').length,
+    ok:flat.filter(s=>s.health==='ok').length,
+    total:flat.length
+  };
+};
+function applyItemHealth(group,id,health,detail,latency){
+  const items=API_GROUPS[group]; if(!items)return;
+  const it=items.find(x=>x.name===id); if(!it)return;
+  it.health=health;
+  if(detail)it.probeDetail=detail;
+  if(latency!=null)it.latency_ms=latency;
+}
+function refreshGroupBox(id){
+  const ui=GROUP_UI[id]; if(!ui)return;
+  const items=groupItems(id);
+  const anyDown=items.some(i=>i.health==='down'||i.health==='crit');
+  const anyWarn=items.some(i=>i.health==='warn');
+  const dn=items.filter(i=>i.health==='down'||i.health==='crit').length;
+  const wn=items.filter(i=>i.health==='warn').length;
+  if(ui.dot){
+    ui.dot.setAttribute('fill',anyDown?HC.down:(anyWarn?HC.warn:HC.ok));
+    ui.dot.classList.toggle('blink',anyDown);
+  }
+  if(ui.panel){
+    ui.panel.setAttribute('stroke',anyDown?'rgba(255,59,78,.65)':(anyWarn?'rgba(255,194,75,.55)':ui.baseColor));
+    ui.panel.setAttribute('stroke-width',anyDown?'1.8':'1.3');
+  }
+  if(ui.blinkRect){
+    if(anyDown)ui.blinkRect.classList.add('blink');
+    else{ui.blinkRect.remove();ui.blinkRect=null;}
+  }else if(anyDown&&ui.g){
+    const box=(CFG.groupBoxes||[]).find(b=>b.id===id);
+    if(box){
+      ui.blinkRect=el('rect',{x:box.x-box.w/2,y:box.y,width:box.w,height:box.h,rx:13,fill:'none',stroke:'#FF3B4E','stroke-width':2,class:'blink'});
+      ui.g.insertBefore(ui.blinkRect,ui.g.firstChild);
+    }
+  }
+  if(ui.title)ui.title.setAttribute('fill',anyDown?'#FF8A98':(anyWarn?'#FFE2A8':'var(--ink)'));
+  if(ui.hint){
+    const uiBox=(CFG.groupBoxes||[]).find(b=>b.id===id);
+    const monR=(uiBox&&uiBox.monRange)||(CFG.groupMon&&CFG.groupMon[id])||'';
+    let hint=items.length+' APIs · tap to view';
+    if(anyDown)hint=dn+' of '+items.length+' down · tap to view';
+    else if(anyWarn)hint=wn+' of '+items.length+' warn · tap to view';
+    if(monR)hint=monR+' · '+hint;
+    ui.hint.textContent=hint;
+  }
+}
+function refreshSpineBox(id){
+  const ui=GROUP_UI[id]; if(!ui)return;
+  const store=groupItems(id);
+  const anyDown=store.some(i=>i.health==='down'||i.health==='crit');
+  const stroke=anyDown?'rgba(255,59,78,.65)':ui.baseColor;
+  if(ui.strokes) ui.strokes.forEach(e=>e.setAttribute('stroke',stroke));
+  else if(ui.panel) ui.panel.setAttribute('stroke',stroke);
+  ui.dot.setAttribute('fill',anyDown?HC.down:HC.ok);
+}
+function refreshAllGroupUI(){
+  (CFG.groupBoxes||[]).forEach(b=>refreshGroupBox(b.id));
+  (CFG.spine||[]).forEach(s=>refreshSpineBox(s.id));
+  refreshGroupBox('ms');
+}
+function applyHealthPayload(data){
+  if(!data||!data.groups)return;
+  for(const [gid,items] of Object.entries(data.groups)){
+    items.forEach(row=>applyItemHealth(gid,row.name,row.health,row.detail,row.latency_ms));
+  }
+  refreshAllGroupUI();
+  const h=countHealth();
+  $('m-down').textContent=h.down;
+  $('m-up').textContent=h.ok+'/'+h.total;
+  $('m-apis').textContent=h.total;
+  if(openGroupId==='__all__')openAllApis(openGroupHl);
+  else if(openGroupId)openGroupBox(openGroupId,openGroupHl);
+}
+async function pollHealth(force){
+  try{
+    const r=await fetch('/api/health'+(force?'?force=1':''));
+    if(!r.ok)throw new Error('HTTP '+r.status);
+    const data=await r.json();
+    applyHealthPayload(data);
+  const ts=data.updated?new Date(data.updated).toLocaleTimeString('en-GB',{hour12:false}):'live';
+    $('m-probe').textContent=(data.api_base?'gateway':'diagram')+' · '+ts;
+  }catch(e){
+    $('m-probe').textContent='offline · diagram';
+  }
+}
+const GROUP_META={
+  ms:['MICROSERVICES','OCP microservice mesh'],
+  mongo:['MongoDB','document store'],
+  aims:['AIMS DB','system of record'],
+};
+function groupItems(id){return API_GROUPS[id]||[];}
+function groupTitle(id){
+  const box=(CFG.groupBoxes||[]).find(b=>b.id===id);
+  if(box) return [box.label,box.sub];
+  return GROUP_META[id]||[id.toUpperCase(),''];
+}
+const GROUP_ORDER=['ms','mongo','aims','sp','external','internal','jobs','kafka_consumer','kafka_producer','redis','shared_path'];
+function allApiItems(){
+  const out=[];
+  GROUP_ORDER.forEach(gid=>groupItems(gid).forEach(it=>out.push({...it,_group:gid})));
+  return out;
+}
+function renderApiList(items,hl,showGroup){
+  const list=document.createElement('div');
+  list.className='apilist';
+  sortApiItems(items).forEach(it=>{
+    const isDown=(it.health==='down'||it.health==='crit');
+    const isWarn=(it.health==='warn');
+    const col=isDown?'var(--down)':(isWarn?'var(--warn)':'var(--ok)');
+    const lab=isDown?'DOWN':(isWarn?'WARN':'OK');
+    const row=document.createElement('div');
+    row.className='apirow'+(isDown?' apidown':(isWarn?' apiwarn':' apiok'));
+    if(hl&&(it.name.toUpperCase().includes(hl)||(it.address&&it.address.toUpperCase().includes(hl))||matchesMonQuery(hl,it))){
+      row.style.outline='1px solid var(--cyan)'; row.style.outlineOffset='2px';
+    }
+    const dot=document.createElement('span');
+    dot.className='apidot'+(isDown?' blink':'');
+    dot.style.cssText='background:'+col+';color:'+col;
+    const body=document.createElement('div');
+    body.className='apibody';
+    if(showGroup&&it._group){const g=document.createElement('span');g.className='apibadge grp';g.textContent=it._group.toUpperCase();body.appendChild(g);}
+    const mon=itemMon(it);
+    if(mon){const mb=document.createElement('span');mb.className='apibadge mon';mb.textContent=mon;body.appendChild(mb);}
+    if(it.method){const b=document.createElement('span');b.className='apibadge';b.textContent=it.method;body.appendChild(b);}
+    const nm=document.createElement('span');nm.className='apiname';nm.textContent=it.name;body.appendChild(nm);
+    if(it.address){const ad=document.createElement('div');ad.className='apiaddr';ad.textContent=it.address;body.appendChild(ad);}
+    if(it.probeDetail){const pd=document.createElement('div');pd.className='apiaddr';pd.style.color=isDown?'#FF9AA8':(isWarn?'#FFE2A8':'var(--cyan)');pd.textContent=it.probeDetail+(it.latency_ms!=null?' · '+it.latency_ms+'ms':'');body.appendChild(pd);}
+    const stat=document.createElement('span');stat.className='apistat';stat.style.color=col;stat.textContent=lab;
+    row.append(dot,body,stat); list.appendChild(row);
+  });
+  return list;
+}
+function openAllApis(hl){
+  openGroupId='__all__'; openGroupHl=hl||null;
+  const items=allApiItems();
+  const h=countHealth();
+  $('p-code').textContent='ALL APIs';
+  $('p-name').textContent='Every endpoint across all '+GROUP_ORDER.length+' groups';
+  const st=$('p-status');
+  const health=h.down?'down':(h.warn?'warn':'ok');
+  const cmap={ok:['HEALTHY',HC.ok],warn:['DEGRADED',HC.warn],down:['DOWN',HC.down]};
+  const c=cmap[health]||cmap.ok;
+  st.textContent='● '+c[0]+' · '+items.length+' total · '+h.down+' down';
+  st.style.color=c[1];st.style.background=c[1]+'22';st.style.border='1px solid '+c[1]+'55';
+  const bodyEl=$('p-body');
+  bodyEl.innerHTML='';
+  const sect=document.createElement('div');
+  sect.className='sect';
+  sect.textContent='ALL GROUPS ('+items.length+') — down/warn first · then M# ascending';
+  bodyEl.appendChild(sect);
+  bodyEl.appendChild(renderApiList(items,hl,true));
+  bodyEl.scrollTop=0;
+  hideFabricObservability();
+  $('panel').classList.add('open');
+}
+function openGroupBox(id,hl){
+  openGroupId=id; openGroupHl=hl||null;
+  const items=groupItems(id);
+  if(!items.length)return;
+  const [title,sub]=groupTitle(id);
+  const anyDown=items.some(i=>i.health==='down'||i.health==='crit');
+  const anyWarn=items.some(i=>i.health==='warn');
+  const health=anyDown?'down':(anyWarn?'warn':'ok');
+  const downN=items.filter(i=>i.health==='down'||i.health==='crit').length;
+  const warnN=items.filter(i=>i.health==='warn').length;
+  $('p-code').textContent=title;
+  $('p-name').textContent=sub;
+  const st=$('p-status'),cmap={ok:['HEALTHY',HC.ok],warn:['DEGRADED',HC.warn],crit:['CRITICAL',HC.crit],down:['DOWN',HC.down]};
+  const c=cmap[health]||cmap.ok;
+  st.textContent='● '+c[0]+' · '+items.length+' listed';
+  st.style.color=c[1];st.style.background=c[1]+'22';st.style.border='1px solid '+c[1]+'55';
+  const bodyEl=$('p-body');
+  bodyEl.innerHTML='';
+  const sect=document.createElement('div');
+  sect.className='sect';
+  sect.textContent=title+' ('+items.length+') — down/warn first · then M# ascending';
+  bodyEl.appendChild(sect);
+  bodyEl.appendChild(renderApiList(items,hl));
+  if(downN){
+    const a=document.createElement('div');a.className='sect';a.style.color='var(--down)';a.textContent='Alert';bodyEl.appendChild(a);
+    const t=document.createElement('div');t.style.cssText='font-family:var(--mono);font-size:11.5px;color:#FFC2C9;line-height:1.6';
+    t.textContent=downN+' endpoint(s) DOWN — blinking on the map.'; bodyEl.appendChild(t);
+  }
+  if(warnN){
+    const a=document.createElement('div');a.className='sect';a.style.color='var(--warn)';a.textContent='Degraded';bodyEl.appendChild(a);
+    const t=document.createElement('div');t.style.cssText='font-family:var(--mono);font-size:11.5px;color:#FFE2A8;line-height:1.6';
+    t.textContent=warnN+' endpoint(s) in WARN state.'; bodyEl.appendChild(t);
+  }
+  bodyEl.scrollTop=0;
+  hideFabricObservability();
+  $('panel').classList.add('open');
+}
+
+/* ===== container ===== */
+const C=CFG.container;
+const containerG=el('g',{class:'nodeRect','data-id':'container'});
+Lcore.appendChild(containerG);
+const containerRect=panel(containerG,{x:C.x+C.w/2,y:C.y,w:C.w,h:C.h,rx:24,fill:'url(#gContainer)',stroke:'rgba(110,139,255,.5)',sw:1.8});
+const containerLblL=label(containerG,C.x+24,C.y+24,C.label,{anchor:'start',size:12,ls:3,fill:'var(--indigo-2)',font:'var(--disp)',weight:600});
+const containerLblR=label(containerG,C.x+C.w-24,C.y+24,'6E · OCP',{anchor:'end',size:11,fill:'var(--cyan)'});
+
+/* ===== MF (own box, above MS) ===== */
+const MF=CFG.mf;
+(function(){
+  const g=el('g',{class:'nodeRect'});g.dataset.id='MF';
+  panel(g,{x:MF.x,y:MF.y,w:MF.w,h:MF.h,rx:11,stroke:'var(--indigo-2)'});
+  g.appendChild(el('circle',{cx:MF.x-MF.w/2+16,cy:MF.y+MF.h/2,r:4,fill:HC.ok,filter:'url(#glow)'}));
+  label(g,MF.x-MF.w/2+30,MF.y+MF.h/2-6,'MF',{anchor:'start',size:16,weight:700,font:'var(--disp)'});
+  label(g,MF.x+MF.w/2-14,MF.y+MF.h/2-6,MF.sub,{anchor:'end',size:9,fill:'var(--ink-dim)',ls:1.5});
+  monLabel(g,MF.x+MF.w/2-12,MF.y+MF.h-9,MF.mon||CFG.mf.mon,{anchor:'end',size:7.5});
+  Lcore.appendChild(g);
+  g.addEventListener('click',e=>{if(editMode){e.stopPropagation();selectEditable('MF');return;}e.stopPropagation();showPanel('MF','Mainframe','info',
+    row('System','MF')+row('Monitoring',MF.mon||CFG.mf.mon||'M1')+row('Type','Mainframe of record')+row('Feeds','MS · pipeline')+row('Status','operational'));});
+})();
+NODES.mf={x:MF.x,y:MF.y+MF.h/2,top:{x:MF.x,y:MF.y},bottom:{x:MF.x,y:MF.y+MF.h},left:{x:MF.x-MF.w/2,y:MF.y+MF.h/2},right:{x:MF.x+MF.w/2,y:MF.y+MF.h/2}};
+
+/* ===== MS box ===== */
+const H=CFG.hub;
+const MS_CELL_UI=[];
+(function(){
+  const msItems=(CFG.apiGroups&&CFG.apiGroups.ms)||[];
+  const msDown=msItems.some(i=>i.health==='down'||i.health==='crit');
+  const msWarn=msItems.some(i=>i.health==='warn');
+  const hubG=el('g',{class:'nodeRect'}); hubG.dataset.id='MS-HUB';
+  const hubRect=panel(hubG,{x:H.x,y:H.y,w:H.w,h:H.h,fill:'url(#gHub)',stroke:'rgba(110,139,255,.5)',rx:16,sw:1.4});
+  const hdrL=H.x-H.w/2+14,hdrR=H.x+H.w/2-14;
+  label(hubG,hdrL,H.y+16,H.label,{anchor:'start',size:13,ls:4,fill:'var(--indigo-2)',font:'var(--disp)',weight:700});
+  const msDot=el('circle',{cx:hdrR-8,cy:H.y+16,r:4,fill:msDown?HC.down:(msWarn?HC.warn:HC.ok),filter:'url(#glow)'});
+  hubG.appendChild(msDot);
+  label(hubG,hdrR-18,H.y+16,(msItems.length?msItems.length+' svc · tap':'microservices'),{anchor:'end',size:9,fill:'var(--ink-dim)'});
+  const cellMonR=(CFG.ms||[]).map(m=>Array.isArray(m)?m[2]:'').filter(Boolean);
+  const cellLo=cellMonR.length?cellMonR[0]:'';
+  const cellHi=cellMonR.length?cellMonR[cellMonR.length-1]:'';
+  const cellRange=cellLo&&(cellHi!==cellLo?cellLo+' → '+cellHi:cellLo);
+  const msMonR=(CFG.groupMon&&CFG.groupMon.ms)||'';
+  const hdrMon=cellRange+(cellRange&&msMonR?' · ':'')+(msMonR&&msMonR!==cellRange?msMonR:'');
+  if(hdrMon)monLabel(hubG,hdrL,H.y+32,hdrMon,{anchor:'start',size:7});
+  Lcore.appendChild(hubG);
+  hubG.addEventListener('click',e=>{if(editMode){e.stopPropagation();selectEditable('MS-HUB');return;}e.stopPropagation();if(msItems.length)openGroupBox('ms');});
+  GROUP_UI.ms={g:hubG,panel:hubRect,dot:msDot,baseColor:'rgba(110,139,255,.5)'};
+  const cols=3,padx=16,gw=(H.w-padx*2)/cols,gh=30,rowPitch=gh+20,y0=H.y+58;
+  const mstip=$('mstip');
+  window.showMsTip=function(e,shortName,fullName){
+    mstip.innerHTML='<span class="short">'+shortName+'</span><span class="full">'+fullName+'</span>';
+    mstip.classList.add('show');
+    mstip.style.left=(e.clientX+14)+'px';
+    mstip.style.top=(e.clientY-36)+'px';
+  };
+  window.hideMsTip=function(){mstip.classList.remove('show');};
+  function openMSCell(shortName,fullName,monId){
+    const item=msItems.find(i=>i.name===fullName);
+    const health=item?item.health:'ok';
+    const addr=item&&item.address?item.address:'OpenShift · OCP';
+    const mon=item?itemMon(item):monId;
+    showPanel(shortName,fullName,health,
+      row('Short code',shortName)+row('Monitoring',mon||'—')+row('Microservice',fullName)+row('Runtime',addr)+
+      row('Cluster','ocpintprdclu')+
+      `<div class="sect">Actions</div><div class="chips"><span class="chip" style="cursor:pointer" id="ms-viewall">View all MS APIs</span></div>`);
+    $('ms-viewall').onclick=ev=>{ev.stopPropagation();openGroupBox('ms',fullName.toUpperCase());};
+  }
+  CFG.ms.forEach((m,i)=>{
+    const shortName=Array.isArray(m)?m[0]:m;
+    const fullName=Array.isArray(m)?m[1]:m;
+    const monId=Array.isArray(m)&&m[2]?m[2]:'';
+    const c=i%cols,r=Math.floor(i/cols);
+    const cx=H.x-H.w/2+padx+gw*c+gw/2, cy=y0+r*rowPitch+gh/2;
+    const g=el('g',{class:'nodeRect'});g.dataset.id='MS:'+fullName;g.dataset.short=shortName;g.dataset.mon=monId;
+    const cellRect=el('rect',{x:cx-gw/2+3,y:cy-gh/2,width:gw-6,height:gh,rx:7,fill:'rgba(46,123,255,.18)',stroke:'rgba(110,139,255,.4)','stroke-width':1});
+    g.appendChild(cellRect);
+    const t=el('text',{x:cx,y:cy,'text-anchor':'middle','dominant-baseline':'middle','font-size':shortName.length>6?9:11,fill:'var(--ink)','font-weight':600});t.textContent=shortName;
+    g.appendChild(t);
+    const monT=monLabel(g,cx,cy+gh/2+9,monId,{size:7});
+    MS_CELL_UI.push({id:'MS:'+fullName,g,cx,cy,gw,gh,cellRect,t,monT});
+    Lcore.appendChild(g);
+    g.addEventListener('pointerenter',e=>{if(editMode||dragging)return;showMsTip(e,shortName,fullName);});
+    g.addEventListener('pointermove',e=>{if(mstip.classList.contains('show')){mstip.style.left=(e.clientX+14)+'px';mstip.style.top=(e.clientY-36)+'px';}});
+    g.addEventListener('pointerleave',hideMsTip);
+    g.addEventListener('click',e=>{if(editMode){e.stopPropagation();selectEditable('MS:'+fullName);return;}e.stopPropagation();hideMsTip();openMSCell(shortName,fullName,monId);});
+  });
+})();
+NODES.hub={x:H.x,y:H.y+H.h/2,top:{x:H.x,y:H.y},right:{x:H.x+H.w/2,y:H.y+H.h/2},bottom:{x:H.x,y:H.y+H.h}};
+/* MF -> MS link */
+const mfMsLink=el('path',{fill:'none',stroke:'rgba(110,139,255,.65)','stroke-width':2.2,filter:'url(#glow)'});
+Llinks.appendChild(mfMsLink);
+
+/* ===== data stores (mongo/aims) — cylinder icons below MS ===== */
+CFG.spine.forEach(s=>{
+  const g=el('g',{class:'nodeRect db-node'});g.dataset.id=s.id;
+  const store=(CFG.dataStores&&CFG.dataStores[s.id])||[];
+  const anyDown=store.some(i=>i.health==='down'||i.health==='crit');
+  const cx=s.x,cy=s.y+s.h/2,rx=s.w/2;
+  const strokes=dbCylinder(g,cx,s.y,s.w,s.h,s.color,anyDown);
+  g.appendChild(el('rect',{x:cx-rx-4,y:s.y-4,width:s.w+8,height:s.h+36,fill:'transparent',stroke:'none'}));
+  const spineDot=el('circle',{cx:cx-rx+10,cy:s.y+s.h+26,r:4,fill:anyDown?HC.down:HC.ok,filter:'url(#glow)'});
+  g.appendChild(spineDot);
+  const lbl=label(g,cx,s.y+s.h+14,s.label,{size:13,weight:600,font:'var(--disp)'});
+  const sub=label(g,cx,s.y+s.h+28,s.sub,{size:9,fill:'var(--ink-dim)'});
+  GROUP_UI[s.id]={g,strokes,dot:spineDot,baseColor:s.color,lbl,sub};
+  monLabel(g,cx,s.y+s.h+42,s.mon,{size:7.5});
+  Lcore.appendChild(g);
+  NODES[s.id]={x:cx,y:cy,top:{x:cx,y:s.y},bottom:{x:cx,y:s.y+s.h},left:{x:cx-rx,y:cy},right:{x:cx+rx,y:cy},meta:{label:s.label,sub:s.sub,kind:'Data layer'}};
+  g.addEventListener('click',e=>{if(editMode){e.stopPropagation();selectEditable(s.id);return;}e.stopPropagation();
+    if(store.length){openGroupBox(s.id);return;}
+    openNode(s.id);});
+});
+
+/* ===== collapsed API group boxes (label only on map; full list in side panel) ===== */
+(CFG.groupBoxes||[]).forEach(box=>{
+  const items=groupItems(box.id);
+  const anyDown=items.some(i=>i.health==='down'||i.health==='crit');
+  const anyWarn=items.some(i=>i.health==='warn');
+  const dn=items.filter(i=>i.health==='down'||i.health==='crit').length;
+  const wn=items.filter(i=>i.health==='warn').length;
+  const g=el('g',{class:'nodeRect'});g.dataset.id=box.id;
+  const boxRect=panel(g,{x:box.x,y:box.y,w:box.w,h:box.h,rx:13,stroke:anyDown?'rgba(255,59,78,.65)':(anyWarn?'rgba(255,194,75,.55)':box.color),sw:anyDown?1.8:1.3});
+  let blinkRect=null;
+  if(anyDown) blinkRect=g.appendChild(el('rect',{x:box.x-box.w/2,y:box.y,width:box.w,height:box.h,rx:13,fill:'none',stroke:'#FF3B4E','stroke-width':2,class:'blink'}));
+  const dot=el('circle',{cx:box.x-box.w/2+18,cy:box.y+box.h/2,r:5,fill:anyDown?HC.down:(anyWarn?HC.warn:HC.ok),filter:'url(#glow)'});
+  if(anyDown)dot.setAttribute('class','blink'); g.appendChild(dot);
+  const title=label(g,box.x-box.w/2+34,box.y+box.h/2-10,box.label,{anchor:'start',size:13,weight:700,font:'var(--disp)',fill:anyDown?'#FF8A98':(anyWarn?'#FFE2A8':'var(--ink)')});
+  let hintTxt=items.length+' APIs · tap to view';
+  if(anyDown) hintTxt=dn+' of '+items.length+' down · tap to view';
+  else if(anyWarn) hintTxt=wn+' of '+items.length+' warn · tap to view';
+  if(box.monRange) hintTxt=box.monRange+' · '+hintTxt;
+  const hint=label(g,box.x-box.w/2+34,box.y+box.h/2+4,hintTxt,{anchor:'start',size:9,fill:'var(--ink-dim)'});
+  const chevron=label(g,box.x+box.w/2-16,box.y+box.h/2,'▸',{anchor:'end',size:16,fill:'var(--ink-dim)'});
+  GROUP_UI[box.id]={g,panel:boxRect,dot,blinkRect,title,hint,chevron,baseColor:box.color};
+  Lcore.appendChild(g);
+  NODES[box.id]={x:box.x,y:box.y+box.h/2,top:{x:box.x,y:box.y},bottom:{x:box.x,y:box.y+box.h},left:{x:box.x-box.w/2,y:box.y+box.h/2},right:{x:box.x+box.w/2,y:box.y+box.h/2},meta:{label:box.label,sub:box.sub,kind:'API group'}};
+  g.addEventListener('click',e=>{if(editMode){e.stopPropagation();selectEditable(box.id);return;}e.stopPropagation();openGroupBox(box.id);});
+});
+
+/* ===== internal flow links + particles ===== */
+const flowSegs=[];
+const STATIC_LINKS=[];
+function bez(p0,p1,p2,p3,t){const u=1-t;return{
+  x:u*u*u*p0.x+3*u*u*t*p1.x+3*u*t*t*p2.x+t*t*t*p3.x,
+  y:u*u*u*p0.y+3*u*u*t*p1.y+3*u*t*t*p2.y+t*t*t*p3.y};}
+function refreshFlowSeg(s){
+  const a=s.getA(),b=s.getB(); if(!a||!b)return;
+  s.a=a;s.b=b;
+  if(s.kind==='bez'){
+    s.c1={x:(a.x+b.x)/2,y:a.y};s.c2={x:(a.x+b.x)/2,y:b.y};
+    const d=`M ${a.x} ${a.y} C ${s.c1.x} ${s.c1.y}, ${s.c2.x} ${s.c2.y}, ${b.x} ${b.y}`;
+    s.paths.forEach(p=>p.setAttribute('d',d));
+  }else if(s.kind==='spine'){
+    const dx=Math.abs(a.x-b.x),dy=Math.abs(a.y-b.y);
+    s.c1=dy>=dx?{x:(a.x+b.x)/2,y:a.y}:{x:a.x,y:(a.y+b.y)/2};
+    s.c2=dy>=dx?{x:(a.x+b.x)/2,y:b.y}:{x:b.x,y:(a.y+b.y)/2};
+    const d=`M ${a.x} ${a.y} C ${s.c1.x} ${s.c1.y}, ${s.c2.x} ${s.c2.y}, ${b.x} ${b.y}`;
+    s.paths.forEach(p=>p.setAttribute('d',d));
+    if(s.lbl&&s.labelEls){const lx=s.lblPos?.x??(a.x+b.x)/2,ly=s.lblPos?.y??((a.y+b.y)/2);
+      const fs=10,padX=9,padY=5,w=Math.max(s.lbl.length*5.8+padX*2,48),h=fs+padY*2;
+      s.labelEls.rect.setAttribute('x',lx-w/2);s.labelEls.rect.setAttribute('y',ly-h/2);
+      s.labelEls.rect.setAttribute('width',w);s.labelEls.rect.setAttribute('height',h);
+      s.labelEls.text.setAttribute('x',lx);s.labelEls.text.setAttribute('y',ly);}
+  }
+}
+function refreshAllFlows(){
+  flowSegs.forEach(refreshFlowSeg);
+  STATIC_LINKS.forEach(l=>{const a=l.getA(),b=l.getB();if(a&&b)l.path.setAttribute('d',`M ${a.x} ${a.y} L ${b.x} ${b.y}`);});
+}
+function flowLink(getA,getB,color,spd){
+  const paths=[
+    Llinks.appendChild(el('path',{fill:'none',stroke:color,opacity:.18,'stroke-width':12})),
+    Llinks.appendChild(el('path',{fill:'none',stroke:color,'stroke-width':2.6,opacity:.88,filter:'url(#glow)'}))
+  ];
+  const dot=el('circle',{r:3.6,fill:color.replace(/[\d.]+\)$/,'1)'),filter:'url(#glow)'});Lpart.appendChild(dot);
+  const seg={kind:'bez',getA,getB,paths,dot,t:Math.random(),speed:spd||0.6,a:null,b:null,c1:null,c2:null};
+  flowSegs.push(seg);refreshFlowSeg(seg);
+}
+function linkLabel(p,x,y,txt){
+  const fs=10,padX=9,padY=5,w=Math.max(txt.length*5.8+padX*2,48),h=fs+padY*2;
+  const rect=p.appendChild(el('rect',{x:x-w/2,y:y-h/2,width:w,height:h,rx:6,fill:'rgba(8,14,36,.94)',stroke:'rgba(110,160,255,.55)','stroke-width':1.2}));
+  const text=el('text',{x,y,'text-anchor':'middle','dominant-baseline':'middle','font-size':fs,fill:'#F0F6FF','font-weight':700,'font-family':'var(--mono)','letter-spacing':.3});
+  text.textContent=txt;p.appendChild(text);return{rect,text};
+}
+function spineFlowLink(getA,getB,color,lbl,pos){
+  const paths=[
+    Llinks.appendChild(el('path',{fill:'none',stroke:color,opacity:.32,'stroke-width':16})),
+    Llinks.appendChild(el('path',{fill:'none',stroke:color,'stroke-width':5.5,opacity:1,filter:'url(#glow)'})),
+    Llinks.appendChild(el('path',{fill:'none',stroke:'#E8F4FF','stroke-width':2,opacity:.92,'stroke-dasharray':'10 7'}))
+  ];
+  const dots=[];
+  for(let i=0;i<3;i++){const dot=el('circle',{r:i?3.6:5,fill:'#6AE8FF',filter:'url(#glow)'});Lpart.appendChild(dot);dots.push(dot);}
+  const lx=pos?.x??0,ly=pos?.y??0;
+  const labelEls=lbl?linkLabel(LlinkLbl,lx,ly,lbl):null;
+  const seg={kind:'spine',getA,getB,paths,dots,lbl,lblPos:pos,labelEls,t:Math.random(),speed:1.05,a:null,b:null,c1:null,c2:null};
+  dots.forEach((dot,i)=>{flowSegs.push({...seg,dot,speed:1.05+i*0.18,t:Math.random()});});
+  refreshFlowSeg(seg);
+}
+STATIC_LINKS.push({path:mfMsLink,getA:()=>({x:MF.x,y:MF.y+MF.h}),getB:()=>({x:H.x,y:H.y})});
+spineFlowLink(()=>NODES.hub?.bottom,()=>NODES.mongo?.top,'rgba(46,123,255,.95)','MS → MongoDB',{x:612,y:754});
+if(NODES.aims&&NODES.sp)spineFlowLink(()=>NODES.aims.right,()=>NODES.sp.left,'rgba(89,224,255,.95)','AIMS DB → SP',{x:920,y:640});
+/* MongoDB hub — feeds MF, MS (labelled spine link above), and every API group */
+if(NODES.mongo){
+  const mongoCol='rgba(46,123,255,.72)';
+  if(NODES.mf)flowLink(()=>NODES.mongo.left,()=>NODES.mf.left,mongoCol,0.48);
+  const boxes=CFG.groupBoxes||[];
+  boxes.forEach((box,i)=>{
+    const frac=boxes.length>1?i/(boxes.length-1):0.5;
+    flowLink(()=>{
+      const m=NODES.mongo;if(!m)return null;
+      return{x:m.right.x,y:m.top.y+(m.bottom.y-m.top.y)*frac};
+    },()=>NODES[box.id]?.left,mongoCol,0.38+i*0.03);
+  });
+}
+for(let i=0;i<(CFG.groupBoxes||[]).length-1;i++){
+  const idA=CFG.groupBoxes[i].id,idB=CFG.groupBoxes[i+1].id;
+  flowLink(()=>NODES[idA]?.bottom,()=>NODES[idB]?.top,'rgba(79,139,255,.72)');
+}
+refreshAllFlows();
+
+/* ===== floating apps ===== */
+const PLANETS=[];
+function borderPoint(px,py){
+  const dx=px-CFG.CX,dy=py-CFG.CY,hw=C.w/2,hh=C.h/2;
+  const tx=Math.abs(dx)>1?hw/Math.abs(dx):1e9, ty=Math.abs(dy)>1?hh/Math.abs(dy):1e9, t=Math.min(tx,ty);
+  return {x:CFG.CX+dx*t,y:CFG.CY+dy*t};
+}
+(function(){
+  const inner=CFG.apps.filter(a=>a[2]===0), outer=CFG.apps.filter(a=>a[2]===1);
+  function place(list,ring,off){
+    list.forEach((a,i)=>{
+      const [code,name,,health,addr,monId]=a, ang=(i/list.length)*Math.PI*2+off, speed=ring===0?0.05:-0.032;
+      const line=el('path',{fill:'none',stroke:HC[health],'stroke-width':1.1,opacity:.3,class:'applink'});Llinks.appendChild(line);
+      const g=el('g',{class:'planet'});g.dataset.code=code;g.dataset.mon=monId||'';
+      g.append(
+        el('circle',{r:48,fill:HC[health],opacity:.16,filter:'url(#softglow)'}),
+        el('circle',{r:34,fill:'url(#gPlanet)',stroke:HC[health],'stroke-width':2.2}),
+        el('circle',{r:34,fill:'none',stroke:HC[health],'stroke-width':1.1,opacity:.5,'stroke-dasharray':'3 4'}));
+      const t=el('text',{'text-anchor':'middle','dominant-baseline':'middle','font-size':code.length>3?10:13.5,fill:'var(--ink)','font-weight':600,'font-family':'var(--disp)'});t.textContent=code;g.appendChild(t);
+      g.appendChild(el('circle',{cx:24,cy:-24,r:5,fill:HC[health],stroke:'#0b1024','stroke-width':1.5,filter:'url(#glow)'}));
+      if(monId) monLabel(g,0,40,monId,{dy:0});
+      Lplanets.appendChild(g);
+      const pkt=el('circle',{r:2.6,fill:HC[health],filter:'url(#glow)'});Lpart.appendChild(pkt);
+      const obj={code,name,health,ring,ang,speed,g,line,pkt,pktT:Math.random(),rx:CFG.rings[ring].rx,ry:CFG.rings[ring].ry,x:0,y:0,addr:addr||'',mon:monId||'',fixed:false,r:34};
+      PLANETS.push(obj);
+      g.addEventListener('click',e=>{if(editMode){e.stopPropagation();selectEditable('planet:'+code);return;}e.stopPropagation();openApp(obj);highlight(code);});
+      g.addEventListener('pointerenter',()=>{if(editMode||dragging)return;highlight(code)});
+      g.addEventListener('pointerleave',()=>{if(editMode||selected)return;highlight(null)});
+    });
+  }
+  place(inner,0,0);place(outer,1,Math.PI/12);
+})();
+function updatePlanet(p){
+  if(p.fixed&&p.x!=null&&p.y!=null){
+    p.g.setAttribute('transform',`translate(${p.x},${p.y})`);
+    const bp=borderPoint(p.x,p.y);
+    p.line.setAttribute('d',`M ${p.x} ${p.y} L ${bp.x} ${bp.y}`);
+    if(flowOn){const t=p.pktT; p.pkt.setAttribute('cx',lerp(p.x,bp.x,t)); p.pkt.setAttribute('cy',lerp(p.y,bp.y,t)); p.pkt.setAttribute('opacity',.9);}
+    else p.pkt.setAttribute('opacity',0);
+    return;
+  }
+  p.x=CFG.CX+Math.cos(p.ang)*p.rx; p.y=CFG.CY+Math.sin(p.ang)*p.ry;
+  p.g.setAttribute('transform',`translate(${p.x},${p.y})`);
+  const bp=borderPoint(p.x,p.y);
+  p.line.setAttribute('d',`M ${p.x} ${p.y} L ${bp.x} ${bp.y}`);
+  if(flowOn){const t=p.pktT; p.pkt.setAttribute('cx',lerp(p.x,bp.x,t)); p.pkt.setAttribute('cy',lerp(p.y,bp.y,t)); p.pkt.setAttribute('opacity',.9);}
+  else p.pkt.setAttribute('opacity',0);
+}
+
+/* animation */
+PLANETS.forEach(updatePlanet);
+let last=performance.now();
+function loop(now){
+  const dt=Math.min(.05,(now-last)/1000);last=now;
+  PLANETS.forEach(p=>{if(orbitOn)p.ang+=p.speed*dt; if(flowOn)p.pktT=(p.pktT+dt*.55)%1; updatePlanet(p);});
+  flowSegs.forEach(s=>{ if(flowOn){s.t=(s.t+dt*(s.speed||0.6))%1; const q=bez(s.a,s.c1,s.c2,s.b,s.t); s.dot.setAttribute('cx',q.x);s.dot.setAttribute('cy',q.y);s.dot.setAttribute('opacity',.9);} else s.dot.setAttribute('opacity',0);});
+  requestAnimationFrame(loop);
+}
+requestAnimationFrame(loop);
+
+function highlight(code){
+  if(!code){PLANETS.forEach(p=>{p.g.classList.remove('dim','hot');p.line.setAttribute('opacity',.3);p.line.setAttribute('stroke-width',1.1);});return;}
+  PLANETS.forEach(p=>{const on=p.code===code;p.g.classList.toggle('dim',!on);p.g.classList.toggle('hot',on);
+    p.line.setAttribute('opacity',on?.95:.06);p.line.setAttribute('stroke-width',on?2.4:1.1);});
+}
+
+/* detail panel */
+const panelEl=$('panel');
+function hideFabricObservability(){
+  const m=$('metrics');
+  if(!m)return;
+  m.classList.remove('open');
+  m.classList.add('metrics-hidden');
+}
+function restoreFabricObservability(){
+  const m=$('metrics');
+  if(m)m.classList.remove('metrics-hidden');
+}
+function closeDetailPanel(){
+  panelEl.classList.remove('open');
+  openGroupId=null;openGroupHl=null;selected=null;
+  highlight(null);hideMsTip();
+  restoreFabricObservability();
+}
+function showPanel(code,name,health,extra){
+  $('p-code').textContent=code;$('p-name').textContent=name;
+  const st=$('p-status'),cmap={ok:['HEALTHY',HC.ok],warn:['DEGRADED',HC.warn],crit:['CRITICAL',HC.crit],down:['DOWN',HC.down],info:['ACTIVE','#59E0FF']},c=cmap[health]||cmap.info;
+  st.textContent='● '+c[0];st.style.color=c[1];st.style.background=c[1]+'22';st.style.border='1px solid '+c[1]+'55';
+  $('p-body').innerHTML=extra;
+  hideFabricObservability();
+  panelEl.classList.add('open');
+}
+const row=(k,v)=>`<div class="kv"><span class="k">${k}</span><span class="v">${v}</span></div>`;
+const rnd=(a,b,d=0)=>R(a,b).toFixed(d);
+function openApp(p){
+  selected=p.code;highlight(p.code);
+  const err=p.health==='crit'?rnd(4,9,2):p.health==='warn'?rnd(1,3,2):rnd(0,.4,2);
+  showPanel(p.code,p.name,p.health,
+    row('App code',p.code)+(p.mon?row('Monitoring',p.mon):'')+row('Domain','Operations')+(p.addr?row('Module',p.addr):'')+row('Throughput',rnd(20,900)+' msg/s')+
+    row('p95 latency',rnd(8,140)+' ms')+row('Error rate',err+' %')+
+    row('Replicas',Math.floor(R(2,6))+'/'+Math.ceil(R(4,8)))+row('Cluster',p.ring?'ocpintprdclu2':'ocpintprdclu')+
+    `<div class="sect">Health</div><div class="barwrap"><div class="bar" style="width:${p.health==='crit'?38:p.health==='warn'?72:96}%;background:${HC[p.health]}"></div></div>`+
+    `<div class="sect">Reaches</div><div class="chips">${['MS','MongoDB','AIMS DB','External API','Internal API'].map(c=>`<span class="chip">${c}</span>`).join('')}</div>`);
+}
+function openNode(id){
+  const m=NODES[id].meta; let b=row('Type',m.kind)+row('Status','operational');
+  b+=row('Latency',rnd(2,40)+' ms')+row('Ops/s',rnd(50,1200));
+  showPanel(m.label||id,m.kind,'info',b);
+}
+function openMS(m){openGroupBox('ms',m.toUpperCase());}
+$('pclose').onclick=e=>{e.stopPropagation();closeDetailPanel();};
+svg.addEventListener('click',()=>{if(dragging||editMode)return;closeDetailPanel();});
+
+/* ===== layout edit mode ===== */
+const EDIT_REG=new Map();
+const editOutline=el('rect',{class:'edit-outline'});
+const editHandlesG=el('g',{id:'edit-handles'});
+LeditUi.append(editOutline,editHandlesG);
+const HANDLE_NAMES=['nw','n','ne','e','se','s','sw','w'];
+const editHandles=Object.fromEntries(HANDLE_NAMES.map(n=>[n,el('rect',{class:'edit-handle '+n,width:10,height:10,rx:2,'data-handle':n})]));
+HANDLE_NAMES.forEach(n=>editHandlesG.appendChild(editHandles[n]));
+
+function svgPoint(clientX,clientY){
+  const r=svg.getBoundingClientRect();
+  const sx=(clientX-r.left)/r.width*VB[2],sy=(clientY-r.top)/r.height*VB[3];
+  return{x:(sx-view.x)/view.k,y:(sy-view.y)/view.k};
+}
+function setNodeMF(b){
+  Object.assign(MF,b);
+  const g=document.querySelector('[data-id="MF"]'); if(!g)return;
+  const rect=g.querySelector('rect'); if(!rect)return;
+  rect.setAttribute('x',b.x-b.w/2);rect.setAttribute('y',b.y);rect.setAttribute('width',b.w);rect.setAttribute('height',b.h);
+  const dot=g.querySelector('circle');if(dot){dot.setAttribute('cx',b.x-b.w/2+16);dot.setAttribute('cy',b.y+b.h/2);}
+  const texts=g.querySelectorAll('text');
+  if(texts[0]){texts[0].setAttribute('x',b.x-b.w/2+30);texts[0].setAttribute('y',b.y+b.h/2-6);}
+  if(texts[1]){texts[1].setAttribute('x',b.x+b.w/2-14);texts[1].setAttribute('y',b.y+b.h/2-6);}
+  const mon=g.querySelector('.mon-tag');if(mon){mon.setAttribute('x',b.x+b.w/2-12);mon.setAttribute('y',b.y+b.h-9);}
+  NODES.mf={x:MF.x,y:MF.y+MF.h/2,top:{x:MF.x,y:MF.y},bottom:{x:MF.x,y:MF.y+MF.h},left:{x:MF.x-MF.w/2,y:MF.y+MF.h/2},right:{x:MF.x+MF.w/2,y:MF.y+MF.h/2}};
+}
+function setNodeHub(b){
+  Object.assign(H,b);
+  const ui=GROUP_UI.ms; if(!ui||!ui.panel||!ui.g)return;
+  ui.panel.setAttribute('x',b.x-b.w/2);ui.panel.setAttribute('y',b.y);ui.panel.setAttribute('width',b.w);ui.panel.setAttribute('height',b.h);
+  const hdrL=b.x-b.w/2+14,hdrR=b.x+b.w/2-14;
+  const texts=ui.g.querySelectorAll('text');
+  if(texts[0]){texts[0].setAttribute('x',hdrL);texts[0].setAttribute('y',b.y+16);}
+  if(texts[1]){texts[1].setAttribute('x',hdrR-18);texts[1].setAttribute('y',b.y+16);}
+  if(ui.dot){ui.dot.setAttribute('cx',hdrR-8);ui.dot.setAttribute('cy',b.y+16);}
+  const mon=ui.g.querySelector('.mon-tag');if(mon){mon.setAttribute('x',hdrL);mon.setAttribute('y',b.y+32);}
+  NODES.hub={x:H.x,y:H.y+H.h/2,top:{x:H.x,y:H.y},right:{x:H.x+H.w/2,y:H.y+H.h/2},bottom:{x:H.x,y:H.y+H.h}};
+}
+function setNodeContainer(b){
+  Object.assign(C,b);
+  containerRect.setAttribute('x',b.x);containerRect.setAttribute('y',b.y);containerRect.setAttribute('width',b.w);containerRect.setAttribute('height',b.h);
+  containerLblL.setAttribute('x',b.x+24);containerLblL.setAttribute('y',b.y+24);
+  containerLblR.setAttribute('x',b.x+b.w-24);containerLblR.setAttribute('y',b.y+24);
+}
+function setNodeGroupBox(id,b){
+  const box=(CFG.groupBoxes||[]).find(x=>x.id===id); if(!box)return;
+  Object.assign(box,b);
+  const ui=GROUP_UI[id]; if(!ui)return;
+  ui.panel.setAttribute('x',b.x-b.w/2);ui.panel.setAttribute('y',b.y);ui.panel.setAttribute('width',b.w);ui.panel.setAttribute('height',b.h);
+  if(ui.blinkRect){ui.blinkRect.setAttribute('x',b.x-b.w/2);ui.blinkRect.setAttribute('y',b.y);ui.blinkRect.setAttribute('width',b.w);ui.blinkRect.setAttribute('height',b.h);}
+  ui.dot.setAttribute('cx',b.x-b.w/2+18);ui.dot.setAttribute('cy',b.y+b.h/2);
+  if(ui.title){ui.title.setAttribute('x',b.x-b.w/2+34);ui.title.setAttribute('y',b.y+b.h/2-10);}
+  if(ui.hint){ui.hint.setAttribute('x',b.x-b.w/2+34);ui.hint.setAttribute('y',b.y+b.h/2+4);}
+  if(ui.chevron){ui.chevron.setAttribute('x',b.x+b.w/2-16);ui.chevron.setAttribute('y',b.y+b.h/2);}
+  NODES[id]={x:box.x,y:box.y+box.h/2,top:{x:box.x,y:box.y},bottom:{x:box.x,y:box.y+box.h},left:{x:box.x-box.w/2,y:box.y+box.h/2},right:{x:box.x+box.w/2,y:box.y+box.h/2},meta:NODES[id]?.meta};
+}
+function setNodeSpine(id,b){
+  const s=(CFG.spine||[]).find(x=>x.id===id); if(!s)return;
+  if(s._ox==null){s._ox=s.x;s._oy=s.y;}
+  Object.assign(s,b);
+  const ui=GROUP_UI[id]; if(!ui)return;
+  ui.g.setAttribute('transform',`translate(${s.x-s._ox},${s.y-s._oy})`);
+  const cx=s.x+s.w/2,cy=s.y+s.h/2,rx=s.w/2;
+  NODES[id]={x:cx,y:cy,top:{x:cx,y:s.y},bottom:{x:cx,y:s.y+s.h},left:{x:cx-rx,y:cy},right:{x:cx+rx,y:cy},meta:NODES[id]?.meta};
+}
+function setNodeMsCell(cell,b){
+  cell.cx=b.cx;cell.cy=b.cy;cell.gw=b.w;cell.gh=b.h;
+  const hw=b.w/2,hh=b.h/2;
+  cell.cellRect.setAttribute('x',b.cx-hw+3);cell.cellRect.setAttribute('y',b.cy-hh);cell.cellRect.setAttribute('width',b.w-6);cell.cellRect.setAttribute('height',b.h);
+  cell.t.setAttribute('x',b.cx);cell.t.setAttribute('y',b.cy);
+  if(cell.monT){cell.monT.setAttribute('x',b.cx);cell.monT.setAttribute('y',b.cy+hh+9);}
+}
+function setNodePlanet(code,b){
+  const p=PLANETS.find(x=>x.code===code); if(!p)return;
+  p.x=b.cx;p.y=b.cy;p.r=b.r||p.r;p.fixed=true;
+  p.g.querySelectorAll('circle').forEach((c,i)=>{if(i===0)c.setAttribute('r',b.r+14);else if(i===1||i===2)c.setAttribute('r',b.r);});
+  updatePlanet(p);
+}
+function registerEditable(spec){EDIT_REG.set(spec.id,spec);}
+function initEditRegistry(){
+  registerEditable({id:'container',label:'Container',type:'rect',g:containerG,resizable:true,
+    getBounds:()=>({x:C.x,y:C.y,w:C.w,h:C.h}),setBounds:setNodeContainer});
+  registerEditable({id:'MF',label:'Mainframe',type:'rect',g:document.querySelector('[data-id="MF"]'),resizable:true,
+    getBounds:()=>({cx:MF.x,cy:MF.y+MF.h/2,w:MF.w,h:MF.h}),setBounds:b=>setNodeMF({x:b.cx,y:b.cy-b.h/2,w:b.w,h:b.h})});
+  registerEditable({id:'MS-HUB',label:'Microservices Hub',type:'rect',g:GROUP_UI.ms?.g,resizable:true,
+    getBounds:()=>({cx:H.x,cy:H.y+H.h/2,w:H.w,h:H.h}),setBounds:b=>setNodeHub({x:b.cx,y:b.cy-b.h/2,w:b.w,h:b.h})});
+  MS_CELL_UI.forEach(cell=>registerEditable({id:cell.id,label:cell.id.replace('MS:',''),type:'rect',g:cell.g,resizable:true,
+    getBounds:()=>({cx:cell.cx,cy:cell.cy,w:cell.gw,h:cell.gh}),setBounds:b=>setNodeMsCell(cell,b)}));
+  (CFG.spine||[]).forEach(s=>registerEditable({id:s.id,label:s.label,type:'rect',g:GROUP_UI[s.id]?.g,resizable:true,
+    getBounds:()=>({x:s.x,y:s.y,w:s.w,h:s.h}),setBounds:b=>setNodeSpine(s.id,b)}));
+  (CFG.groupBoxes||[]).forEach(box=>registerEditable({id:box.id,label:box.label,type:'rect',g:GROUP_UI[box.id]?.g,resizable:true,
+    getBounds:()=>({cx:box.x,cy:box.y+box.h/2,w:box.w,h:box.h}),setBounds:b=>setNodeGroupBox(box.id,{x:b.cx,y:b.cy-b.h/2,w:b.w,h:b.h})}));
+  PLANETS.forEach(p=>registerEditable({id:'planet:'+p.code,label:p.code,type:'planet',g:p.g,resizable:true,
+    getBounds:()=>({cx:p.fixed?p.x:CFG.CX+Math.cos(p.ang)*p.rx,cy:p.fixed?p.y:CFG.CY+Math.sin(p.ang)*p.ry,r:p.r}),
+    setBounds:b=>setNodePlanet(p.code,b)}));
+}
+initEditRegistry();
+
+function boundsToBox(b){
+  if(b.r!=null)return{x:b.cx-b.r,y:b.cy-b.r,w:b.r*2,h:b.r*2};
+  if(b.cx!=null)return{x:b.cx-b.w/2,y:b.cy-b.h/2,w:b.w,h:b.h};
+  return{x:b.x,y:b.y,w:b.w,h:b.h};
+}
+function boxToBounds(box,spec){
+  if(spec.type==='planet')return{cx:box.x+box.w/2,cy:box.y+box.h/2,r:box.w/2};
+  const b=spec.getBounds();
+  if(b.cx!=null)return{cx:box.x+box.w/2,cy:box.y+box.h/2,w:box.w,h:box.h};
+  return{x:box.x,y:box.y,w:box.w,h:box.h};
+}
+function markLayoutDirty(){layoutDirty=true;$('edit-dirty').style.display='inline';}
+let persistTimer=null;
+function persistLayout(opts={}){
+  const data=collectLayout();
+  const json=JSON.stringify(data);
+  try{localStorage.setItem('occ_layout_v1',json);}catch(e){}
+  fetch('/api/layout',{method:'POST',headers:{'Content-Type':'application/json'},body:json}).catch(()=>{});
+  savedLayoutSnapshot=json;layoutDirty=false;$('edit-dirty').style.display='none';
+  if(opts.toast)showEditToast('Layout saved');
+}
+function schedulePersistLayout(){
+  if(persistTimer)clearTimeout(persistTimer);
+  persistTimer=setTimeout(()=>{persistTimer=null;persistLayout();},300);
+}
+function showEditToast(msg){const t=$('edit-toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2400);}
+function updateEditProps(){
+  const spec=selectedEditId?EDIT_REG.get(selectedEditId):null;
+  const panel=$('edit-props');
+  if(!spec||!editMode){panel.classList.remove('show');return;}
+  panel.classList.add('show');
+  $('edit-props-title').textContent=spec.label||spec.id;
+  const b=spec.getBounds(),box=boundsToBox(b);
+  $('ep-x').value=Math.round(spec.type==='planet'?b.cx:(b.cx??box.x+box.w/2));
+  $('ep-y').value=Math.round(spec.type==='planet'?b.cy:(b.cy??box.y+box.h/2));
+  $('ep-w').value=Math.round(box.w);$('ep-h').value=Math.round(box.h);
+  $('ep-r-wrap').style.display=spec.type==='planet'?'flex':'none';
+  if(spec.type==='planet')$('ep-r').value=Math.round(b.r);
+  $('ep-w').parentElement.style.display=spec.type==='planet'?'none':'flex';
+  $('ep-h').parentElement.style.display=spec.type==='planet'?'none':'flex';
+}
+function drawEditChrome(){
+  const spec=selectedEditId?EDIT_REG.get(selectedEditId):null;
+  if(!spec||!editMode){editOutline.setAttribute('opacity',0);editHandlesG.setAttribute('opacity',0);return;}
+  const box=boundsToBox(spec.getBounds());
+  editOutline.setAttribute('x',box.x);editOutline.setAttribute('y',box.y);editOutline.setAttribute('width',box.w);editOutline.setAttribute('height',box.h);editOutline.setAttribute('opacity',1);
+  if(!spec.resizable){editHandlesG.setAttribute('opacity',0);return;}
+  const pts={nw:[box.x,box.y],n:[box.x+box.w/2,box.y],ne:[box.x+box.w,box.y],e:[box.x+box.w,box.y+box.h/2],se:[box.x+box.w,box.y+box.h],s:[box.x+box.w/2,box.y+box.h],sw:[box.x,box.y+box.h],w:[box.x,box.y+box.h/2]};
+  HANDLE_NAMES.forEach(n=>{const[x,y]=pts[n];editHandles[n].setAttribute('x',x-5);editHandles[n].setAttribute('y',y-5);});
+  editHandlesG.setAttribute('opacity',1);
+}
+function selectEditable(id){
+  if(selectedEditId){const prev=EDIT_REG.get(selectedEditId);if(prev?.g)prev.g.classList.remove('editable-selected');}
+  selectedEditId=id;
+  const spec=EDIT_REG.get(id);
+  if(!spec){updateEditProps();drawEditChrome();return;}
+  if(spec.g)spec.g.classList.add('editable-selected');
+  updateEditProps();drawEditChrome();
+}
+function applyBoundsToSelected(raw){
+  const spec=EDIT_REG.get(selectedEditId); if(!spec)return;
+  let b;
+  if(spec.type==='planet')b={cx:+raw.cx,cy:+raw.cy,r:+raw.r};
+  else if(raw.x!=null&&!raw.cx)b=raw;
+  else b={cx:+raw.cx,cy:+raw.cy,w:Math.max(20,+raw.w),h:Math.max(16,+raw.h)};
+  spec.setBounds(b);markLayoutDirty();updateEditProps();drawEditChrome();refreshAllFlows();schedulePersistLayout();
+}
+function collectLayout(){
+  const elements={};
+  EDIT_REG.forEach((spec,id)=>{elements[id]=spec.getBounds();});
+  return{version:1,savedAt:new Date().toISOString(),elements};
+}
+function applyLayoutElements(elements){
+  if(!elements)return;
+  Object.entries(elements).forEach(([id,b])=>{const spec=EDIT_REG.get(id);if(spec)spec.setBounds(b);});
+  drawEditChrome();refreshAllFlows();
+}
+const defaultElements=JSON.parse(JSON.stringify(collectLayout().elements));
+function resetLayout(){
+  if(!confirm('Reset all positions to the original layout?'))return;
+  if(persistTimer){clearTimeout(persistTimer);persistTimer=null;}
+  (CFG.spine||[]).forEach(s=>{delete s._ox;delete s._oy;const ui=GROUP_UI[s.id];if(ui?.g)ui.g.removeAttribute('transform');});
+  PLANETS.forEach(p=>{p.fixed=false;p.x=null;p.y=null;});
+  Object.entries(defaultElements).forEach(([id,b])=>{const spec=EDIT_REG.get(id);if(spec&&spec.type!=='planet')spec.setBounds(b);});
+  PLANETS.forEach(updatePlanet);
+  refreshAllFlows();
+  persistLayout();
+  showEditToast('Layout reset to default');
+  if(editMode&&selectedEditId){updateEditProps();drawEditChrome();}
+}
+async function loadSavedLayout(){
+  let server=null,local=null;
+  try{const r=await fetch('/api/layout');if(r.ok)server=await r.json();}catch(e){}
+  try{const ls=localStorage.getItem('occ_layout_v1');if(ls)local=JSON.parse(ls);}catch(e){}
+  const ts=d=>Date.parse(d?.savedAt||0)||0;
+  let data=null;
+  if(server?.elements&&Object.keys(server.elements).length&&local?.elements&&Object.keys(local.elements).length)
+    data=ts(server)>=ts(local)?server:local;
+  else if(server?.elements&&Object.keys(server.elements).length)data=server;
+  else if(local?.elements&&Object.keys(local.elements).length)data=local;
+  if(data?.elements){try{applyLayoutElements(data.elements);savedLayoutSnapshot=JSON.stringify(data);}catch(e){console.warn('layout load skipped',e);}}
+}
+function saveLayout(){persistLayout({toast:true});}
+function setEditMode(on){
+  editMode=on;
+  document.body.classList.toggle('edit-mode',on);
+  $('b-edit').classList.toggle('active',on);
+  $('b-save-edit').style.display=on?'inline-block':'none';
+  $('b-reset-layout').style.display=on?'inline-block':'none';
+  $('b-cancel-edit').style.display=on?'inline-block':'none';
+  if(on){savedLayoutSnapshot=JSON.stringify(collectLayout());closeDetailPanel();selectEditable(selectedEditId||'MF');}
+  else{if(layoutDirty)persistLayout();if(selectedEditId){const s=EDIT_REG.get(selectedEditId);if(s?.g)s.g.classList.remove('editable-selected');}selectedEditId=null;editDrag=null;$('edit-props').classList.remove('show');editOutline.setAttribute('opacity',0);editHandlesG.setAttribute('opacity',0);}
+  drawEditChrome();
+}
+function hitEditable(target){
+  const g=target.closest('.nodeRect,.planet'); if(!g)return null;
+  if(g.dataset.id&&EDIT_REG.has(g.dataset.id))return g.dataset.id;
+  if(g.dataset.code&&EDIT_REG.has('planet:'+g.dataset.code))return 'planet:'+g.dataset.code;
+  return null;
+}
+function startEditDrag(e,mode,handle){
+  const spec=EDIT_REG.get(selectedEditId); if(!spec)return;
+  editDrag={mode,handle,start:svgPoint(e.clientX,e.clientY),startBounds:spec.getBounds(),box:boundsToBox(spec.getBounds())};
+  e.preventDefault();e.stopPropagation();
+  svg.setPointerCapture(e.pointerId);
+}
+function onEditPointerDown(e){
+  if(!editMode)return;
+  if(e.target.classList&&e.target.classList.contains('edit-handle')){startEditDrag(e,'resize',e.target.dataset.handle);return;}
+  const id=hitEditable(e.target);
+  if(id){selectEditable(id);startEditDrag(e,'move');return;}
+  if(!e.target.closest('.hud')){editDrag=null;}
+}
+let editRaf=null,editDragPt=null;
+function processEditDrag(){
+  editRaf=null;
+  if(!editDrag||!selectedEditId||!editDragPt)return;
+  const spec=EDIT_REG.get(selectedEditId),pt=editDragPt;
+  const dx=pt.x-editDrag.start.x,dy=pt.y-editDrag.start.y;
+  let box={...editDrag.box};
+  if(editDrag.mode==='move'){
+    box.x+=dx;box.y+=dy;
+  }else{
+    const h=editDrag.handle,min=20;
+    if(h.includes('e'))box.w=Math.max(min,editDrag.box.w+dx);
+    if(h.includes('s'))box.h=Math.max(min,editDrag.box.h+dy);
+    if(h.includes('w')){box.w=Math.max(min,editDrag.box.w-dx);box.x=editDrag.box.x+editDrag.box.w-box.w;}
+    if(h.includes('n')){box.h=Math.max(min,editDrag.box.h-dy);box.y=editDrag.box.y+editDrag.box.h-box.h;}
+  }
+  spec.setBounds(boxToBounds(box,spec));markLayoutDirty();drawEditChrome();refreshAllFlows();
+}
+function onEditPointerMove(e){
+  if(!editDrag||!selectedEditId)return;
+  editDragPt=svgPoint(e.clientX,e.clientY);
+  if(!editRaf)editRaf=requestAnimationFrame(processEditDrag);
+}
+function onEditPointerUp(){
+  if(editRaf){cancelAnimationFrame(editRaf);editRaf=null;}
+  editDragPt=null;
+  const wasDirty=layoutDirty;
+  if(editDrag){updateEditProps();drawEditChrome();}
+  editDrag=null;svg.classList.remove('grabbing');
+  if(wasDirty)schedulePersistLayout();
+}
+['ep-x','ep-y','ep-w','ep-h','ep-r'].forEach(id=>{
+  $(id).addEventListener('change',()=>{
+    if(!selectedEditId)return;
+    const spec=EDIT_REG.get(selectedEditId);
+    if(spec.type==='planet')applyBoundsToSelected({cx:$('ep-x').value,cy:$('ep-y').value,r:$('ep-r').value});
+    else if(spec.getBounds().x!=null)applyBoundsToSelected({x:+$('ep-x').value-$('ep-w').value/2,y:+$('ep-y').value-$('ep-h').value/2,w:$('ep-w').value,h:$('ep-h').value});
+    else applyBoundsToSelected({cx:$('ep-x').value,cy:$('ep-y').value,w:$('ep-w').value,h:$('ep-h').value});
+  });
+});
+$('b-edit').onclick=()=>setEditMode(!editMode);
+$('b-save-edit').onclick=()=>saveLayout();
+$('b-reset-layout').onclick=()=>resetLayout();
+$('b-cancel-edit').onclick=()=>{
+  if(savedLayoutSnapshot){applyLayoutElements(JSON.parse(savedLayoutSnapshot).elements);layoutDirty=false;$('edit-dirty').style.display='none';}
+  setEditMode(false);
+};
+svg.addEventListener('pointerdown',onEditPointerDown);
+svg.addEventListener('pointermove',onEditPointerMove);
+svg.addEventListener('pointerup',onEditPointerUp);
+svg.addEventListener('pointercancel',onEditPointerUp);
+svg.addEventListener('click',e=>{if(editMode){e.stopPropagation();e.preventDefault();}},true);
+window.addEventListener('beforeunload',()=>{if(layoutDirty)persistLayout();});
+loadSavedLayout();
+
+/* pan + zoom */
+const vp=$('viewport');
+const applyView=()=>vp.setAttribute('transform',`translate(${view.x} ${view.y}) scale(${view.k})`);
+const fit=()=>{view={x:0,y:0,k:1};applyView();};fit();
+let sx,sy,vx,vy;
+svg.addEventListener('pointerdown',e=>{if(editMode)return;
+  if(e.target.closest('.planet')||e.target.closest('.nodeRect'))return;
+  dragging=true;svg.classList.add('grabbing');sx=e.clientX;sy=e.clientY;vx=view.x;vy=view.y;svg.setPointerCapture(e.pointerId);});
+svg.addEventListener('pointermove',e=>{if(!dragging)return;view.x=vx+(e.clientX-sx);view.y=vy+(e.clientY-sy);applyView();});
+svg.addEventListener('pointerup',()=>{dragging=false;svg.classList.remove('grabbing');});
+svg.addEventListener('wheel',e=>{e.preventDefault();const r=svg.getBoundingClientRect();
+  const px=(e.clientX-r.left)/r.width*VB[2],py=(e.clientY-r.top)/r.height*VB[3];
+  const f=e.deltaY<0?1.12:1/1.12,nk=Math.max(.45,Math.min(3,view.k*f)),wx=(px-view.x)/view.k,wy=(py-view.y)/view.k;
+  view.k=nk;view.x=px-wx*nk;view.y=py-wy*nk;applyView();},{passive:false});
+$('b-in').onclick=()=>{view.k=Math.min(3,view.k*1.18);applyView();};
+$('b-out').onclick=()=>{view.k=Math.max(.45,view.k/1.18);applyView();};
+$('b-fit').onclick=fit;
+$('b-all').onclick=()=>openAllApis();
+$('b-orbit').onclick=e=>{orbitOn=!orbitOn;e.target.classList.toggle('active',orbitOn);e.target.textContent=(orbitOn?'⏸':'▶')+' Orbit';};
+$('b-flow').onclick=e=>{flowOn=!flowOn;e.target.classList.toggle('active',flowOn);};
+
+$('search').addEventListener('input',e=>{
+  const q=e.target.value.trim().toUpperCase();
+  if(!q){highlight(selected);return;}
+  const monQ=normMonQuery(q);
+  if(monQ){
+    if(monQ==='M1'){showPanel('MF','Mainframe','info',row('Monitoring','M1')+row('System','MF'));return;}
+    const msCell=CFG.ms.find(m=>Array.isArray(m)&&String(m[2]||'').toUpperCase()===monQ);
+    if(msCell){const sn=msCell[0],fn=msCell[1];openGroupBox('ms',fn.toUpperCase());return;}
+    const flat=allApiItems();
+    if(flat.some(it=>matchesMonQuery(monQ,it))){openAllApis(monQ);return;}
+    const app=PLANETS.find(p=>String(p.mon||'').toUpperCase()===monQ);
+    if(app){selected=app.code;highlight(app.code);openApp(app);return;}
+    for(const sid of ['mongo','aims']){
+      const spine=(CFG.spine||[]).find(s=>s.id===sid);
+      if(spine&&String(spine.mon||'').toUpperCase()===monQ){openGroupBox(sid,monQ);return;}
+    }
+  }
+  const flat=allApiItems();
+  if(flat.some(s=>s.name.toUpperCase().includes(q)||(s.address&&s.address.toUpperCase().includes(q))||matchesMonQuery(q,s))){openAllApis(q);return;}
+  for(const box of (CFG.groupBoxes||[])){
+    const items=groupItems(box.id);
+    if((box.monRange&&box.monRange.toUpperCase().includes(q))||items.some(s=>s.name.toUpperCase().includes(q)||(s.address&&s.address.toUpperCase().includes(q))||matchesMonQuery(q,s))){openGroupBox(box.id,q);return;}
+  }
+  if(groupItems('ms').some(s=>s.name.toUpperCase().includes(q)||matchesMonQuery(q,s))){openGroupBox('ms',q);return;}
+  const h=PLANETS.find(p=>p.code.includes(q)||p.name.toUpperCase().includes(q)||String(p.mon||'').toUpperCase().includes(q));
+  if(h){selected=h.code;highlight(h.code);}else highlight(null);
+});
+
+/* observability */
+function toggleFabricObservability(){
+  const m=$('metrics');
+  if(!m||panelEl.classList.contains('open'))return;
+  m.classList.remove('metrics-hidden');
+  m.classList.toggle('open');
+}
+$('metrics-toggle').onclick=e=>{e.stopPropagation();toggleFabricObservability();};
+$('legend-toggle').onclick=()=>$('legend-panel').classList.toggle('open');
+$('ticker-toggle').onclick=()=>$('ticker').classList.toggle('open');
+let tps=420,lat=38,err=.4,lag=120;
+const sd=Array.from({length:48},()=>R(.3,.7)),spark=$('spark');
+function drawSpark(){spark.innerHTML='';const w=300,h=34,n=sd.length;let d='';
+  sd.forEach((v,i)=>{const x=i/(n-1)*w,y=h-v*h;d+=(i?'L':'M')+x.toFixed(1)+' '+y.toFixed(1)+' ';});
+  spark.appendChild(el('path',{d:d+`L ${w} ${h} L 0 ${h} Z`,fill:'rgba(89,224,255,.12)'}));
+  spark.appendChild(el('path',{d,fill:'none',stroke:'var(--cyan)','stroke-width':1.6}));}
+const step=(v,lo,hi,a)=>Math.max(lo,Math.min(hi,v+R(-a,a)));
+const initH=countHealth();
+$('m-down').textContent=initH.down;
+$('m-up').textContent=initH.ok+'/'+initH.total;
+$('m-apis').textContent=initH.total;
+setInterval(()=>{tps=step(tps,120,920,60);lat=step(lat,9,95,7);err=step(err,0,4.5,.25);lag=step(lag,0,600,45);
+  const h=countHealth();
+  $('m-tps').textContent=Math.round(tps);$('m-lat').textContent=Math.round(lat);
+  $('m-err').textContent=h.down?Math.max(err,h.down*.08).toFixed(2):err.toFixed(2);
+  $('m-lag').textContent=Math.round(lag);
+  $('m-down').textContent=h.down; $('m-up').textContent=h.ok+'/'+h.total;
+  sd.push(tps/950);sd.shift();drawSpark();},1200);
+drawSpark();
+pollHealth(true);
+setInterval(()=>pollHealth(false),45000);
+setInterval(()=>{const d=new Date();$('clock').textContent=d.toLocaleTimeString('en-GB',{hour12:false})+' IST';},1000);
+
+const feed=$('feed'),evApps=CFG.apps.map(a=>a[0]),tg=['ODM','OFM','Kafka','Redis','MongoDB','AIMS','SP','ExtAPI','IntAPI','JEPPP','ORI','CMS'],vb=['→','⇄','⟶'];
+let evc=0;
+function emit(){const a=evApps[Math.floor(R(0,evApps.length))],t=tg[Math.floor(R(0,tg.length))],ms=Math.round(R(3,160)),roll=Math.random();
+  const cls=t==='ORI'?'crit':roll>.9?'warn':'ok',msg=cls==='crit'?'TIMEOUT':cls==='warn'?'RETRY':'OK',fl='6E'+Math.floor(R(1000,9999));
+  const r=document.createElement('div');r.className='e';
+  r.innerHTML=`<span class="t">${new Date().toLocaleTimeString('en-GB',{hour12:false})}</span><span class="id">${fl}</span><span>${a} ${vb[Math.floor(R(0,3))]} ${t}</span><span class="t">${ms}ms</span><span class="${cls}">${msg}</span>`;
+  feed.prepend(r);while(feed.childElementCount>9)feed.lastChild.remove();evc++;}
+setInterval(emit,850);setInterval(()=>{$('eps').textContent=Math.round(evc/3)+'/s';evc=0;},3000);emit();emit();emit();
+</script>
+</body>
+</html>
